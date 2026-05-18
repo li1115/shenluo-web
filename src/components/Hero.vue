@@ -1,148 +1,213 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { ChevronLeft, ChevronRight, Play } from 'lucide-vue-next'
+import router from '@/router'
+import { ArrowRight } from 'lucide-vue-next'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import banner1 from '@/assets/banner-1.png'
+import banner2 from '@/assets/banner-2.png'
+import banner3 from '@/assets/banner-3.png'
 
-const slides = [
+const bannerList = ref([
   {
-    id: 1,
-    title: '引领神经医学新时代',
-    subtitle: '专注神经系统疾病治疗与研究',
-    description: '神络医院汇聚国内外顶尖神经科专家，采用国际前沿技术，为患者提供全方位的诊疗服务',
-    image: '',
-    buttonText: '了解更多',
+    title: '破译神经密码',
+    subTitle: '重启生命原力',
+    description: '从神经信号的微妙波动到生命律动的磅礴交响',
+    link: '/products',
+    titleColor: '#fff',
+    subTitleColor: '#BAD500',
+    descriptionColor: '#fff',
+    bgImage: banner1,
   },
   {
-    id: 2,
-    title: '精准诊断，科学治疗',
-    subtitle: '先进设备助力精准医疗',
-    description: '配备国际领先的神经影像学设备，实现疾病的早期发现和精准治疗',
-    image: '',
-    buttonText: '预约检查',
+    title: '以智慧赋能系统',
+    subTitle: '以创新打造未来',
+    description: '精确解码神经活动，联合多学科共同探索精准、可靠、无感的神经调控未来。',
+    link: '/about',
+    titleColor: '#0163FF',
+    subTitleColor: '#000',
+    descriptionColor: '#333',
+    bgImage: banner2,
+    descriptionMaxWidth: '576px',
   },
   {
-    id: 3,
-    title: '关爱患者，呵护健康',
-    subtitle: '温馨舒适的就医环境',
-    description: '以人为本的服务理念，为患者提供温馨、舒适、便捷的就医体验',
-    image: '',
-    buttonText: '在线预约',
+    title: '精控毫厘 轻盈相伴',
+    subTitle: '持久护航',
+    description: '让治疗精准直达，让设备无感融入，让守护始终如一重新定义治疗新标准。',
+    link: '/contact',
+    titleColor: '#fff',
+    subTitleColor: '#BAD500',
+    descriptionColor: '#fff',
+    descriptionMaxWidth: '560px',
+    bgImage: banner3,
   },
-]
+])
 
-const currentSlide = ref(0)
-let autoPlayInterval: ReturnType<typeof setInterval> | null = null
+const INTERVAL = 3000
+const isActive = ref(0)
+const bannerCount = bannerList.value.length
+const timer = ref<number>()
 
-const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % slides.length
+const slideKey = ref(0)
+
+const goTo = (index: number) => {
+  isActive.value = index
 }
 
-const prevSlide = () => {
-  currentSlide.value = (currentSlide.value - 1 + slides.length) % slides.length
+const handleClick = (link: string) => {
+  router.push(link)
 }
 
-const goToSlide = (index: number) => {
-  currentSlide.value = index
+const startAutoplay = () => {
+  stopAutoplay()
+  timer.value = window.setInterval(() => {
+    isActive.value = (isActive.value + 1) % bannerCount
+  }, INTERVAL)
 }
 
-const startAutoPlay = () => {
-  autoPlayInterval = setInterval(nextSlide, 5000)
-}
-
-const stopAutoPlay = () => {
-  if (autoPlayInterval) {
-    clearInterval(autoPlayInterval)
-    autoPlayInterval = null
+const stopAutoplay = () => {
+  if (timer.value) {
+    clearInterval(timer.value)
+    timer.value = undefined
   }
 }
 
-onMounted(() => {
-  startAutoPlay()
+watch(isActive, () => {
+  slideKey.value++
 })
 
-onUnmounted(() => {
-  stopAutoPlay()
-})
+onMounted(startAutoplay)
+onBeforeUnmount(stopAutoplay)
 </script>
 
 <template>
-  <section class="relative h-screen overflow-hidden" @mouseenter="stopAutoPlay" @mouseleave="startAutoPlay">
-    <div class="relative h-full">
-      <transition-group name="fade">
+  <section
+    class="relative w-full h-screen overflow-hidden"
+    @mouseenter="stopAutoplay"
+    @mouseleave="startAutoplay"
+  >
+    <div class="relative w-full h-full overflow-hidden">
+      <div
+        class="flex h-full transition-transform duration-700 ease-in-out"
+        :style="{ transform: `translateX(-${isActive * 100}%)` }"
+      >
         <div
-          v-for="(slide, index) in slides"
-          v-show="currentSlide === index"
-          :key="slide.id"
-          class="absolute inset-0"
+          v-for="(item, index) in bannerList"
+          :key="item.title"
+          class="relative w-full h-full flex-shrink-0"
         >
-          <div class="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-800/80 to-transparent"></div>
-          <img
-            :src="slide.image"
-            :alt="slide.title"
-            class="w-full h-full object-cover"
-          />
+          <img :src="item.bgImage" alt="background" class="absolute inset-0 w-full h-full object-cover" />
           <div class="relative z-10 h-full flex items-center">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div class="max-w-2xl">
-                <span class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full mb-6">
-                  {{ slide.subtitle }}
-                </span>
-                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                  {{ slide.title }}
-                </h1>
-                <p class="text-lg text-blue-100 mb-8 leading-relaxed">
-                  {{ slide.description }}
-                </p>
-                <div class="flex flex-wrap gap-4">
-                  <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full text-lg font-medium transition-colors">
-                    {{ slide.buttonText }}
-                  </button>
-                  <button class="border-2 border-white text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-white hover:text-blue-600 transition-colors flex items-center space-x-2">
-                    <Play class="w-5 h-5" />
-                    <span>观看视频</span>
-                  </button>
+            <div class="w-full max-w-[1920px] mx-auto px-[164px]">
+              <div class="max-w-[856px]">
+                <div
+                  :class="[
+                    'transition-all duration-500',
+                    isActive === index
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-8 pointer-events-none'
+                  ]"
+                >
+                  <div
+                    :key="isActive === index ? slideKey + '-t-' + index : 'static-t-' + index"
+                    class="flex flex-col gap-[6px] mb-[34px]"
+                  >
+                    <h1
+                      class="slide-in text-[100px] font-black leading-[110%] tracking-wide uppercase"
+                      :style="{ color: item.titleColor }"
+                    >
+                      {{ item.title }}
+                    </h1>
+                    <h1
+                      class="slide-in-d1 text-[100px] font-black leading-[110%] tracking-wide uppercase"
+                      :style="{ color: item.subTitleColor }"
+                    >
+                      {{ item.subTitle }}
+                    </h1>
+                  </div>
+                  <p
+                    :key="isActive === index ? slideKey + '-d-' + index : 'static-d-' + index"
+                    class="slide-in-d2 text-2xl mb-[34px] leading-[39px]"
+                    :style="{ color: item.descriptionColor, maxWidth: item.descriptionMaxWidth || '100%' }"
+                  >
+                    {{ item.description }}
+                  </p>
+                  <div
+                    :key="isActive === index ? slideKey + '-b-' + index : 'static-b-' + index"
+                    class="fade-in-500"
+                  >
+                    <button
+                      class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[188px] h-[54px] rounded-[40px] transition-colors"
+                      @click="handleClick(item.link)"
+                    >
+                      了解更多
+                      <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </transition-group>
+      </div>
     </div>
 
-    <button
-      @click="prevSlide"
-      class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-colors"
-    >
-      <ChevronLeft class="w-6 h-6" />
-    </button>
-    <button
-      @click="nextSlide"
-      class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-colors"
-    >
-      <ChevronRight class="w-6 h-6" />
-    </button>
-
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3">
+    <div class="absolute bottom-[45px] left-1/2 -translate-x-1/2 z-10 flex items-center gap-[6px]">
       <button
-        v-for="(slide, index) in slides"
-        :key="slide.id"
-        @click="goToSlide(index)"
-        :class="[
-          'w-3 h-3 rounded-full transition-all',
-          currentSlide === index ? 'bg-blue-600 w-8' : 'bg-white/50 hover:bg-white/80'
-        ]"
-      ></button>
+        v-for="(_, index) in bannerList"
+        :key="index"
+        class="w-[60px] h-[12px] rounded-full bg-white border-none outline-none cursor-pointer transition-opacity duration-300"
+        :class="isActive === index ? 'opacity-100' : 'opacity-50'"
+        @click="goTo(index)"
+      />
     </div>
   </section>
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+.slide-in {
+  animation: slideFromTop 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both ;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.slide-in-d1 {
+  animation: slideFromTop 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s both ;
+}
+
+.slide-in-d2 {
+  animation: slideFromBottom 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
+}
+
+.fade-in-500 {
+  animation: slideFromBottom 1s ease-out 0.6s both;
+}
+
+@keyframes slideFromBottom {
+  from {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes slideFromTop {
+  from {
+    transform: translate3d(0, -100%, 0); 
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>

@@ -106,11 +106,16 @@ const selectDoctor = (doctor: typeof doctors[0]) => {
                     : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                 ]"
               >
-                <img
-                  :src="doctor.image"
-                  :alt="doctor.name"
-                  class="w-14 h-14 rounded-full object-cover"
-                />
+                <div v-if="doctor.image">
+                  <img
+                    :src="doctor.image"
+                    :alt="doctor.name"
+                    class="w-14 h-14 rounded-full object-cover"
+                  />
+                </div>
+                <div v-else class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
+                  {{ doctor.name.charAt(0) }}
+                </div>
                 <div>
                   <div class="font-semibold">{{ doctor.name }}</div>
                   <div class="text-sm opacity-75">{{ doctor.title }}</div>
@@ -123,11 +128,16 @@ const selectDoctor = (doctor: typeof doctors[0]) => {
             <div class="bg-gray-50 rounded-2xl overflow-hidden">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
                 <div class="md:col-span-1">
-                  <img
-                    :src="selectedDoctor.image"
-                    :alt="selectedDoctor.name"
-                    class="w-full h-80 md:h-full object-cover"
-                  />
+                  <div v-if="selectedDoctor.image">
+                    <img
+                      :src="selectedDoctor.image"
+                      :alt="selectedDoctor.name"
+                      class="w-full h-80 md:h-full object-cover"
+                    />
+                  </div>
+                  <div v-else class="w-full h-80 md:h-full bg-gray-200 flex items-center justify-center">
+                    <span class="text-gray-400 text-xl">{{ selectedDoctor.name }}</span>
+                  </div>
                 </div>
                 <div class="md:col-span-2 p-8">
                   <div class="flex items-center space-x-4 mb-4">

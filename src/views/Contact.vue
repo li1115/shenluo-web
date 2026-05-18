@@ -86,11 +86,9 @@ const contactInfo = [
             </div>
 
             <div class="bg-gray-50 rounded-xl overflow-hidden">
-              <img
-                src=""
-                alt="医院外观"
-                class="w-full h-64 object-cover"
-              />
+              <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-400">医院外观</span>
+              </div>
             </div>
           </div>
 

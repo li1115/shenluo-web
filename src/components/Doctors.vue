@@ -67,11 +67,16 @@ const doctors = [
           class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 group"
         >
           <div class="relative">
-            <img
-              :src="doctor.image"
-              :alt="doctor.name"
-              class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+            <div v-if="doctor.image">
+              <img
+                :src="doctor.image"
+                :alt="doctor.name"
+                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div v-else class="w-full h-48 bg-gray-200 flex items-center justify-center">
+              <span class="text-gray-400 text-sm">暂无照片</span>
+            </div>
             <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full flex items-center space-x-1">
               <Star class="w-4 h-4 text-yellow-500 fill-yellow-500" />
               <span class="text-sm font-medium text-gray-700">{{ doctor.rating }}</span>

@@ -40,12 +40,8 @@ const features = [
               我们的使命是通过不断创新和卓越服务，帮助每一位患者恢复健康，重获新生。我们相信，科学的力量和人文的关怀能够创造奇迹。
             </p>
           </div>
-          <div>
-            <img
-              src=""
-              alt="医院环境"
-              class="w-full h-80 object-cover rounded-2xl"
-            />
+          <div class="w-full h-80 bg-gray-200 rounded-2xl flex items-center justify-center">
+            <span class="text-gray-400">暂无图片</span>
           </div>
         </div>
       </div>

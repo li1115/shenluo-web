@@ -1,71 +1,121 @@
 <script setup lang="ts">
-import { Calendar, ArrowRight } from 'lucide-vue-next'
+import news1 from '@/assets/news-1.png'
+import news2 from '@/assets/news-2.png'
+import news3 from '@/assets/news-3.png'
+import news4 from '@/assets/news-4.png'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const news = [
+const newsItems = [
   {
     id: 1,
-    title: '神络医院成功开展首例脑机接口手术',
-    excerpt: '我院神经外科团队成功完成首例脑机接口植入手术，为瘫痪患者带来新希望',
-    date: '2024-01-15',
-    image: '',
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news1,
   },
   {
     id: 2,
-    title: '新型神经保护药物临床试验取得重大突破',
-    excerpt: '我院参与的新型神经保护药物临床试验取得显著成果，有望为脑卒中治疗带来革命性变化',
-    date: '2024-01-12',
-    image: '',
+    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news2,
   },
   {
     id: 3,
-    title: '神络医院荣获"全国文明医院"称号',
-    excerpt: '在全国文明医院评选中，我院凭借优质服务和良好口碑荣获此项殊荣',
-    date: '2024-01-10',
-    image: '',
+    title: '喜报 I 神络医疗植入式可充电脊髓神经刺激器获批上市',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news3,
+  },
+  {
+    id: 4,
+    title: '喜报  神络医疗博士后科研工作站获批成立',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news4,
   },
 ]
+
+const cardWidth = 492
+const gap = 40
+const step = cardWidth + gap
+const totalSetWidth = newsItems.length * step
+
+const scrollOffset = ref(0)
+const isPaused = ref(false)
+let animId: number | null = null
+const SPEED = 0.35
+
+const animate = () => {
+  if (!isPaused.value) {
+    scrollOffset.value += SPEED
+    if (scrollOffset.value >= totalSetWidth) {
+      scrollOffset.value -= totalSetWidth
+    }
+  }
+  animId = requestAnimationFrame(animate)
+}
+
+const handleWheel = (e: WheelEvent) => {
+  scrollOffset.value += e.deltaY * 2
+  if (scrollOffset.value < 0) {
+    scrollOffset.value += totalSetWidth
+  }
+  if (scrollOffset.value >= totalSetWidth) {
+    scrollOffset.value -= totalSetWidth
+  }
+}
+
+onMounted(() => {
+  animId = requestAnimationFrame(animate)
+})
+
+onBeforeUnmount(() => {
+  if (animId) cancelAnimationFrame(animId)
+})
 </script>
 
 <template>
-  <section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-        <div>
-          <span class="inline-block px-4 py-2 bg-blue-100 text-blue-600 text-sm font-medium rounded-full mb-4">
-            新闻动态
-          </span>
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-800">
-            医院动态，实时更新
-          </h2>
-        </div>
-        <a href="/news" class="mt-4 md:mt-0 flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
-          <span>查看全部新闻</span>
-          <ArrowRight class="w-5 h-5" />
-        </a>
+  <section class="py-[100px] bg-white">
+    <div class="max-w-[1920px] mx-auto">
+      <div class="text-center mb-[80px]">
+        <span class="block text-[#0163FF] font-black text-lg mb-5">
+          资讯中心
+        </span>
+        <h2 class="text-[66px] font-black text-black leading-tight">
+          神络资讯中心
+        </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div
+        class="overflow-hidden"
+        @mouseenter="isPaused = true"
+        @mouseleave="isPaused = false"
+        @wheel.prevent="handleWheel"
+      >
         <div
-          v-for="item in news"
-          :key="item.id"
-          class="bg-white rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group"
+          class="flex gap-10 will-change-transform"
+          :style="{ transform: `translateX(-${scrollOffset}px)` }"
         >
-          <div class="relative h-48 overflow-hidden">
-            <img
-              :src="item.image"
-              :alt="item.title"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-          <div class="p-5">
-            <div class="flex items-center space-x-2 text-gray-500 text-sm mb-3">
-              <Calendar class="w-4 h-4" />
-              <span>{{ item.date }}</span>
+          <div
+            v-for="(item, idx) in [...newsItems, ...newsItems]"
+            :key="idx"
+            class="w-[492px] h-[612px] bg-white rounded-[30px] overflow-hidden shadow-[0px_0px_29px_rgba(148,148,148,0.22)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 cursor-pointer group flex-shrink-0"
+          >
+            <div class="h-[340px] relative overflow-hidden">
+              <img :src="item.image" :alt="item.title" class="w-full h-full object-cover" />
             </div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
-              {{ item.title }}
-            </h3>
-            <p class="text-gray-600 text-sm line-clamp-2">{{ item.excerpt }}</p>
+            <div class="p-8 flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <span class="bg-[#0163FF] text-white text-xs font-bold px-4 py-1.5 rounded-[50px]">
+                  {{ item.category }}
+                </span>
+                <span class="text-gray-400 text-sm">{{ item.date }}</span>
+              </div>
+              <h3 class="text-xl font-black text-black leading-relaxed group-hover:text-[#0163FF] transition-colors line-clamp-2">
+                {{ item.title }}
+              </h3>
+            </div>
           </div>
         </div>
       </div>

@@ -113,11 +113,16 @@ const filteredNews = newsList.filter(item => {
             class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group"
           >
             <div class="relative h-48 overflow-hidden">
-              <img
-                :src="news.image"
-                :alt="news.title"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
+              <div v-if="news.image">
+                <img
+                  :src="news.image"
+                  :alt="news.title"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-400">暂无图片</span>
+              </div>
               <div class="absolute top-4 left-4">
                 <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">{{ news.category }}</span>
               </div>

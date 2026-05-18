@@ -172,11 +172,9 @@ const toggleFaq = (index: number) => {
           <h2 class="text-2xl font-bold text-gray-800 mb-6">医院位置</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white rounded-xl overflow-hidden">
-              <img
-                src=""
-                alt="医院地图"
-                class="w-full h-64 object-cover"
-              />
+              <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-400">地图区域</span>
+              </div>
             </div>
             <div>
               <div class="flex items-start space-x-3 mb-4">

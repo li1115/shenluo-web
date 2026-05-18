@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Users, Bed, Award, Clock } from 'lucide-vue-next'
+import statsBg from '@/assets/stats-bg.png'
 
 const stats = [
-  { icon: Users, value: 500000, label: '服务患者', suffix: '+', animated: ref(0) },
-  { icon: Bed, value: 500, label: '床位数量', suffix: '+', animated: ref(0) },
-  { icon: Award, value: 98, label: '治愈率', suffix: '%', animated: ref(0) },
-  { icon: Clock, value: 24, label: '小时服务', suffix: '', animated: ref(0) },
+  { value: 8, suffix: '+', label: '核心研发积淀(年)', animated: ref(0) },
+  { value: 100, suffix: '+', label: '专利技术', animated: ref(0) },
+  { value: 20, suffix: 'K+', label: '服务患者', animated: ref(0) },
+  { value: 8, suffix: '亿+', label: '研发投资', animated: ref(0) },
 ]
 
 const animateValue = (stat: { value: number; animated: { value: number } }, duration: number) => {
@@ -24,32 +24,53 @@ const animateValue = (stat: { value: number; animated: { value: number } }, dura
 }
 
 onMounted(() => {
-  setTimeout(() => {
-    stats.forEach((stat, index) => {
-      setTimeout(() => {
-        animateValue(stat, 2000)
-      }, index * 200)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        stats.forEach((stat, index) => {
+          setTimeout(() => {
+            animateValue(stat, 2000)
+          }, index * 200)
+        })
+        observer.disconnect()
+      }
     })
-  }, 500)
+  })
+  const el = document.getElementById('stats-section')
+  if (el) observer.observe(el)
 })
 </script>
 
 <template>
-  <section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div
-          v-for="stat in stats"
-          :key="stat.label"
-          class="text-center text-white"
-        >
-          <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <component :is="stat.icon" class="w-8 h-8" />
+  <section id="stats-section" class="relative py-[180px] overflow-hidden">
+    <!-- 背景图片 -->
+    <div class="absolute inset-0">
+      <img :src="statsBg" alt="background" class="w-full h-full object-cover" />
+    </div>
+    <!-- 毛玻璃效果层 -->
+    <div class="absolute inset-0 backdrop-blur-[74px] bg-white/29"></div>
+
+    <div class="relative max-w-[1920px] mx-auto px-[230px]">
+      <!-- 标题区域 -->
+      <div class="text-center mb-[80px]">
+        <span class="block text-[#0163FF] font-black text-lg mb-5">
+          关于我们
+        </span>
+        <h2 class="text-[66px] font-black text-black leading-tight">
+          打破技术垄断，领航全球
+        </h2>
+      </div>
+
+      <!-- 统计卡片 -->
+      <div class="flex justify-center gap-10">
+        <div v-for="stat in stats" :key="stat.label"
+          class="bg-white rounded-[18px] w-[366px] h-[260px] flex flex-col items-center justify-center gap-4">
+          <div class="text-[56px] font-black text-[#0163FF] leading-none">
+            {{ stat.animated.value }}{{ stat.suffix }}
           </div>
-          <div class="text-4xl md:text-5xl font-bold mb-2">
-            {{ stat.animated.toLocaleString() }}{{ stat.suffix }}
+          <div class="text-gray-500 text-base">
+            {{ stat.label }}
           </div>
-          <div class="text-blue-100">{{ stat.label }}</div>
         </div>
       </div>
     </div>
