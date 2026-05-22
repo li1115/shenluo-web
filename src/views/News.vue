@@ -1,167 +1,427 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Calendar, ArrowRight, Search } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+import news1 from '@/assets/news-1.png'
+import news2 from '@/assets/news-2.png'
+import news3 from '@/assets/news-3.png'
+import news4 from '@/assets/news-4.png'
+import banner1 from '@/assets/banner-1.png'
 
-const newsList = [
+const router = useRouter()
+
+interface NewsItem {
+  id: number
+  title: string
+  date: string
+  category: string
+  image: string
+}
+
+const corporateNews: NewsItem[] = [
   {
     id: 1,
-    title: '神络医院成功开展首例脑机接口手术',
-    excerpt: '我院神经外科团队成功完成首例脑机接口植入手术，为瘫痪患者带来新希望...',
-    date: '2024-01-15',
-    category: '医疗动态',
-    image: '',
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news1,
   },
   {
     id: 2,
-    title: '新型神经保护药物临床试验取得重大突破',
-    excerpt: '我院参与的新型神经保护药物临床试验取得显著成果，有望为脑卒中治疗带来革命性变化...',
-    date: '2024-01-12',
-    category: '科研进展',
-    image: '',
+    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news2,
   },
   {
     id: 3,
-    title: '神络医院荣获"全国文明医院"称号',
-    excerpt: '在全国文明医院评选中，我院凭借优质服务和良好口碑荣获此项殊荣...',
-    date: '2024-01-10',
-    category: '医院荣誉',
-    image: '',
+    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news3,
   },
   {
     id: 4,
-    title: '冬季脑血管疾病预防知识讲座圆满结束',
-    excerpt: '我院举办的冬季脑血管疾病预防知识讲座吸引了众多市民参与...',
-    date: '2024-01-08',
-    category: '健康科普',
-    image: '',
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news4,
   },
   {
     id: 5,
-    title: '我院引进国际先进的神经导航系统',
-    excerpt: '为提升神经外科手术精准度，我院引进了国际领先的神经导航系统...',
-    date: '2024-01-05',
-    category: '设备更新',
-    image: '',
+    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news1,
   },
   {
     id: 6,
-    title: '春节假期门诊安排通知',
-    excerpt: '春节期间，我院门诊安排如下，请患者朋友合理安排就诊时间...',
-    date: '2024-01-03',
-    category: '通知公告',
-    image: '',
+    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
+    date: '2026.03.14',
+    category: '企业动态',
+    image: news2,
   },
 ]
 
-const searchQuery = ref('')
+const healthNews: NewsItem[] = [
+  {
+    id: 7,
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    date: '2026.03.14',
+    category: '疾病科普',
+    image: news3,
+  },
+  {
+    id: 8,
+    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
+    date: '2026.03.14',
+    category: '疾病科普',
+    image: news4,
+  },
+  {
+    id: 9,
+    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
+    date: '2026.03.14',
+    category: '疾病科普',
+    image: news1,
+  },
+  {
+    id: 10,
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    date: '2026.03.14',
+    category: '疾病科普',
+    image: news2,
+  },
+  {
+    id: 11,
+    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
+    date: '2026.03.14',
+    category: '疾病科普',
+    image: news3,
+  },
+  {
+    id: 12,
+    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
+    date: '2026.03.14',
+    category: '疾病科普',
+    image: news4,
+  },
+]
 
-const categories = ['全部', '医疗动态', '科研进展', '医院荣誉', '健康科普', '设备更新', '通知公告']
-const activeCategory = ref('全部')
+const goToNewsDetail = (id: number) => {
+  router.push(`/news/${id}`)
+}
 
-const filteredNews = newsList.filter(item => {
-  const matchesCategory = activeCategory.value === '全部' || item.category === activeCategory.value
-  const matchesSearch = item.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.excerpt.toLowerCase().includes(searchQuery.value.toLowerCase())
-  return matchesCategory && matchesSearch
-})
+const goToNewsList = () => {
+  router.push('/news')
+}
 </script>
 
 <template>
-  <div class="pt-24">
-    <section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">新闻动态</h1>
-          <p class="text-blue-100 text-lg">了解医院最新动态和健康资讯</p>
-        </div>
+  <div class="news-page">
+    <div class="news-page__banner">
+      <div class="news-page__banner-gradient" />
+      <div class="news-page__banner-bg">
+        <img :src="banner1" alt="banner" class="news-page__banner-img" />
       </div>
-    </section>
+      <div class="news-page__breadcrumb">
+        <span class="news-page__breadcrumb-link" @click="goToNewsList">资讯</span>
+        <span>/</span>
+        <span class="news-page__breadcrumb-current">文章详情</span>
+      </div>
+    </div>
 
-    <section class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-          <div class="relative">
-            <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-              v-model="searchQuery"
-              type="text"
-              placeholder="搜索新闻..."
-              class="w-full md:w-80 pl-12 pr-4 py-3 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="category in categories"
-              :key="category"
-              @click="activeCategory = category"
-              :class="[
-                'px-4 py-2 rounded-full text-sm font-medium transition-all',
-                activeCategory === category
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              ]"
-            >
-              {{ category }}
-            </button>
-          </div>
-        </div>
+    <div class="news-page__section">
+      <div class="news-page__heading">
+        <div class="news-page__heading-bar" />
+        <h2 class="news-page__heading-text">企业动态</h2>
+      </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div
-            v-for="news in filteredNews"
-            :key="news.id"
-            class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group"
-          >
-            <div class="relative h-48 overflow-hidden">
-              <div v-if="news.image">
-                <img
-                  :src="news.image"
-                  :alt="news.title"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span class="text-gray-400">暂无图片</span>
-              </div>
-              <div class="absolute top-4 left-4">
-                <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">{{ news.category }}</span>
-              </div>
+      <div class="news-page__grid">
+        <div
+          v-for="item in corporateNews"
+          :key="item.id"
+          class="news-page__card"
+          @click="goToNewsDetail(item.id)"
+        >
+          <div class="news-page__card-image">
+            <img :src="item.image" :alt="item.title" class="news-page__card-img" />
+          </div>
+          <div class="news-page__card-body">
+            <div class="news-page__card-meta">
+              <span class="news-page__card-tag">{{ item.category }}</span>
+              <span class="news-page__card-date">{{ item.date }}</span>
             </div>
-            <div class="p-5">
-              <div class="flex items-center space-x-2 text-gray-500 text-sm mb-3">
-                <Calendar class="w-4 h-4" />
-                <span>{{ news.date }}</span>
-              </div>
-              <h3 class="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
-                {{ news.title }}
-              </h3>
-              <p class="text-gray-600 text-sm line-clamp-2 mb-4">{{ news.excerpt }}</p>
-              <a href="#" class="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
-                <span>阅读更多</span>
-                <ArrowRight class="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div v-if="filteredNews.length === 0" class="text-center py-16">
-          <p class="text-gray-500">暂无相关新闻</p>
-        </div>
-
-        <div class="flex justify-center mt-10">
-          <div class="flex items-center space-x-2">
-            <button class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors">
-              <ArrowRight class="w-5 h-5 rotate-180" />
-            </button>
-            <button class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-medium">1</button>
-            <button class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors">2</button>
-            <button class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors">3</button>
-            <button class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors">
-              <ArrowRight class="w-5 h-5" />
-            </button>
+            <div class="news-page__card-decor" />
+            <h3 class="news-page__card-title">{{ item.title }}</h3>
           </div>
         </div>
       </div>
-    </section>
+
+      <div class="news-page__load-more-wrap">
+        <button class="news-page__load-more">
+          <span>加载更多</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="news-page__section">
+      <div class="news-page__heading">
+        <div class="news-page__heading-bar" />
+        <h2 class="news-page__heading-text">疾病知识与科普教育</h2>
+      </div>
+
+      <div class="news-page__grid">
+        <div
+          v-for="item in healthNews"
+          :key="item.id"
+          class="news-page__card"
+          @click="goToNewsDetail(item.id)"
+        >
+          <div class="news-page__card-image">
+            <img :src="item.image" :alt="item.title" class="news-page__card-img" />
+          </div>
+          <div class="news-page__card-body">
+            <div class="news-page__card-meta">
+              <span class="news-page__card-tag">{{ item.category }}</span>
+              <span class="news-page__card-date">{{ item.date }}</span>
+            </div>
+            <div class="news-page__card-decor" />
+            <h3 class="news-page__card-title">{{ item.title }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-page__load-more-wrap">
+        <button class="news-page__load-more">
+          <span>加载更多</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.news-page {
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-brand: #0163FF;
+  --color-brand-dark: #0264FF;
+  --color-tag-bg: #E5F0FF;
+  --color-text-heading: #181C20;
+  --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
+  --shadow-card: 0px 0px 29px 0px rgba(148, 148, 148, 0.22);
+  --shadow-btn: 0px 9px 10px 0px rgba(1, 94, 255, 0.14);
+  --card-width: 492px;
+  --card-height: 612px;
+  --card-image-height: 360px;
+  --card-radius: 30px;
+
+  background: var(--color-white);
+}
+
+/* ========== Banner ========== */
+.news-page__banner {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  overflow: hidden;
+}
+.news-page__banner-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #EFF6FF 0%, #BBD4F3 100%);
+  z-index: 0;
+}
+.news-page__banner-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.news-page__banner-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ========== Breadcrumb ========== */
+.news-page__breadcrumb {
+  position: absolute;
+  top: 142px;
+  left: 160px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.0536em;
+  color: #FFFFFF;
+}
+.news-page__breadcrumb-link {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.news-page__breadcrumb-link:hover {
+  color: var(--color-brand);
+}
+.news-page__breadcrumb-current {
+  color: var(--color-text-muted);
+}
+
+/* ========== Section ========== */
+.news-page__section {
+  padding: 0 160px;
+  margin-top: 100px;
+}
+
+/* ========== Heading ========== */
+.news-page__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.news-page__heading-bar {
+  width: 5px;
+  height: 36px;
+  background: var(--color-brand);
+  flex-shrink: 0;
+}
+.news-page__heading-text {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 36px;
+  color: var(--color-text-heading);
+}
+
+/* ========== Card Grid ========== */
+.news-page__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 52px;
+  justify-content: flex-start;
+}
+
+/* ========== Card ========== */
+.news-page__card {
+  width: var(--card-width);
+  height: var(--card-height);
+  background: var(--color-white);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.news-page__card:hover {
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.news-page__card-image {
+  width: var(--card-width);
+  height: var(--card-image-height);
+  overflow: hidden;
+}
+.news-page__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-page__card-body {
+  position: relative;
+  padding: 50px 50px 0;
+}
+
+.news-page__card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.news-page__card-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 10px 12px;
+  background: var(--color-tag-bg);
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-brand);
+}
+
+.news-page__card-date {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-black);
+}
+
+.news-page__card-decor {
+  width: 3px;
+  height: 18px;
+  background: var(--color-black);
+  margin-top: 5px;
+}
+
+.news-page__card-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 44px;
+  color: var(--color-black);
+  max-width: 392px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========== Load More ========== */
+.news-page__load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 64px;
+}
+.news-page__load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 220px;
+  padding: 12px 24px;
+  background: var(--color-brand-dark);
+  border: none;
+  border-radius: 46px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.news-page__load-more:hover {
+  background: #0052d4;
+}
+.news-page__load-more span {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-white);
+  text-align: center;
+}
+</style>

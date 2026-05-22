@@ -33,6 +33,26 @@ const router = createRouter({
       name: 'Contact',
       component: () => import('@/views/Contact.vue'),
     },
+    {
+      path: '/product/:id',
+      name: 'ProductDetail',
+      component: () => import('@/views/ProductDetail.vue'),
+    },
+    {
+      path: '/news/:id',
+      name: 'NewsDetail',
+      component: () => import('@/views/NewsDetail.vue'),
+    },
+    {
+      path: '/careers',
+      name: 'Careers',
+      component: () => import('@/views/Careers.vue'),
+    },
+    {
+      path: '/careers/:id',
+      name: 'JobDetail',
+      component: () => import('@/views/JobDetail.vue'),
+    },
   ],
 })
 
