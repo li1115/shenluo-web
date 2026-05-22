@@ -40,7 +40,7 @@ const gap = 40
 const step = cardWidth + gap
 const totalSetWidth = products.length * step
 
-const duplicated = computed(() => [...products, ...products])
+const duplicated = computed(() => [...products])
 
 const scrollOffset = ref(0)
 const isPaused = ref(false)
@@ -58,7 +58,9 @@ const animate = () => {
 }
 
 onMounted(() => {
-  animId = requestAnimationFrame(animate)
+  if (products.length > 3) {
+    animId = requestAnimationFrame(animate)
+  }
 })
 
 onBeforeUnmount(() => {
@@ -67,9 +69,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="py-[100px] bg-white">
+  <section class="pt-[100px] bg-white">
     <div class="max-w-[1920px] mx-auto">
-      <div class="text-center mb-[80px]">
+      <div class="text-center ">
         <span class="block text-[#0163FF] font-black text-lg mb-5">
           产品展示
         </span>
@@ -78,24 +80,14 @@ onBeforeUnmount(() => {
         </h2>
       </div>
 
-      <div
-        class="overflow-hidden"
-        @mouseenter="isPaused = true"
-        @mouseleave="isPaused = false"
-      >
-        <div
-          class="flex gap-10 will-change-transform"
-          :style="{ transform: `translateX(-${scrollOffset}px)` }"
-        >
-          <div
-            v-for="(product, idx) in duplicated"
-            :key="idx"
-            class="w-[500px] h-[500px] bg-[#F9FAFC] rounded-[10px] overflow-hidden flex flex-col flex-shrink-0 cursor-pointer group"
-            :class="product.selected
-              ? 'border border-[#CDEAF5] shadow-[0px_22px_34px_rgba(243,243,243,1)]'
-              : 'border border-[#F1F2F4]'"
-            @click="goToDetail(product.id)"
-          >
+      <div class="overflow-hidden pt-[80px] pb-[100px]" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
+        <div class="flex gap-10 will-change-transform mx-auto w-fit" :style="{ transform: `translateX(-${scrollOffset}px)` }">
+          <div v-for="(product, idx) in duplicated" :key="idx"
+            class="w-[500px] h-[500px] bg-[#F9FAFC] border border-[#F1F2F4] rounded-[10px] overflow-hidden flex flex-col flex-shrink-0 cursor-pointer 
+            transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)]
+            hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border-[#CDEAF5] hover:cursor-pointer hover:translate-y-[-10px] group"
+
+              @click="goToDetail(product.id)">
             <div class="h-[340px] flex items-center justify-center overflow-hidden">
               <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
             </div>
