@@ -1,9 +1,59 @@
 @import "tailwindcss";
 
-:root {
-  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+@theme {
+  --color-primary: #0163FF;
+  --font-pingfang: 'PingFang SC', 'Microsoft YaHei', system-ui, '-apple-system', sans-serif;
+  --font-alibabapuhuiti: 'Alibaba PuHuiTi 3.0';
+  --font-dinblack: 'DIN Black';
+  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, '-apple-system', sans-serif;
 }
 
+:root {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+}
+
+@font-face {
+  font-family: 'Noto Sans SC';
+  src: url('/fonts/Noto-Sans-SC-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans SC';
+  src: url('/fonts/Noto-Sans-SC-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('/fonts/AlibabaPuHuiTi-3-115-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN Black';
+  src: url('/fonts/D-DIN-PRO-400-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN Black';
+  src: url('/fonts/D-DIN-PRO-900-Heavy.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* 4. 其余样式 */
 body {
   margin: 0;
   padding: 0;

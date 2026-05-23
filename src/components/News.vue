@@ -57,6 +57,7 @@ const animate = () => {
 }
 
 const handleWheel = (e: WheelEvent) => {
+  return 
   scrollOffset.value += e.deltaY * 2
   if (scrollOffset.value < 0) {
     scrollOffset.value += totalSetWidth
@@ -76,48 +77,41 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="py-[100px] bg-white">
+  <section class="pt-[100px] bg-white">
     <div class="max-w-[1920px] mx-auto">
-      <div class="text-center mb-[80px]">
-        <span class="block text-[#0163FF] font-black text-lg mb-5">
+      <div class="text-center">
+        <span class="block text-[#0163FF] font-black text-lg mb-5 font-alibabapuhuiti">
           资讯中心
         </span>
-        <h2 class="text-[66px] font-black text-black leading-tight">
+        <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
           神络资讯中心
         </h2>
       </div>
 
-      <div
-        class="overflow-hidden"
-        @mouseenter="isPaused = true"
-        @mouseleave="isPaused = false"
-        @wheel.prevent="handleWheel"
-      >
-        <div
-          class="flex gap-10 will-change-transform"
-          :style="{ transform: `translateX(-${scrollOffset}px)` }"
-        >
-          <div
-            v-for="(item, idx) in [...newsItems, ...newsItems]"
-            :key="idx"
-            class="w-[492px] h-[612px] bg-white rounded-[30px] overflow-hidden shadow-[0px_0px_29px_rgba(148,148,148,0.22)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 cursor-pointer group flex-shrink-0"
-          >
-            <div class="h-[340px] relative overflow-hidden">
-              <img :src="item.image" :alt="item.title" class="w-full h-full object-cover" />
-            </div>
-            <div class="p-8 flex flex-col gap-4">
-              <div class="flex items-center justify-between">
-                <span class="bg-[#0163FF] text-white text-xs font-bold px-4 py-1.5 rounded-[50px]">
-                  {{ item.category }}
-                </span>
-                <span class="text-gray-400 text-sm">{{ item.date }}</span>
+      <div class="overflow-hidden pb-[100px] pt-[80px]">
+        <div @mouseenter="isPaused = true" @mouseleave="isPaused = false" @wheel="handleWheel">
+          <div class="flex gap-10 will-change-transform" :style="{ transform: `translateX(-${scrollOffset}px)` }">
+            <div v-for="(item, idx) in [...newsItems, ...newsItems]" :key="idx" class="w-[492px] h-[612px] bg-white rounded-[30px] overflow-hidden border border-[#E5E5E5] shadow-[0px_0px_29px_0px_rgba(148,148,148,0.22)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 cursor-pointer group flex-shrink-0
+            hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border hover:border-[#CDEAF5] hover:cursor-pointer group">
+              <div class="h-[360px] relative overflow-hidden">
+                <img :src="item.image" :alt="item.title" class="w-full h-full object-cover" />
               </div>
-              <h3 class="text-xl font-black text-black leading-relaxed group-hover:text-[#0163FF] transition-colors line-clamp-2">
-                {{ item.title }}
-              </h3>
+              <div class="p-[50px] flex flex-col gap-6">
+                <div class="flex items-center justify-between">
+                  <span class="bg-[#E5F0FF] text-[#0163FF] text-base font-semibold px-3 py-2 rounded-[50px] font-pingfang">
+                    {{ item.category }}
+                  </span>
+                  <span class="text-black text-base font-semibold font-pingfang">{{ item.date }}</span>
+                </div>
+                <h3
+                  class="text-[26px] font-semibold text-black group-hover:text-[#0163FF] transition-colors line-clamp-2 leading-[44px] font-pingfang">
+                  {{ item.title }}
+                </h3>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>

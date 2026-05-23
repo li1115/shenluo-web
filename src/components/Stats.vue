@@ -50,25 +50,25 @@ onMounted(() => {
     <!-- 毛玻璃效果层 -->
     <div class="absolute inset-0 backdrop-blur-[74px] bg-white/29"></div>
 
-    <div class="relative max-w-[1920px] mx-auto px-[230px]">
+    <div class="relative max-w-[1920px] mx-auto">
       <!-- 标题区域 -->
-      <div class="text-center mb-[80px]">
-        <span class="block text-[#0163FF] font-black text-lg mb-5">
+      <div class="text-center mb-[100px]">
+        <span class="block text-[#0163FF] font-black text-lg mb-[27px] font-alibabapuhuiti">
           关于我们
         </span>
-        <h2 class="text-[66px] font-black text-black leading-tight">
+        <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
           打破技术垄断，领航全球
         </h2>
       </div>
 
       <!-- 统计卡片 -->
-      <div class="flex justify-center gap-10">
+      <div class="flex justify-center gap-10 w-[1584px] mx-auto">
         <div v-for="stat in stats" :key="stat.label"
           class="bg-white rounded-[18px] w-[366px] h-[260px] flex flex-col items-center justify-center gap-4">
-          <div class="text-[56px] font-black text-[#0163FF] leading-none">
+          <div class="text-[80px] font-black text-[#0163FF] leading-none font-alibabapuhuiti">
             {{ stat.animated.value }}{{ stat.suffix }}
           </div>
-          <div class="text-gray-500 text-base">
+          <div class="text-[#65758C] text-[22px] font-medium font-alibabapuhuiti">
             {{ stat.label }}
           </div>
         </div>

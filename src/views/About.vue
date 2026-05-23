@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-
+import investment from '@/assets/investment.png'
+import promotion from '@/assets/promotion.png'
+import channel from '@/assets/channel.png'
+import responsible from '@/assets/responsible.png'
+import highQuality from '@/assets/high-quality.png'
+import mission from '@/assets/mission.png'
+import efficient from '@/assets/efficient.png'
+import channelIcon from '@/assets/channel.svg'
+import promotionIcon from '@/assets/promotion.svg'
+import investmentIcon from '@/assets/investment.svg'
+import cardIconBg  from '@/assets/about-icon-bg.svg'
 interface Milestone {
   id: number
   month: string
@@ -11,6 +21,7 @@ interface ValueItem {
   id: number
   name: string
   nameEn: string
+  img: string
   subtitles: string[]
   bgColor: string
 }
@@ -18,6 +29,8 @@ interface ValueItem {
 interface PartnerCard {
   id: number
   title: string
+  img: string
+  icon: string
   description: string
 }
 
@@ -50,6 +63,7 @@ const values = ref<ValueItem[]>([
     id: 1,
     name: '使命',
     nameEn: 'Mission',
+    img: mission,
     subtitles: ['急患者之所急', '想患者之所想'],
     bgColor: '#F6F6F6',
   },
@@ -57,6 +71,7 @@ const values = ref<ValueItem[]>([
     id: 2,
     name: '担当',
     nameEn: 'Responsible',
+    img: responsible, 
     subtitles: ['侠之大者', '结伴前行'],
     bgColor: '#F6F6F6',
   },
@@ -64,6 +79,7 @@ const values = ref<ValueItem[]>([
     id: 3,
     name: '高质',
     nameEn: 'High Quality',
+    img: highQuality, 
     subtitles: ['攀技术之巅', '登品质之峰'],
     bgColor: '#EDEDED',
   },
@@ -71,6 +87,7 @@ const values = ref<ValueItem[]>([
     id: 4,
     name: '高效',
     nameEn: 'Efficient',
+    img: efficient, 
     subtitles: ['雷厉风行', '事半功倍'],
     bgColor: '#F6F6F6',
   },
@@ -82,16 +99,22 @@ const partnerCards = ref<PartnerCard[]>([
   {
     id: 1,
     title: '渠道合作',
+    img: channel,
+    icon: channelIcon,
     description: '如果您在神经外科、疼痛科或脊柱外科拥有\n深厚代理销售渠道网络',
   },
   {
     id: 2,
     title: '推广服务',
+    img: promotion,
+    icon: promotionIcon,
     description: '如果您的团队具备优秀的专业学术\n推广能力和临床服务能力',
   },
   {
     id: 3,
     title: '战略投资',
+    img: investment,
+    icon: investmentIcon,
     description: '如果您认同国产创新医疗、并愿意长期为\n神经调控领域战略投资',
   },
 ])
@@ -101,6 +124,11 @@ const partnerCards = ref<PartnerCard[]>([
   <div class="about">
     <!-- Hero Banner -->
     <section class="about__hero">
+      <img
+        src="@/assets/about-hero-bg.png"
+        alt="关于神络"
+        class="about__hero-bg"
+      />
       <div class="about__hero-overlay"></div>
       <div class="about__hero-deco-blur about__hero-deco-blur--blue"></div>
       <div class="about__hero-deco-blur about__hero-deco-blur--white"></div>
@@ -109,7 +137,7 @@ const partnerCards = ref<PartnerCard[]>([
         <div class="about__hero-left">
           <div class="about__hero-image">
             <img
-              src=""
+              src="@/assets/about-hero.png"
               alt="关于神络"
               class="about__hero-img"
             />
@@ -147,6 +175,7 @@ const partnerCards = ref<PartnerCard[]>([
       </div>
 
       <div class="about__timeline-wrapper">
+        <div class="about__timeline-area">
         <div class="about__timeline-decoration">
           <span class="about__timeline-big-year">{{ activeYear }}</span>
           <svg class="about__timeline-texture" width="39" height="8" viewBox="0 0 39 8" fill="none">
@@ -193,10 +222,11 @@ const partnerCards = ref<PartnerCard[]>([
 
         <div class="about__milestones-image">
           <img
-            src=""
+            src="@/assets/timeline-right.png"
             alt="神络里程碑"
             class="about__milestones-img"
           />
+        </div>
         </div>
       </div>
 
@@ -215,7 +245,7 @@ const partnerCards = ref<PartnerCard[]>([
     <!-- 企业文化 -->
     <section class="about__culture">
       <div class="about__culture-bg">
-        <img src="" alt="" class="about__culture-bg-img" />
+        <img src="@/assets/about_culture_bg.png" alt="企业文化" class="about__culture-bg-img" />
       </div>
       <div class="about__section-header">
         <h2 class="about__section-heading">企业文化</h2>
@@ -258,8 +288,8 @@ const partnerCards = ref<PartnerCard[]>([
             </div>
             <div class="about__value-image">
               <img
-                src=""
-                alt=""
+                :src="value.img"
+                :alt="value.name"
                 class="about__value-img"
               />
             </div>
@@ -281,13 +311,13 @@ const partnerCards = ref<PartnerCard[]>([
           :key="card.id"
           class="about__partner-card"
         >
-          <img src="" alt="" class="about__partner-card-bg" />
+          <img :src="card.img" alt="合作" class="about__partner-card-bg" />
           <div class="about__partner-blur"></div>
           <div class="about__partner-icon">
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-              <rect x="22" y="22" width="36" height="36" rx="6" stroke="#0163FF" stroke-width="3" fill="none" />
-              <path d="M30 35L37 42L50 29" stroke="#0163FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <div class="about__partner-icon-bg">
+              <img :src="cardIconBg" alt="合作" class="about__partner-icon-bg-img" />
+              <img :src="card.icon" alt="合作" class="about__partner-icon-img" />
+            </div>
           </div>
           <h3 class="about__partner-title">{{ card.title }}</h3>
           <p class="about__partner-desc">{{ card.description }}</p>
@@ -307,12 +337,11 @@ const partnerCards = ref<PartnerCard[]>([
 
         <div class="about__contact-method--phone">
             <div class="about__contact-icon">
-              <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-                <path d="M8.75 5.25H33.25C34.58 5.25 35.75 6.42 35.75 7.75V34.25C35.75 35.58 34.58 36.75 33.25 36.75H8.75C7.42 36.75 6.25 35.58 6.25 34.25V7.75C6.25 6.42 7.42 5.25 8.75 5.25Z" stroke="#0163FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M14 12.25H28C29.1 12.25 30 13.15 30 14.25V27.75C30 28.85 29.1 29.75 28 29.75H14C12.9 29.75 12 28.85 12 27.75V14.25C12 13.15 12.9 12.25 14 12.25Z" stroke="#0163FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M21 29.75V33.25" stroke="#0163FF" stroke-width="2" stroke-linecap="round" />
-                <path d="M14 33.25H28" stroke="#0163FF" stroke-width="2" stroke-linecap="round" />
-              </svg>
+              <img
+                src="@/assets/about-contact-phone.svg"
+                alt="电话热线"
+                class="about__contact-icon-img"
+              />
             </div>
             <div class="about__contact-detail">
               <span class="about__contact-label">电话热线</span>
@@ -322,10 +351,11 @@ const partnerCards = ref<PartnerCard[]>([
 
           <div class="about__contact-method--email">
             <div class="about__contact-icon">
-              <svg width="42" height="34" viewBox="0 0 42 34" fill="none">
-                <rect x="1" y="1" width="40" height="32" rx="3" stroke="#0163FF" stroke-width="2.5" />
-                <path d="M1 7L19.4 19.2C20.3 19.8 21.7 19.8 22.6 19.2L41 7" stroke="#0163FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+              <img
+                src="@/assets/about-contact-email.svg"
+                alt="企业邮箱"
+                class="about__contact-icon-img"
+              />
             </div>
             <div class="about__contact-detail about__contact-detail--email">
               <span class="about__contact-label">企业邮箱</span>
@@ -336,7 +366,7 @@ const partnerCards = ref<PartnerCard[]>([
         <div class="about__contact-qr">
           <div class="about__contact-qr-code">
             <img
-              src=""
+              src="@/assets/about-qr.png"
               alt="QR Code"
               class="about__contact-qr-img"
             />
@@ -357,10 +387,11 @@ const partnerCards = ref<PartnerCard[]>([
         <div class="about__join-card">
           <div class="about__join-card-header">
             <div class="about__join-card-icon">
-              <svg width="33" height="27" viewBox="0 0 33 27" fill="none">
-                <rect x="8" y="10" width="17" height="17" rx="2" stroke="white" stroke-width="2" fill="none" />
-                <rect x="4" y="2" width="25" height="17" rx="2" stroke="white" stroke-width="2" fill="none" />
-              </svg>
+              <img
+                src="@/assets/about-join-icon.svg"
+                alt="加入我们"
+                class="about__join-card-icon-img"
+              />
             </div>
             <span class="about__join-card-tag">高精尖人才</span>
           </div>
@@ -372,12 +403,11 @@ const partnerCards = ref<PartnerCard[]>([
         <div class="about__join-card">
           <div class="about__join-card-header">
             <div class="about__join-card-icon">
-              <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                <path d="M8 1H22C23.1 1 24 1.9 24 3V7H6V3C6 1.9 6.9 1 8 1Z" stroke="white" stroke-width="2" />
-                <path d="M3 7H27V25C27 26.7 26.1 28 24 28H6C3.9 28 3 26.7 3 25V7Z" stroke="white" stroke-width="2" />
-                <line x1="12" y1="14" x2="18" y2="14" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <line x1="15" y1="11" x2="15" y2="17" stroke="white" stroke-width="2" stroke-linecap="round" />
-              </svg>
+              <img
+                src="@/assets/about-join-icon2.svg"
+                alt="加入我们"
+                class="about__join-card-icon-img"
+              />
             </div>
             <span class="about__join-card-tag">市场与职能</span>
           </div>
@@ -389,10 +419,11 @@ const partnerCards = ref<PartnerCard[]>([
         <div class="about__join-card">
           <div class="about__join-card-header">
             <div class="about__join-card-icon">
-              <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                <circle cx="15" cy="10" r="6" stroke="white" stroke-width="2" />
-                <path d="M6 28C6 22.5 10 18 15 18C20 18 24 22.5 24 28" stroke="white" stroke-width="2" stroke-linecap="round" />
-              </svg>
+              <img
+                src="@/assets/about-join-icon3.svg"
+                alt="加入我们"
+                class="about__join-card-icon-img"
+              />
             </div>
             <span class="about__join-card-tag">其他</span>
           </div>
@@ -448,6 +479,19 @@ const partnerCards = ref<PartnerCard[]>([
   background: linear-gradient(180deg, rgba(187, 212, 243, 1) 0%, rgba(239, 246, 255, 1) 100%);
   overflow: hidden;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding-top: 242px;
+}
+.about__hero-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 0;
 }
 
 .about__hero-overlay {
@@ -488,17 +532,16 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__hero-content {
-  position: absolute;
-  left: 0;
-  top: 160px;
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 170px;
   z-index: 2;
+  flex-shrink: 0;
 }
 
 .about__hero-left {
-  position: absolute;
-  left: 170px;
-  top: 0;
+  flex-shrink: 0;
 }
 
 .about__hero-image {
@@ -517,14 +560,12 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__hero-right {
-  position: absolute;
-  right: 170px;
-  top: 0;
   width: 763px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 48px;
+  flex-shrink: 0;
 }
 
 .about__hero-label {
@@ -566,10 +607,11 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__hero-stats-wrap {
-  position: absolute;
-  left: 156px;
-  top: 774px;
+  margin-top: auto;
+  margin-bottom: 106px;
+  padding-left: 156px;
   z-index: 2;
+  flex-shrink: 0;
 }
 
 .about__hero-stats {
@@ -659,30 +701,31 @@ const partnerCards = ref<PartnerCard[]>([
 
 /* ========== 里程碑 Section ========== */
 .about__milestones {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 1920px;
-  height: 967px;
   margin: 0 auto;
   background: var(--color-white);
   box-sizing: border-box;
+  padding: 100px 0 120px;
 }
 
 .about__milestones .about__section-header {
-  position: absolute;
-  left: 352px;
-  top: 100px;
+  margin-bottom: 124px;
 }
 
 .about__timeline-wrapper {
-  position: absolute;
-  left: 0;
-  top: 330px;
-  width: 100%;
+  padding: 0 170px;
+}
+
+.about__timeline-area {
+  position: relative;
+  height: 537px;
 }
 
 .about__timeline-decoration {
   position: absolute;
-  left: 116px;
+  left: 0;
   top: 122px;
   display: flex;
   align-items: flex-end;
@@ -704,15 +747,15 @@ const partnerCards = ref<PartnerCard[]>([
 
 .about__timeline-line {
   position: absolute;
-  left: 170px;
-  right: 170px;
+  left: 0;
+  right: 0;
   top: 13px;
   border-top: 3px dashed var(--color-timeline-line);
 }
 
 .about__timeline-ticks {
   position: absolute;
-  left: 190px;
+  left: 20px;
   top: 0;
   display: flex;
   align-items: center;
@@ -746,12 +789,12 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__timeline-nav--prev {
-  left: 160px;
+  left: -10px;
   z-index: 2;
 }
 
 .about__timeline-nav--next {
-  right: 160px;
+  right: -10px;
   z-index: 2;
 }
 
@@ -802,7 +845,7 @@ const partnerCards = ref<PartnerCard[]>([
 
 .about__milestones-image {
   position: absolute;
-  right: 170px;
+  right: 0;
   top: 157px;
   width: 666px;
   height: 380px;
@@ -818,13 +861,11 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__milestones-content {
-  position: absolute;
-  left: 170px;
-  top: 552px;
   display: flex;
   flex-direction: column;
   gap: 13px;
   width: 690px;
+  margin: 15px 170px 0;
 }
 
 .about__milestone-item {
@@ -855,10 +896,12 @@ const partnerCards = ref<PartnerCard[]>([
 .about__culture {
   position: relative;
   width: 1920px;
-  height: 992px;
   margin: 0 auto;
   background: linear-gradient(180deg, var(--color-culture-bg-start) 0%, var(--color-culture-bg-end) 100%);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 100px 0 100px;
 }
 
 .about__culture-bg {
@@ -876,16 +919,11 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__culture .about__section-header {
-  position: absolute;
-  left: 352px;
-  top: 100px;
   z-index: 1;
+  margin-bottom: 112px;
 }
 
 .about__values {
-  position: absolute;
-  left: 170px;
-  top: 312px;
   display: flex;
   align-items: stretch;
   gap: 20px;
@@ -893,6 +931,7 @@ const partnerCards = ref<PartnerCard[]>([
   height: 580px;
   border-radius: 30px;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .about__value-card {
@@ -966,15 +1005,12 @@ const partnerCards = ref<PartnerCard[]>([
   background: var(--color-brand);
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 140px 44px 0;
   box-sizing: border-box;
   flex-shrink: 0;
 }
 
 .about__value-name-group {
-  position: absolute;
-  left: 44px;
-  top: 140px;
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -998,13 +1034,12 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__value-subtitles {
-  position: absolute;
-  left: 44px;
-  top: 357px;
   display: flex;
   flex-direction: column;
   gap: 7px;
   width: 120px;
+  margin-top: auto;
+  padding-bottom: 137px;
 }
 
 .about__value-subtitle {
@@ -1097,26 +1132,24 @@ const partnerCards = ref<PartnerCard[]>([
 .about__partners {
   position: relative;
   width: 1920px;
-  height: 1141px;
   margin: 0 auto;
   background: var(--color-partners-bg);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 100px 0 0;
 }
 
 .about__partners .about__section-header {
-  position: absolute;
-  left: 352px;
-  top: 100px;
+  margin-bottom: 136px;
 }
 
 .about__partner-cards {
-  position: absolute;
-  left: 170px;
-  top: 336px;
   display: flex;
   align-items: center;
   gap: 40px;
   width: 1580px;
+  margin: 0 auto;
 }
 
 .about__partner-card {
@@ -1126,6 +1159,10 @@ const partnerCards = ref<PartnerCard[]>([
   border-radius: 30px;
   overflow: hidden;
   background: linear-gradient(180deg, #EEF2FF 0%, #FFFFFF 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 170px 30px 74px;
+  box-sizing: border-box;
 }
 
 .about__partner-card-bg {
@@ -1149,61 +1186,80 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__partner-icon {
-  position: absolute;
-  left: 30px;
-  top: 170px;
   z-index: 1;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+.about__partner-icon-bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.about__partner-icon-bg-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+.about__partner-icon-img {
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .about__partner-title {
-  position: absolute;
-  left: 30px;
-  top: 274px;
   z-index: 1;
   font-family: var(--font-heading);
   font-weight: 900;
   font-size: 24px;
   line-height: 32px;
   color: var(--color-text-partner-title);
-  margin: 0;
+  margin: 24px 0 0;
   width: 420px;
 }
 
 .about__partner-desc {
-  position: absolute;
-  left: 30px;
-  top: 322px;
   z-index: 1;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 16px;
   line-height: 26px;
   color: var(--color-text-partner-desc);
-  margin: 0;
+  margin: 16px 0 0;
   width: 420px;
   white-space: pre-line;
 }
 
 /* ========== 联系我们底部栏 ========== */
 .about__contact-bar {
-  position: absolute;
-  left: 0;
-  top: 841px;
   width: 1920px;
   height: 300px;
   background: var(--color-contact-bar-bg);
   border-radius: 36px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 170px;
+  gap: 0;
+  margin-top: 81px;
 }
 
 .about__contact-info {
-  position: absolute;
-  left: 170px;
-  top: 67px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 20px;
+  flex-shrink: 0;
 }
 
 .about__contact-heading {
@@ -1224,21 +1280,19 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__contact-method--phone {
-  position: absolute;
-  left: 612px;
-  top: 104px;
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-left: 200px;
+  flex-shrink: 0;
 }
 
 .about__contact-method--email {
-  position: absolute;
-  left: 922px;
-  top: 104px;
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-left: 52px;
+  flex-shrink: 0;
 }
 
 .about__contact-icon {
@@ -1279,9 +1333,6 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__contact-qr {
-  position: absolute;
-  left: 1556px;
-  top: 38px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1291,6 +1342,7 @@ const partnerCards = ref<PartnerCard[]>([
   border-radius: 16px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  margin-left: auto;
 }
 
 .about__contact-qr-code {
@@ -1349,7 +1401,9 @@ const partnerCards = ref<PartnerCard[]>([
 .about__join-card {
   flex: 1;
   height: 356px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 41px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
@@ -1359,9 +1413,6 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__join-card-header {
-  position: absolute;
-  left: 41px;
-  top: 41px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1386,35 +1437,26 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__join-card-title {
-  position: absolute;
-  left: 41px;
-  top: 105px;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 24px;
   line-height: 32px;
   color: var(--color-white);
-  margin: 0;
+  margin: 23px 0 0;
   width: 418px;
 }
 
 .about__join-card-desc {
-  position: absolute;
-  left: 41px;
-  top: 153px;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 16px;
   line-height: 26px;
   color: rgba(255, 255, 255, 0.7);
-  margin: 0;
+  margin: 16px 0 0;
   width: 418px;
 }
 
 .about__join-card-btn {
-  position: absolute;
-  left: 41px;
-  top: 263px;
   padding: 12px 24px;
   border-radius: 4px;
   font-family: var(--font-body);
@@ -1428,6 +1470,8 @@ const partnerCards = ref<PartnerCard[]>([
   transition: all 0.2s;
   box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   white-space: nowrap;
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .about__join-card-btn:hover {
@@ -1461,20 +1505,14 @@ const partnerCards = ref<PartnerCard[]>([
   }
 
   .about__hero-content {
-    position: relative;
-    left: auto;
-    top: auto;
     flex-direction: column;
     align-items: center;
     gap: 40px;
+    padding: 0;
   }
 
   .about__hero-left,
   .about__hero-right {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
     width: auto;
   }
 
@@ -1498,10 +1536,8 @@ const partnerCards = ref<PartnerCard[]>([
   }
 
   .about__hero-stats-wrap {
-    position: relative;
-    left: auto;
-    top: auto;
-    margin-top: 40px;
+    margin: 40px 0 0;
+    padding-left: 0;
   }
 
   .about__hero-stats {
@@ -1525,42 +1561,36 @@ const partnerCards = ref<PartnerCard[]>([
   }
 
   .about__milestones {
-    height: auto;
-    padding: 60px 40px;
+    padding: 60px 0;
   }
 
-  .about__milestones .about__section-header,
-  .about__culture .about__section-header,
-  .about__partners .about__section-header {
-    position: relative;
-    left: auto;
-    top: auto;
+  .about__milestones .about__section-header {
+    margin-bottom: 40px;
   }
 
   .about__timeline-wrapper {
-    position: relative;
-    left: auto;
-    top: auto;
-    margin-top: 40px;
+    padding: 0 40px;
+  }
+
+  .about__timeline-area {
+    height: auto;
+    min-height: 400px;
   }
 
   .about__milestones-content {
-    position: relative;
-    left: auto;
-    top: auto;
-    margin-top: 40px;
     width: 100%;
+    margin: 40px 40px 0;
   }
 
   .about__milestones-image {
-    position: relative;
-    right: auto;
-    top: auto;
     width: 100%;
     max-width: 666px;
     height: auto;
     aspect-ratio: 666 / 380;
     margin: 20px auto 0;
+    position: relative;
+    top: auto;
+    right: auto;
   }
 
   .about__timeline-decoration {
@@ -1572,11 +1602,11 @@ const partnerCards = ref<PartnerCard[]>([
   }
 
   .about__timeline-nav--prev {
-    left: 0;
+    left: -20px;
   }
 
   .about__timeline-nav--next {
-    right: 0;
+    right: -20px;
   }
 
   .about__timeline-years {
@@ -1584,27 +1614,28 @@ const partnerCards = ref<PartnerCard[]>([
   }
 
   .about__timeline-ticks {
-    left: 20px;
+    left: 0;
     gap: 30px;
   }
 
   .about__timeline-line {
-    left: 40px;
-    right: 40px;
+    left: 0;
+    right: 0;
   }
 
   .about__culture {
-    height: auto;
-    padding: 60px 40px;
+    padding: 60px 0;
+  }
+
+  .about__culture .about__section-header {
+    margin-bottom: 40px;
   }
 
   .about__values {
-    position: relative;
-    left: auto;
-    top: auto;
     width: 100%;
     flex-wrap: wrap;
-    margin-top: 40px;
+    height: auto;
+    min-height: 580px;
   }
 
   .about__value-card--active {
@@ -1618,67 +1649,54 @@ const partnerCards = ref<PartnerCard[]>([
   }
 
   .about__partners {
-    height: auto;
-    padding: 60px 40px;
+    padding: 60px 0;
+  }
+
+  .about__partners .about__section-header {
+    margin-bottom: 40px;
   }
 
   .about__partner-cards {
-    position: relative;
-    left: auto;
-    top: auto;
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 40px;
+    padding: 0 40px;
   }
 
   .about__contact-bar {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: calc(100% + 80px);
-    margin-left: -40px;
-    margin-right: -40px;
+    width: 100%;
     height: auto;
     padding: 40px;
     border-radius: 36px 36px 0 0;
     margin-top: 40px;
+    flex-wrap: wrap;
   }
 
   .about__contact-info,
   .about__contact-method--phone,
   .about__contact-method--email,
   .about__contact-qr {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-  }
-
-  .about__contact-method--phone,
-  .about__contact-method--email {
-    margin-top: 30px;
+    position: static;
+    margin: 10px 0;
   }
 
   .about__contact-qr {
-    margin-top: 30px;
-  }
-
-  .about__value-left {
-    position: relative;
-  }
-
-  .about__value-name-group,
-  .about__value-subtitles {
-    position: relative;
-    left: auto;
-    top: auto;
-    padding: 30px;
+    margin-left: auto;
   }
 
   .about__value-left {
     height: auto;
-    padding-bottom: 30px;
+    padding: 30px;
+  }
+
+  .about__value-name-group,
+  .about__value-subtitles {
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .about__value-subtitles {
+    padding-bottom: 20px;
   }
 
   .about__section-header,
@@ -1706,33 +1724,22 @@ const partnerCards = ref<PartnerCard[]>([
   }
 
   .about__join-card-header {
-    position: relative;
-    left: auto;
-    top: auto;
     width: 100%;
     margin-bottom: 24px;
   }
 
   .about__join-card-title {
-    position: relative;
-    left: auto;
-    top: auto;
     width: 100%;
     margin-bottom: 16px;
   }
 
   .about__join-card-desc {
-    position: relative;
-    left: auto;
-    top: auto;
     width: 100%;
     margin-bottom: 20px;
   }
 
   .about__join-card-btn {
-    position: relative;
-    left: auto;
-    top: auto;
+    margin-top: auto;
   }
 }
 
@@ -1799,7 +1806,12 @@ const partnerCards = ref<PartnerCard[]>([
 
   .about__value-name-group,
   .about__value-subtitles {
-    padding: 20px;
+    padding: 0;
+  }
+
+  .about__value-subtitles {
+    padding-bottom: 0;
+    margin-top: 20px;
   }
 
   .about__contact-bar {

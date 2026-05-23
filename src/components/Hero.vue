@@ -119,7 +119,7 @@ onBeforeUnmount(stopAutoplay)
                   </p>
                   <div :key="isActive === index ? slideKey + '-b-' + index : 'static-b-' + index" class="fade-in-500">
                     <button
-                      class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[188px] h-[54px] rounded-[40px] transition-colors"
+                      class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[188px] h-[54px] rounded-[40px] transition-colors cursor-pointer"
                       @click="handleClick(item.link)">
                       了解更多
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">

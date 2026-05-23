@@ -114,7 +114,9 @@ const goToArticle = (id: number) => {
   <div class="news-detail">
     <div class="news-detail__banner">
       <div class="news-detail__banner-gradient" />
-      <div class="news-detail__banner-bg" />
+      <div class="news-detail__banner-bg">
+        <img src="@/assets/news-hero.png" alt="banner" class="news-detail__banner-img" />
+      </div>
       <div class="news-detail__breadcrumb">
         <span class="news-detail__breadcrumb-link" @click="goToNews">资讯</span>
         <span>/</span>
@@ -201,9 +203,13 @@ const goToArticle = (id: number) => {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(239, 246, 255, 0.8) 0%, rgba(187, 212, 243, 0.4) 100%);
 }
-
+.news-detail__banner-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
 /* ========== Breadcrumb ========== */
 .news-detail__breadcrumb {
   position: absolute;

@@ -4,7 +4,6 @@ import news1 from '@/assets/news-1.png'
 import news2 from '@/assets/news-2.png'
 import news3 from '@/assets/news-3.png'
 import news4 from '@/assets/news-4.png'
-import banner1 from '@/assets/banner-1.png'
 
 const router = useRouter()
 
@@ -14,9 +13,14 @@ interface NewsItem {
   date: string
   category: string
   image: string
+  [key: string]: unknown
 }
 
-const corporateNews: NewsItem[] = [
+interface News {
+  key: string
+  value: NewsItem[]
+}
+const corporateNewsCategories: NewsItem[] = [
   {
     id: 1,
     title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
@@ -106,6 +110,38 @@ const healthNews: NewsItem[] = [
   },
 ]
 
+
+const clinicAppNews: NewsItem[] = [
+  {
+    id: 13,
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    date: '2026.03.14',
+    category: '临床应用',
+    image: news3,
+  },
+  {
+    id: 14,
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    date: '2026.03.14',
+    category: '临床应用',
+    image: news3,
+  },
+]
+const news: News[] = [
+  {
+    key: '企业动态',
+    value: corporateNewsCategories,
+  },
+  {
+    key: '疾病科普',
+    value: healthNews,
+  },
+  {
+    key: '临床应用',
+    value: clinicAppNews,
+  },
+]
+
 const goToNewsDetail = (id: number) => {
   router.push(`/news/${id}`)
 }
@@ -120,24 +156,24 @@ const goToNewsList = () => {
     <div class="news-page__banner">
       <div class="news-page__banner-gradient" />
       <div class="news-page__banner-bg">
-        <img :src="banner1" alt="banner" class="news-page__banner-img" />
+        <img src="@/assets/news-hero.png" alt="banner" class="news-page__banner-img" />
       </div>
       <div class="news-page__breadcrumb">
         <span class="news-page__breadcrumb-link" @click="goToNewsList">资讯</span>
         <span>/</span>
-        <span class="news-page__breadcrumb-current">文章详情</span>
+        <span class="news-page__breadcrumb-current">文章合集</span>
       </div>
     </div>
 
-    <div class="news-page__section">
+    <div class="news-page__section" v-for="newsItem in news" :key="newsItem.key">
       <div class="news-page__heading">
         <div class="news-page__heading-bar" />
-        <h2 class="news-page__heading-text">企业动态</h2>
+        <h2 class="news-page__heading-text">{{ newsItem.key }}</h2>
       </div>
 
       <div class="news-page__grid">
         <div
-          v-for="item in corporateNews"
+          v-for="item in newsItem.value"
           :key="item.id"
           class="news-page__card"
           @click="goToNewsDetail(item.id)"
@@ -150,50 +186,12 @@ const goToNewsList = () => {
               <span class="news-page__card-tag">{{ item.category }}</span>
               <span class="news-page__card-date">{{ item.date }}</span>
             </div>
-            <div class="news-page__card-decor" />
             <h3 class="news-page__card-title">{{ item.title }}</h3>
           </div>
         </div>
       </div>
 
-      <div class="news-page__load-more-wrap">
-        <button class="news-page__load-more">
-          <span>加载更多</span>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="news-page__section">
-      <div class="news-page__heading">
-        <div class="news-page__heading-bar" />
-        <h2 class="news-page__heading-text">疾病知识与科普教育</h2>
-      </div>
-
-      <div class="news-page__grid">
-        <div
-          v-for="item in healthNews"
-          :key="item.id"
-          class="news-page__card"
-          @click="goToNewsDetail(item.id)"
-        >
-          <div class="news-page__card-image">
-            <img :src="item.image" :alt="item.title" class="news-page__card-img" />
-          </div>
-          <div class="news-page__card-body">
-            <div class="news-page__card-meta">
-              <span class="news-page__card-tag">{{ item.category }}</span>
-              <span class="news-page__card-date">{{ item.date }}</span>
-            </div>
-            <div class="news-page__card-decor" />
-            <h3 class="news-page__card-title">{{ item.title }}</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="news-page__load-more-wrap">
+      <div v-if="newsItem.value.length > 6" class="news-page__load-more-wrap">
         <button class="news-page__load-more">
           <span>加载更多</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -222,6 +220,7 @@ const goToNewsList = () => {
   --card-radius: 30px;
 
   background: var(--color-white);
+  margin-bottom: 100px;
 }
 
 /* ========== Banner ========== */
@@ -287,7 +286,7 @@ const goToNewsList = () => {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 80px;
 }
 .news-page__heading-bar {
   width: 5px;
@@ -347,7 +346,7 @@ const goToNewsList = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
 }
 
 .news-page__card-tag {
@@ -363,6 +362,7 @@ const goToNewsList = () => {
   font-size: 16px;
   line-height: 24px;
   color: var(--color-brand);
+  margin-left: 1px;
 }
 
 .news-page__card-date {
@@ -398,7 +398,7 @@ const goToNewsList = () => {
 .news-page__load-more-wrap {
   display: flex;
   justify-content: center;
-  margin-top: 64px;
+  margin-top: 52px;
 }
 .news-page__load-more {
   display: flex;
