@@ -17,6 +17,8 @@
   },
   "devDependencies": {
     "@fontpkg/alibaba-pu-hui-ti-3-0": "^3.1.2",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/manrope": "^5.2.8",
     "@sarap422/font-d-din": "^1.0.6",
     "@types/node": "^25.7.0",
     "@vitejs/plugin-vue": "^5.2.3",

@@ -1,10 +1,22 @@
 @import "tailwindcss";
 
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+
 @theme {
   --color-primary: #0163FF;
   --font-pingfang: 'PingFang SC', 'Microsoft YaHei', system-ui, '-apple-system', sans-serif;
   --font-alibabapuhuiti: 'Alibaba PuHuiTi 3.0';
   --font-dinblack: 'DIN Black';
+  --font-dincond-bold: 'DIN Condensed Bold';
+  --font-inter: 'Inter', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
   --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, '-apple-system', sans-serif;
 }
 
@@ -44,6 +56,13 @@
   font-family: 'DIN Black';
   src: url('/fonts/D-DIN-PRO-900-Heavy.woff2') format('woff2');
   font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN Condensed Bold';
+  src: url('/fonts/D-DIN-Condensed-Bold.woff2') format('woff2');
+  font-weight: 500;
   font-display: swap;
 }
 

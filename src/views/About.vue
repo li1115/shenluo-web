@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import investment from '@/assets/investment.png'
 import promotion from '@/assets/promotion.png'
 import channel from '@/assets/channel.png'
@@ -10,7 +10,12 @@ import efficient from '@/assets/efficient.png'
 import channelIcon from '@/assets/channel.svg'
 import promotionIcon from '@/assets/promotion.svg'
 import investmentIcon from '@/assets/investment.svg'
-import cardIconBg  from '@/assets/about-icon-bg.svg'
+import cardIconBg from '@/assets/about-icon-bg.svg'
+import responsibleIcon from '@/assets/responsible.svg'
+import highQualityIcon from '@/assets/high-quality.svg'
+import missionIcon from '@/assets/mission.svg'
+import efficientIcon from '@/assets/efficient.svg'
+import { R } from 'vue-router/dist/router-CWoNjPRp.mjs'
 interface Milestone {
   id: number
   month: string
@@ -24,6 +29,7 @@ interface ValueItem {
   img: string
   subtitles: string[]
   bgColor: string
+  icon: string
 }
 
 interface PartnerCard {
@@ -36,27 +42,74 @@ interface PartnerCard {
 
 interface StatItem {
   id: number
-  number: string
+  value: number
+  suffix: string
   label: string
+  animated: { value: number }
 }
 
-const stats = ref<StatItem[]>([
-  { id: 1, number: '2000+', label: '㎡ GMP标准厂房' },
-  { id: 2, number: '100+', label: '专利技术' },
-  { id: 3, number: '8亿+', label: '研发投资' },
-  { id: 4, number: '8+', label: '核心研发积淀(年)' },
-])
+const stats: StatItem[] = [
+  { id: 1, value: 2000, suffix: '+', label: '㎡ GMP标准厂房', animated: ref(0) },
+  { id: 2, value: 100, suffix: '+', label: '专利技术', animated: ref(0) },
+  { id: 3, value: 8, suffix: '亿+', label: '研发投资', animated: ref(0) },
+  { id: 4, value: 8, suffix: '+', label: '核心研发积淀(年)', animated: ref(0) },
+]
 
 const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020']
 const activeYear = ref('2026')
+const tickCount = 23
 
-const milestones = ref<Milestone[]>([
-  { id: 1, month: '2月', content: '被认定为创新型中小企业、国家级科技型中小企业、国家高新技术企业被认定为创新型中小企业、国家级科技型中小企业、国家高新技术企业' },
-  { id: 2, month: '4月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
-  { id: 3, month: '6月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
-  { id: 4, month: '8月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
-  { id: 5, month: '12月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
-])
+const nextYear = () => {
+  if (years.indexOf(activeYear.value) >= years.length - 1) {
+    return
+  }
+  activeYear.value = years[years.indexOf(activeYear.value) + 1]
+}
+
+const prevYear = () => {
+  if (years.indexOf(activeYear.value) <= 0) {
+    return
+  }
+  activeYear.value = years[years.indexOf(activeYear.value) - 1]
+}
+
+const milestonesByYear: Record<string, Milestone[]> = {
+  '2026': [
+    { id: 1, month: '2月', content: '被认定为创新型中小企业、国家级科技型中小企业、国家高新技术企业被认定为创新型中小企业、国家级科技型中小企业、国家高新技术企业' },
+    { id: 2, month: '4月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
+    { id: 3, month: '6月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
+    { id: 4, month: '8月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
+    { id: 5, month: '12月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
+  ],
+  '2025': [
+    { id: 1, month: '3月', content: '完成C轮融资，融资金额数亿元' },
+    { id: 2, month: '6月', content: '获得医疗器械注册证' },
+    { id: 3, month: '9月', content: '产品进入临床试验阶段' },
+  ],
+  '2024': [
+    { id: 1, month: '1月', content: '获得B轮融资' },
+    { id: 2, month: '5月', content: '研发中心扩建' },
+    { id: 3, month: '10月', content: '专利申请突破50项' },
+  ],
+  '2023': [
+    { id: 1, month: '4月', content: '获得A轮融资' },
+    { id: 2, month: '8月', content: 'GMP厂房投入使用' },
+  ],
+  '2022': [
+    { id: 1, month: '3月', content: '研发团队组建完成' },
+    { id: 2, month: '7月', content: '首个产品原型开发完成' },
+    { id: 3, month: '11月', content: '天使轮融资' },
+  ],
+  '2021': [
+    { id: 1, month: '6月', content: '公司注册成立' },
+    { id: 2, month: '9月', content: '核心团队组建' },
+  ],
+  '2020': [
+    { id: 1, month: '8月', content: '项目立项启动' },
+  ],
+}
+
+const currentMilestones = computed(() => milestonesByYear[activeYear.value] || [])
 
 const values = ref<ValueItem[]>([
   {
@@ -64,6 +117,7 @@ const values = ref<ValueItem[]>([
     name: '使命',
     nameEn: 'Mission',
     img: mission,
+    icon: missionIcon,
     subtitles: ['急患者之所急', '想患者之所想'],
     bgColor: '#F6F6F6',
   },
@@ -71,7 +125,8 @@ const values = ref<ValueItem[]>([
     id: 2,
     name: '担当',
     nameEn: 'Responsible',
-    img: responsible, 
+    img: responsible,
+    icon: responsibleIcon,
     subtitles: ['侠之大者', '结伴前行'],
     bgColor: '#F6F6F6',
   },
@@ -79,7 +134,8 @@ const values = ref<ValueItem[]>([
     id: 3,
     name: '高质',
     nameEn: 'High Quality',
-    img: highQuality, 
+    img: highQuality,
+    icon: highQualityIcon,
     subtitles: ['攀技术之巅', '登品质之峰'],
     bgColor: '#EDEDED',
   },
@@ -87,7 +143,8 @@ const values = ref<ValueItem[]>([
     id: 4,
     name: '高效',
     nameEn: 'Efficient',
-    img: efficient, 
+    img: efficient,
+    icon: efficientIcon,
     subtitles: ['雷厉风行', '事半功倍'],
     bgColor: '#F6F6F6',
   },
@@ -118,17 +175,52 @@ const partnerCards = ref<PartnerCard[]>([
     description: '如果您认同国产创新医疗、并愿意长期为\n神经调控领域战略投资',
   },
 ])
+
+const animateValue = (stat: { value: number; animated: { value: number } }, duration: number) => {
+  const startTime = performance.now()
+  const animate = (currentTime: number) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+    stat.animated.value = Math.floor(stat.value * easeOutQuart)
+    if (progress < 1) {
+      requestAnimationFrame(animate)
+    }
+  }
+  requestAnimationFrame(animate)
+}
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        stats.forEach((stat, index) => {
+          setTimeout(() => {
+            animateValue(stat, 2000)
+          }, index * 200)
+        })
+        observer.disconnect()
+      }
+    })
+  })
+  const el = document.querySelector('.about__hero-stats-wrap')
+  if (el) observer.observe(el)
+})
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const handleClick = (key: string) => {
+  router.push({ path: '/careers', query: { job: key } })
+}
 </script>
 
 <template>
   <div class="about">
     <!-- Hero Banner -->
     <section class="about__hero">
-      <img
-        src="@/assets/about-hero-bg.png"
-        alt="关于神络"
-        class="about__hero-bg"
-      />
+      <img src="@/assets/about-hero-bg.png" alt="关于神络" class="about__hero-bg" />
       <div class="about__hero-overlay"></div>
       <div class="about__hero-deco-blur about__hero-deco-blur--blue"></div>
       <div class="about__hero-deco-blur about__hero-deco-blur--white"></div>
@@ -136,11 +228,7 @@ const partnerCards = ref<PartnerCard[]>([
       <div class="about__hero-content">
         <div class="about__hero-left">
           <div class="about__hero-image">
-            <img
-              src="@/assets/about-hero.png"
-              alt="关于神络"
-              class="about__hero-img"
-            />
+            <img src="@/assets/about-hero.png" alt="关于神络" class="about__hero-img" />
           </div>
         </div>
 
@@ -148,19 +236,17 @@ const partnerCards = ref<PartnerCard[]>([
           <h1 class="about__hero-label">关于神络</h1>
           <div class="about__hero-text-group">
             <p class="about__hero-slogan">打破技术垄断，领航全球</p>
-            <p class="about__hero-desc">杭州神络医疗科技有限公司成立于2018年，坐落于杭州市余杭区人工智能小镇，是一家专注于神经调控产品研发与生产的高科技企业。拥有近两千平方米的十万级GMP厂房和万级生化实验室，致力于打造国际领先的神经调控产品。自主研发的产品涵盖植入式脊髓神经刺激器（SCS）、外周神经刺激器（PNS）、超小型脊髓神经刺激器（M-SCS）、胫神经刺激（TNS）以及呼吸暂停刺激器等，为患者带来显著的生活质量改善。全球唯一一家同时掌握可充电植入式脉冲发生器IPG、短期半植入、无线携能三大神经调控技术平台的企业，神络医疗持续为医生和患者提供更先进、有效的治疗手段。截至目前，公司已完成C轮融资，融资金额数亿元...</p>
+            <p class="about__hero-desc">
+              杭州神络医疗科技有限公司成立于2018年，坐落于杭州市余杭区人工智能小镇，是一家专注于神经调控产品研发与生产的高科技企业。拥有近两千平方米的十万级GMP厂房和万级生化实验室，致力于打造国际领先的神经调控产品。自主研发的产品涵盖植入式脊髓神经刺激器（SCS）、外周神经刺激器（PNS）、超小型脊髓神经刺激器（M-SCS）、胫神经刺激（TNS）以及呼吸暂停刺激器等，为患者带来显著的生活质量改善。全球唯一一家同时掌握可充电植入式脉冲发生器IPG、短期半植入、无线携能三大神经调控技术平台的企业，神络医疗持续为医生和患者提供更先进、有效的治疗手段。截至目前，公司已完成C轮融资，融资金额数亿元...
+            </p>
           </div>
         </div>
       </div>
 
       <div class="about__hero-stats-wrap">
         <div class="about__hero-stats">
-          <div
-            v-for="stat in stats"
-            :key="stat.id"
-            class="about__hero-stat"
-          >
-            <span class="about__hero-stat-number">{{ stat.number }}</span>
+          <div v-for="stat in stats" :key="stat.id" class="about__hero-stat">
+            <span class="about__hero-stat-number">{{ stat.animated.value }}{{ stat.suffix }}</span>
             <span class="about__hero-stat-label">{{ stat.label }}</span>
           </div>
         </div>
@@ -176,70 +262,54 @@ const partnerCards = ref<PartnerCard[]>([
 
       <div class="about__timeline-wrapper">
         <div class="about__timeline-area">
-        <div class="about__timeline-decoration">
-          <span class="about__timeline-big-year">{{ activeYear }}</span>
-          <svg class="about__timeline-texture" width="39" height="8" viewBox="0 0 39 8" fill="none">
-            <circle cx="2" cy="4" r="1" fill="#B9D7FF" />
-            <line x1="7" y1="4" x2="23" y2="4" stroke="#B9D7FF" stroke-width="0.5" />
-            <line x1="25" y1="4" x2="31" y2="4" stroke="#B9D7FF" stroke-width="0.5" />
-            <circle cx="35" cy="4" r="1.5" fill="#B9D7FF" />
-          </svg>
-        </div>
-
-        <div class="about__timeline-line"></div>
-
-        <div class="about__timeline-ticks">
-          <span
-            v-for="(_tick, i) in years"
-            :key="'tick-' + i"
-            class="about__timeline-tick"
-          ></span>
-        </div>
-
-        <button class="about__timeline-nav about__timeline-nav--prev" aria-label="上一个年份">
-          <svg width="6" height="12" viewBox="0 0 6 12" fill="none">
-            <path d="M5 1L1 6L5 11" stroke="#0163FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
-
-        <div class="about__timeline-years">
-          <button
-            v-for="year in years"
-            :key="year"
-            :class="['about__timeline-year', { 'about__timeline-year--active': activeYear === year }]"
-            @click="activeYear = year"
-          >
-            <span class="about__timeline-dot"></span>
-            <span class="about__timeline-year-text">{{ year }}</span>
+          <button class="about__timeline-nav about__timeline-nav--prev" aria-label="上一个年份" @click="prevYear">
+            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+              <path opacity="0.99"
+                d="M6.91699 1L1.05841 6.85858C0.980308 6.93668 0.980309 7.06332 1.05841 7.14142L6.91699 13"
+                stroke="white" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+          <div class="about__timeline-line-area">
+            <div class="about__timeline-line-area-line">
+              <div class="about__timeline-ticks">
+                <span v-for="i in tickCount" :key="'tick-' + i" class="about__timeline-tick"></span>
+              </div>
+              <div class="about__timeline-line"></div>
+            </div>
+            <div class="about__timeline-years">
+              <button v-for="year in years" :key="year"
+                :class="['about__timeline-year', { 'about__timeline-year--active': activeYear === year }]"
+                @click="activeYear = year">
+                <span class="about__timeline-dot"></span>
+                <span class="about__timeline-year-text">{{ year }}</span>
+              </button>
+            </div>
+          </div>
+          <button class="about__timeline-nav about__timeline-nav--next" aria-label="下一个年份" @click="nextYear">
+            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+              <path opacity="0.99" d="M1 1L6.85858 6.85858C6.93668 6.93668 6.93668 7.06332 6.85858 7.14142L1 13"
+                stroke="white" stroke-width="2" stroke-linecap="round" />
+            </svg>
           </button>
         </div>
-
-        <button class="about__timeline-nav about__timeline-nav--next" aria-label="下一个年份">
-          <svg width="6" height="12" viewBox="0 0 6 12" fill="none">
-            <path d="M1 1L5 6L1 11" stroke="#0163FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
-
-        <div class="about__milestones-image">
-          <img
-            src="@/assets/timeline-right.png"
-            alt="神络里程碑"
-            class="about__milestones-img"
-          />
-        </div>
-        </div>
       </div>
-
       <div class="about__milestones-content">
-        <div
-          v-for="milestone in milestones"
-          :key="milestone.id"
-          class="about__milestone-item"
-        >
-          <span class="about__milestone-number">{{ String(milestone.id).padStart(2, '0') }}</span>
-          <span class="about__milestone-text">{{ milestone.month }}：{{ milestone.content }}</span>
+        <div class="about__milestones-content-left">
+
+          <div class="about__timeline-decoration">
+            <span class="about__timeline-big-year">{{ activeYear }}</span>
+            <span class="about__timeline-decoration-line"></span>
+          </div>
+          <div v-for="milestone in currentMilestones" :key="milestone.id" class="about__milestone-item">
+            <span class="about__milestone-number">{{ String(milestone.id).padStart(2, '0') }}</span>
+            <span class="about__milestone-text">{{ milestone.month }}：{{ milestone.content }}</span>
+          </div>
+        </div>
+        <div class="about__milestones-image">
+          <img src="@/assets/timeline-right.png" alt="神络里程碑" class="about__milestones-img" />
         </div>
       </div>
+
     </section>
 
     <!-- 企业文化 -->
@@ -253,18 +323,12 @@ const partnerCards = ref<PartnerCard[]>([
       </div>
 
       <div class="about__values">
-        <div
-          v-for="value in values"
-          :key="value.id"
+        <div v-for="value in values" :key="value.id"
           :class="['about__value-card', { 'about__value-card--active': activeValue === value.id, 'about__value-card--inactive': activeValue !== value.id }]"
-          @click="activeValue = value.id"
-        >
+          @click="activeValue = value.id">
           <div class="about__value-collapsed">
             <div class="about__value-icon">
-              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                <rect x="4.76" width="70.48" height="80" rx="8" fill="#CCCCCC" fill-opacity="0.2" />
-                <rect x="20" y="22" width="39" height="26.78" rx="4" fill="#CCCCCC" fill-opacity="0.3" />
-              </svg>
+              <img :src="value.icon" alt="企业文化" class="about__value-icon-img" />
             </div>
             <div class="about__value-small-content">
               <div class="about__value-small-top">
@@ -287,11 +351,7 @@ const partnerCards = ref<PartnerCard[]>([
               </div>
             </div>
             <div class="about__value-image">
-              <img
-                :src="value.img"
-                :alt="value.name"
-                class="about__value-img"
-              />
+              <img :src="value.img" :alt="value.name" class="about__value-img" />
             </div>
           </div>
         </div>
@@ -302,15 +362,12 @@ const partnerCards = ref<PartnerCard[]>([
     <section class="about__partners">
       <div class="about__section-header">
         <h2 class="about__section-heading">诚邀携手，共创未来</h2>
-        <p class="about__section-subtitle about__section-subtitle--narrow">我们正在积极寻找与神络医疗价值观契合、优势互补的渠道、推广和战略投资伙伴，共同定义神经调控新未</p>
+        <p class="about__section-subtitle about__section-subtitle--narrow">
+          我们正在积极寻找与神络医疗价值观契合、优势互补的渠道、推广和战略投资伙伴，共同定义神经调控新未</p>
       </div>
 
       <div class="about__partner-cards">
-        <div
-          v-for="card in partnerCards"
-          :key="card.id"
-          class="about__partner-card"
-        >
+        <div v-for="card in partnerCards" :key="card.id" class="about__partner-card">
           <img :src="card.img" alt="合作" class="about__partner-card-bg" />
           <div class="about__partner-blur"></div>
           <div class="about__partner-icon">
@@ -336,40 +393,28 @@ const partnerCards = ref<PartnerCard[]>([
         </div>
 
         <div class="about__contact-method--phone">
-            <div class="about__contact-icon">
-              <img
-                src="@/assets/about-contact-phone.svg"
-                alt="电话热线"
-                class="about__contact-icon-img"
-              />
-            </div>
-            <div class="about__contact-detail">
-              <span class="about__contact-label">电话热线</span>
-              <span class="about__contact-value">400-808-5561</span>
-            </div>
+          <div class="about__contact-icon">
+            <img src="@/assets/about-contact-phone.svg" alt="电话热线" class="about__contact-icon-img" />
           </div>
+          <div class="about__contact-detail">
+            <span class="about__contact-label">电话热线</span>
+            <span class="about__contact-value">400-808-5561</span>
+          </div>
+        </div>
 
-          <div class="about__contact-method--email">
-            <div class="about__contact-icon">
-              <img
-                src="@/assets/about-contact-email.svg"
-                alt="企业邮箱"
-                class="about__contact-icon-img"
-              />
-            </div>
-            <div class="about__contact-detail about__contact-detail--email">
-              <span class="about__contact-label">企业邮箱</span>
-              <span class="about__contact-value">support@seeneuro.com</span>
-            </div>
+        <div class="about__contact-method--email">
+          <div class="about__contact-icon">
+            <img src="@/assets/about-contact-email.svg" alt="企业邮箱" class="about__contact-icon-img" />
           </div>
+          <div class="about__contact-detail about__contact-detail--email">
+            <span class="about__contact-label">企业邮箱</span>
+            <span class="about__contact-value">support@seeneuro.com</span>
+          </div>
+        </div>
 
         <div class="about__contact-qr">
           <div class="about__contact-qr-code">
-            <img
-              src="@/assets/about-qr.png"
-              alt="QR Code"
-              class="about__contact-qr-img"
-            />
+            <img src="@/assets/about-qr.png" alt="QR Code" class="about__contact-qr-img" />
           </div>
           <span class="about__contact-qr-label">扫描添加销售总监微信</span>
         </div>
@@ -387,49 +432,39 @@ const partnerCards = ref<PartnerCard[]>([
         <div class="about__join-card">
           <div class="about__join-card-header">
             <div class="about__join-card-icon">
-              <img
-                src="@/assets/about-join-icon.svg"
-                alt="加入我们"
-                class="about__join-card-icon-img"
-              />
+              <img src="@/assets/about-join-icon.svg" alt="加入我们" class="about__join-card-icon-img" />
             </div>
             <span class="about__join-card-tag">高精尖人才</span>
           </div>
           <h3 class="about__join-card-title">博士后工作站</h3>
           <p class="about__join-card-desc">神络医疗设立博士后工作站，旨在吸引全球顶尖神经科学、微电子及材料学专家。提供行业领先的研发资源与实验环境，推动前沿技术的临床转化。</p>
-          <button class="about__join-card-btn">立即申请</button>
+          <button class="about__join-card-btn" @click="handleClick('doctor')">立即申请</button>
         </div>
 
         <div class="about__join-card">
           <div class="about__join-card-header">
             <div class="about__join-card-icon">
-              <img
-                src="@/assets/about-join-icon2.svg"
-                alt="加入我们"
-                class="about__join-card-icon-img"
-              />
+              <img src="@/assets/about-join-icon2.svg" alt="加入我们" class="about__join-card-icon-img" />
             </div>
             <span class="about__join-card-tag">市场与职能</span>
           </div>
           <h3 class="about__join-card-title">销售及职能部门职位</h3>
           <p class="about__join-card-desc">我们寻找具备高度专业素养、敏锐市场触觉及强烈使命感的伙伴。无论您是经验丰富的行业精英，还是充满活力的职场新秀，神络医疗都为您提供广阔的成长舞台。</p>
-          <button class="about__join-card-btn about__join-card-btn--outline">查看职位</button>
+          <button class="about__join-card-btn about__join-card-btn--outline"
+            @click="handleClick('sales')">立即申请</button>
         </div>
 
         <div class="about__join-card">
           <div class="about__join-card-header">
             <div class="about__join-card-icon">
-              <img
-                src="@/assets/about-join-icon3.svg"
-                alt="加入我们"
-                class="about__join-card-icon-img"
-              />
+              <img src="@/assets/about-join-icon3.svg" alt="加入我们" class="about__join-card-icon-img" />
             </div>
             <span class="about__join-card-tag">其他</span>
           </div>
           <h3 class="about__join-card-title">其他</h3>
           <p class="about__join-card-desc">我们寻找具备高度专业素养、敏锐市场触觉及强烈使命感的伙伴。无论您是经验丰富的行业精英，还是充满活力的职场新秀，神络医疗都为您提供广阔的成长舞台。</p>
-          <button class="about__join-card-btn about__join-card-btn--outline">查看职位</button>
+          <button class="about__join-card-btn about__join-card-btn--outline"
+            @click="handleClick('other')">立即申请</button>
         </div>
       </div>
     </section>
@@ -473,7 +508,7 @@ const partnerCards = ref<PartnerCard[]>([
 /* ========== Hero Banner ========== */
 .about__hero {
   position: relative;
-  width: 1920px;
+  width: 100%;
   height: 1000px;
   margin: 0 auto;
   background: linear-gradient(180deg, rgba(187, 212, 243, 1) 0%, rgba(239, 246, 255, 1) 100%);
@@ -481,8 +516,9 @@ const partnerCards = ref<PartnerCard[]>([
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding-top: 242px;
+  padding-top: 239px;
 }
+
 .about__hero-bg {
   position: absolute;
   left: 0;
@@ -535,7 +571,7 @@ const partnerCards = ref<PartnerCard[]>([
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 170px;
+  padding: 0 170px 0 161px;
   z-index: 2;
   flex-shrink: 0;
 }
@@ -608,7 +644,7 @@ const partnerCards = ref<PartnerCard[]>([
 
 .about__hero-stats-wrap {
   margin-top: auto;
-  margin-bottom: 106px;
+  margin-bottom: 105px;
   padding-left: 156px;
   z-index: 2;
   flex-shrink: 0;
@@ -703,33 +739,92 @@ const partnerCards = ref<PartnerCard[]>([
 .about__milestones {
   display: flex;
   flex-direction: column;
-  width: 1920px;
+  width: 100%;
   margin: 0 auto;
   background: var(--color-white);
   box-sizing: border-box;
-  padding: 100px 0 120px;
+  padding: 100px 0;
+  min-height: 967px;
 }
 
 .about__milestones .about__section-header {
-  margin-bottom: 124px;
+  margin-bottom: 80px;
 }
 
 .about__timeline-wrapper {
-  padding: 0 170px;
+  padding: 0 190px;
+  margin-bottom: 60px;
 }
 
 .about__timeline-area {
+  width: 100%;
+  max-width: 1540px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  height: 537px;
 }
 
 .about__timeline-decoration {
-  position: absolute;
-  left: 0;
-  top: 122px;
+  width: 220px;
+  height: 54px;
   display: flex;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
   gap: 0;
+  background: url('@/assets/about-timeline-year-bg.svg') no-repeat center center;
+  position: relative;
+  margin-bottom: 46px;
+}
+
+.about__timeline-decoration-line {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 39px;
+  height: 8px;
+  background-image: url('@/assets/about-timeline-line.svg');
+  background-size: cover;
+}
+
+.about__timeline-line-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 27px;
+}
+
+.about__timeline-line-area-line,
+.about__timeline-years {
+  flex: 1;
+}
+
+.about__timeline-line-area-line {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.about__timeline-line {
+  width: 100%;
+  border-top: 3px dashed var(--color-timeline-line);
+}
+
+.about__timeline-ticks {
+  display: flex;
+  gap: 70px;
+  position: absolute;
+}
+
+.about__timeline-tick {
+  width: 1px;
+  height: 15px;
+  background: #CCCCCC;
 }
 
 .about__timeline-big-year {
@@ -745,41 +840,21 @@ const partnerCards = ref<PartnerCard[]>([
   margin-bottom: 6px;
 }
 
-.about__timeline-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 13px;
-  border-top: 3px dashed var(--color-timeline-line);
-}
-
-.about__timeline-ticks {
-  position: absolute;
-  left: 20px;
-  top: 0;
-  display: flex;
-  align-items: center;
-  gap: 70px;
-}
-
-.about__timeline-tick {
-  width: 1px;
-  height: 15px;
-  background: #CCCCCC;
-}
 
 .about__timeline-nav {
   position: absolute;
-  top: -25px;
+  top: 0;
+  flex: 0 0 58px;
   width: 58px;
   height: 58px;
-  border-radius: 29px;
-  background: var(--color-white);
+  border-radius: 50%;
+  background: var(--color-brand);
   border: 1px solid var(--color-nav-border);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 2;
   box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s;
 }
@@ -789,21 +864,19 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__timeline-nav--prev {
-  left: -10px;
-  z-index: 2;
+  left: -29px;
 }
 
 .about__timeline-nav--next {
-  right: -10px;
-  z-index: 2;
+  right: -29px;
 }
 
 .about__timeline-years {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 168px;
-  margin-top: 27px;
+  gap: 213px;
+  margin-left: 21px;
 }
 
 .about__timeline-year {
@@ -815,43 +888,40 @@ const partnerCards = ref<PartnerCard[]>([
   border: none;
   cursor: pointer;
   padding: 0;
+  width: 0;
 }
 
 .about__timeline-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--color-timeline-inactive);
+  background: rgba(204, 204, 204, 0.8);
   transition: background 0.2s;
 }
 
 .about__timeline-year--active .about__timeline-dot {
-  background: var(--color-black);
+  background: #000000;
 }
 
 .about__timeline-year-text {
-  font-family: 'DINCond-Bold', 'Inter', sans-serif;
+  font-family: 'DIN Condensed Bold', 'DIN Black', sans-serif;
   font-weight: 500;
-  font-size: 26px;
+  font-size: 28px;
   line-height: 30px;
-  color: var(--color-timeline-inactive);
+  color: rgba(204, 204, 204, 0.8);
   transition: color 0.2s;
 }
 
 .about__timeline-year--active .about__timeline-year-text {
   font-size: 28px;
-  color: var(--color-black);
+  color: #000000;
 }
 
 .about__milestones-image {
-  position: absolute;
-  right: 0;
-  top: 157px;
+  flex: 0 0 666px;
   width: 666px;
   height: 380px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #EBEEF3;
+  margin-top: 30px;
 }
 
 .about__milestones-img {
@@ -862,11 +932,15 @@ const partnerCards = ref<PartnerCard[]>([
 
 .about__milestones-content {
   display: flex;
-  flex-direction: column;
-  gap: 13px;
-  width: 690px;
-  margin: 15px 170px 0;
+  gap: 224px;
+  width: 1580px;
+  margin: 0 auto;
 }
+
+.about__milestones-content-left {
+  flex: 1;
+}
+
 
 .about__milestone-item {
   display: flex;
@@ -895,13 +969,13 @@ const partnerCards = ref<PartnerCard[]>([
 /* ========== 企业文化 Section ========== */
 .about__culture {
   position: relative;
-  width: 1920px;
-  margin: 0 auto;
-  background: linear-gradient(180deg, var(--color-culture-bg-start) 0%, var(--color-culture-bg-end) 100%);
+  width: 100%;
+  background: url('@/assets/about-culture-bg.png') no-repeat center center;
+  background-size: cover;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 100px 0 100px;
+  padding: 100px 0;
 }
 
 .about__culture-bg {
@@ -926,7 +1000,6 @@ const partnerCards = ref<PartnerCard[]>([
 .about__values {
   display: flex;
   align-items: stretch;
-  gap: 20px;
   width: 1580px;
   height: 580px;
   border-radius: 30px;
@@ -937,7 +1010,6 @@ const partnerCards = ref<PartnerCard[]>([
 .about__value-card {
   position: relative;
   cursor: pointer;
-  border-radius: 30px;
   overflow: hidden;
   transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -960,7 +1032,6 @@ const partnerCards = ref<PartnerCard[]>([
   align-items: flex-start;
   padding: 90px 30px;
   box-sizing: border-box;
-  border-radius: 30px;
   z-index: 1;
   transition: opacity 0.4s ease, visibility 0.4s ease;
 }
@@ -977,15 +1048,14 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__value-expanded {
-   position: absolute;
-   inset: 0;
-   display: flex;
-   flex-direction: row;
-   align-items: stretch;
-   border-radius: 30px;
-   overflow: hidden;
-   z-index: 2;
-   transition: opacity 0.4s ease 0.2s, visibility 0.4s ease 0.2s;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+  z-index: 2;
+  transition: opacity 0.4s ease 0.2s, visibility 0.4s ease 0.2s;
 }
 
 .about__value-card--inactive .about__value-expanded {
@@ -1004,10 +1074,10 @@ const partnerCards = ref<PartnerCard[]>([
   height: 580px;
   background: var(--color-brand);
   display: flex;
+  padding: 140px 136px 150px 44px;
   flex-direction: column;
-  padding: 140px 44px 0;
-  box-sizing: border-box;
-  flex-shrink: 0;
+  align-items: flex-start;
+  gap: 154px;
 }
 
 .about__value-name-group {
@@ -1039,7 +1109,6 @@ const partnerCards = ref<PartnerCard[]>([
   gap: 7px;
   width: 120px;
   margin-top: auto;
-  padding-bottom: 137px;
 }
 
 .about__value-subtitle {
@@ -1064,19 +1133,19 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__value-card:nth-child(1) .about__value-collapsed {
-  background: var(--color-unselected-bg);
+  background: var(--color-unselected-bg-alt);
 }
 
 .about__value-card:nth-child(2) .about__value-collapsed {
-  background: var(--color-unselected-bg-alt);
-}
-
-.about__value-card:nth-child(3) .about__value-collapsed {
   background: var(--color-unselected-bg);
 }
 
-.about__value-card:nth-child(4) .about__value-collapsed {
+.about__value-card:nth-child(3) .about__value-collapsed {
   background: var(--color-unselected-bg-alt);
+}
+
+.about__value-card:nth-child(4) .about__value-collapsed {
+  background: var(--color-unselected-bg);
 }
 
 .about__value-small {
@@ -1131,9 +1200,9 @@ const partnerCards = ref<PartnerCard[]>([
 /* ========== 商业合作 Section ========== */
 .about__partners {
   position: relative;
-  width: 1920px;
+  width: 100%;
   margin: 0 auto;
-  background: var(--color-partners-bg);
+  background: var(--color-white);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -1141,7 +1210,7 @@ const partnerCards = ref<PartnerCard[]>([
 }
 
 .about__partners .about__section-header {
-  margin-bottom: 136px;
+  margin-bottom: 80px;
 }
 
 .about__partner-cards {
@@ -1191,6 +1260,7 @@ const partnerCards = ref<PartnerCard[]>([
   height: 80px;
   flex-shrink: 0;
 }
+
 .about__partner-icon-bg {
   width: 100%;
   height: 100%;
@@ -1199,6 +1269,7 @@ const partnerCards = ref<PartnerCard[]>([
   justify-content: center;
   position: relative;
 }
+
 .about__partner-icon-bg-img {
   position: absolute;
   left: 0;
@@ -1208,6 +1279,7 @@ const partnerCards = ref<PartnerCard[]>([
   object-fit: cover;
   display: block;
 }
+
 .about__partner-icon-img {
   object-fit: cover;
   display: block;
@@ -1242,7 +1314,7 @@ const partnerCards = ref<PartnerCard[]>([
 
 /* ========== 联系我们底部栏 ========== */
 .about__contact-bar {
-  width: 1920px;
+  width: 100%;
   height: 300px;
   background: var(--color-contact-bar-bg);
   border-radius: 36px;
@@ -1283,7 +1355,7 @@ const partnerCards = ref<PartnerCard[]>([
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-left: 200px;
+  margin-left: 90px;
   flex-shrink: 0;
 }
 
@@ -1291,7 +1363,7 @@ const partnerCards = ref<PartnerCard[]>([
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-left: 52px;
+  margin-left: 60px;
   flex-shrink: 0;
 }
 
@@ -1375,7 +1447,7 @@ const partnerCards = ref<PartnerCard[]>([
 
 /* ========== 加入我们 Section ========== */
 .about__join {
-  width: 1920px;
+  width: 100%;
   margin: 0 auto;
   padding: 100px 170px;
   background: var(--color-join-bg);
@@ -1400,10 +1472,10 @@ const partnerCards = ref<PartnerCard[]>([
 
 .about__join-card {
   flex: 1;
-  height: 356px;
+  min-height: 356px;
   display: flex;
   flex-direction: column;
-  padding: 41px;
+  padding: 41px 41px 43px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
@@ -1442,7 +1514,7 @@ const partnerCards = ref<PartnerCard[]>([
   font-size: 24px;
   line-height: 32px;
   color: var(--color-white);
-  margin: 23px 0 0;
+  margin: 37px 0 0;
   width: 418px;
 }
 
@@ -1488,6 +1560,7 @@ const partnerCards = ref<PartnerCard[]>([
 
 /* ========== Responsive ========== */
 @media (max-width: 1600px) {
+
   .about__hero,
   .about__milestones,
   .about__culture,
@@ -1572,32 +1645,18 @@ const partnerCards = ref<PartnerCard[]>([
     padding: 0 40px;
   }
 
-  .about__timeline-area {
-    height: auto;
-    min-height: 400px;
-  }
 
   .about__milestones-content {
     width: 100%;
-    margin: 40px 40px 0;
   }
 
   .about__milestones-image {
-    width: 100%;
-    max-width: 666px;
-    height: auto;
-    aspect-ratio: 666 / 380;
-    margin: 20px auto 0;
-    position: relative;
-    top: auto;
-    right: auto;
+    flex: 0 0 666px;
+    width: 666px;
+    height: 380px;
   }
 
   .about__timeline-decoration {
-    position: relative;
-    left: auto;
-    top: auto;
-    justify-content: center;
     margin-bottom: 20px;
   }
 

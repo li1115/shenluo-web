@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const showContactModal = ref(false)
 
@@ -7,14 +10,35 @@ const openContactModal = () => {
   showContactModal.value = true
 }
 
+const email = ref('public@seeneuro.com')
+const isEmail = ref(false)
+const openContactEmail = () => {
+  try {
+    window.open(`mailto:${email.value}`, '_blank')
+  } catch (error) {
+    isEmail.value = true
+    showContactModal.value = true
+  }
+}
+
+const showMessage = ref(false)
+
+const copyEmail = () => {
+  navigator.clipboard.writeText(email.value)
+  showMessage.value = true
+  setTimeout(() => {
+    showMessage.value = false
+  }, 2000)
+}
+
 const closeContactModal = () => {
   showContactModal.value = false
+  isEmail.value = false
 }
 
 interface SimilarJob {
   id: number
   title: string
-  department: string
   salary: string
 }
 
@@ -38,13 +62,19 @@ const descriptionHtml = ref(`<p>1.架构与模块设计：参与脑机芯片系�
 <p>4.低功耗技术：具备丰富的低功耗设计实践经验，熟悉UPF/CPF功耗意图描述。</p>`)
 
 const similarJobs: SimilarJob[] = [
-  { id: 1, title: '神经算法研究员', department: '研发部', salary: '25k-40k' },
-  { id: 2, title: '高级嵌入式软件工程师', department: '技术部', salary: '28k-45k' },
-  { id: 3, title: '临床医学总监', department: '临床事务部', salary: '20k-35k' },
+  { id: 1, title: '神经算法研究员', salary: '25k-40k' },
+  { id: 2, title: '高级嵌入式软件工程师', salary: '28k-45k' },
+  { id: 3, title: '临床医学总监', salary: '20k-35k' },
 ]
+const openJobDetail = (id: number) => {
+  router.push(`/careers/${id}`)
+}
 </script>
 
 <template>
+  <div :class="{ 'job-message': true, 'job-message--show': showMessage }">
+    <span class="job-message__text">邮箱已复制</span>
+  </div>
   <div class="job-detail">
     <!-- Hero Section -->
     <section class="job-detail__hero">
@@ -62,7 +92,7 @@ const similarJobs: SimilarJob[] = [
           <h1 class="job-detail__title">数字芯片设计工程师</h1>
           <p class="job-detail__meta">35k-45k · 15薪 | 杭州 (Hangzhou)</p>
           <div class="job-detail__hero-actions">
-            <button class="job-detail__apply-btn">立即申请</button>
+            <button class="job-detail__apply-btn" @click="openContactModal">立即申请</button>
           </div>
         </div>
       </div>
@@ -137,8 +167,10 @@ const similarJobs: SimilarJob[] = [
             <span class="job-detail__process-divider" />
             <div class="job-detail__process-step">
               <div class="job-detail__process-circle job-detail__process-circle--check">
-                <svg width="22" height="21" viewBox="0 0 22 21" fill="none">
-                  <path d="M18.5 5.5L9 15.5L4 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+                  <path
+                    d="M0 20.5L5 6.5L14 15.5L0 20.5ZM3.3 17.2L10.35 14.7L5.8 10.15L3.3 17.2ZM12.55 11.05L11.5 10L17.1 4.4C17.6333 3.86667 18.275 3.6 19.025 3.6C19.775 3.6 20.4167 3.86667 20.95 4.4L21.55 5L20.5 6.05L19.9 5.45C19.6667 5.21667 19.375 5.1 19.025 5.1C18.675 5.1 18.3833 5.21667 18.15 5.45L12.55 11.05ZM8.55 7.05L7.5 6L8.1 5.4C8.33333 5.16667 8.45 4.88333 8.45 4.55C8.45 4.21667 8.33333 3.93333 8.1 3.7L7.45 3.05L8.5 2L9.15 2.65C9.68333 3.18333 9.95 3.81667 9.95 4.55C9.95 5.28333 9.68333 5.91667 9.15 6.45L8.55 7.05ZM10.55 9.05L9.5 8L13.1 4.4C13.3333 4.16667 13.45 3.875 13.45 3.525C13.45 3.175 13.3333 2.88333 13.1 2.65L11.5 1.05L12.55 0L14.15 1.6C14.6833 2.13333 14.95 2.775 14.95 3.525C14.95 4.275 14.6833 4.91667 14.15 5.45L10.55 9.05ZM14.55 13.05L13.5 12L15.1 10.4C15.6333 9.86667 16.275 9.6 17.025 9.6C17.775 9.6 18.4167 9.86667 18.95 10.4L20.55 12L19.5 13.05L17.9 11.45C17.6667 11.2167 17.375 11.1 17.025 11.1C16.675 11.1 16.3833 11.2167 16.15 11.45L14.55 13.05Z"
+                    fill="white" />
                 </svg>
               </div>
               <span class="job-detail__process-label job-detail__process-label--bold">Offer发放</span>
@@ -153,7 +185,7 @@ const similarJobs: SimilarJob[] = [
         <div class="job-detail__recruiter">
           <div class="job-detail__recruiter-top">
             <div class="job-detail__recruiter-avatar">
-              <img src="" alt="Dr. Zhang" class="job-detail__recruiter-avatar-img" />
+              <img src="@/assets/job-detail-hr.png" alt="Dr. Zhang" class="job-detail__recruiter-avatar-img" />
             </div>
             <div class="job-detail__recruiter-info">
               <h3 class="job-detail__recruiter-name">Dr. Zhang</h3>
@@ -166,7 +198,7 @@ const similarJobs: SimilarJob[] = [
           <button class="job-detail__recruiter-btn job-detail__recruiter-btn--primary" @click="openContactModal">
             立即沟通
           </button>
-          <button class="job-detail__recruiter-btn job-detail__recruiter-btn--outline">
+          <button class="job-detail__recruiter-btn job-detail__recruiter-btn--outline" @click="openContactEmail">
             投递简历
           </button>
         </div>
@@ -175,9 +207,10 @@ const similarJobs: SimilarJob[] = [
         <div class="job-detail__similar">
           <h3 class="job-detail__similar-title">相关职位</h3>
           <div class="job-detail__similar-list">
-            <div v-for="job in similarJobs" :key="job.id" class="job-detail__similar-item">
+            <div v-for="job in similarJobs" :key="job.id" class="job-detail__similar-item"
+              @click="openJobDetail(job.id)">
               <h4 class="job-detail__similar-item-title">{{ job.title }}</h4>
-              <span class="job-detail__similar-item-meta">{{ job.department }} · {{ job.salary }}</span>
+              <span class="job-detail__similar-item-meta">{{ job.salary }}</span>
             </div>
           </div>
         </div>
@@ -185,12 +218,14 @@ const similarJobs: SimilarJob[] = [
         <!-- Location Map -->
         <div class="job-detail__map">
           <div class="job-detail__map-bg">
-            <img src="" alt="地图" class="job-detail__map-img" />
+            <img src="@/assets/job-detail-location.png" alt="地图" class="job-detail__map-img" />
           </div>
           <div class="job-detail__map-overlay">
             <div class="job-detail__map-location">
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
-                <path d="M5 0C2.79 0 1 1.79 1 4C1 7 5 12 5 12S9 7 9 4C9 1.79 7.21 0 5 0ZM5 5.5C4.17 5.5 3.5 4.83 3.5 4C3.5 3.17 4.17 2.5 5 2.5C5.83 2.5 6.5 3.17 6.5 4C6.5 4.83 5.83 5.5 5 5.5Z" fill="white" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12" fill="none">
+                <path
+                  d="M4.66667 5.83333C4.9875 5.83333 5.26215 5.7191 5.49062 5.49062C5.7191 5.26215 5.83333 4.9875 5.83333 4.66667C5.83333 4.34583 5.7191 4.07118 5.49062 3.84271C5.26215 3.61424 4.9875 3.5 4.66667 3.5C4.34583 3.5 4.07118 3.61424 3.84271 3.84271C3.61424 4.07118 3.5 4.34583 3.5 4.66667C3.5 4.9875 3.61424 5.26215 3.84271 5.49062C4.07118 5.7191 4.34583 5.83333 4.66667 5.83333ZM4.66667 10.1208C5.85278 9.03194 6.73264 8.04271 7.30625 7.15312C7.87986 6.26354 8.16667 5.47361 8.16667 4.78333C8.16667 3.72361 7.82882 2.8559 7.15312 2.18021C6.47743 1.50451 5.64861 1.16667 4.66667 1.16667C3.68472 1.16667 2.8559 1.50451 2.18021 2.18021C1.50451 2.8559 1.16667 3.72361 1.16667 4.78333C1.16667 5.47361 1.45347 6.26354 2.02708 7.15312C2.60069 8.04271 3.48056 9.03194 4.66667 10.1208ZM4.66667 11.6667C3.10139 10.3347 1.93229 9.09757 1.15937 7.95521C0.386458 6.81285 0 5.75556 0 4.78333C0 3.325 0.469097 2.16319 1.40729 1.29792C2.34549 0.432639 3.43194 0 4.66667 0C5.90139 0 6.98785 0.432639 7.92604 1.29792C8.86424 2.16319 9.33333 3.325 9.33333 4.78333C9.33333 5.75556 8.94688 6.81285 8.17396 7.95521C7.40104 9.09757 6.23194 10.3347 4.66667 11.6667Z"
+                  fill="white" />
               </svg>
               <span class="job-detail__map-address">杭州余杭区杭州神络医疗科技有限公司8-5</span>
             </div>
@@ -202,9 +237,24 @@ const similarJobs: SimilarJob[] = [
     <!-- Contact Modal -->
     <Teleport to="body">
       <div v-if="showContactModal" class="job-detail__modal-mask" @click="closeContactModal">
-        <div class="job-detail__modal-card" @click.stop>
+        <div class="job-detail__modal-card" @click.stop v-if="isEmail">
+          <div class="job-detail__modal-email">
+            <span class="job-detail__modal-email-text">{{ email }}</span>
+            <svg @click="copyEmail" class="job-detail__modal-email-icon" xmlns="http://www.w3.org/2000/svg" width="30"
+              height="30" viewBox="0 0 30 30" fill="none">
+              <path
+                d="M24.4146 22.4988H21.7222C21.0855 22.4988 20.5696 21.9832 20.5696 21.3463C20.5696 20.7094 21.0858 20.1937 21.7222 20.1937H24.4146C24.673 20.1937 24.8827 19.9834 24.8827 19.7256V5.67771C24.8827 5.4199 24.6727 5.20955 24.4146 5.20955H10.367C10.1086 5.20955 9.89883 5.4199 9.89883 5.67771V8.33962C9.89883 8.97683 9.38262 9.49216 8.74629 9.49216C8.10996 9.49216 7.59375 8.97654 7.59375 8.33962V5.67771C7.59375 4.14812 8.83799 2.90417 10.3673 2.90417H24.4148C25.9438 2.90417 27.1884 4.14783 27.1884 5.67771V19.7253C27.1881 21.2549 25.9436 22.4988 24.4146 22.4988Z"
+                fill="#0264FF" stroke="#0264FF" />
+              <path
+                d="M19.8035 27.1093H5.75596C4.22695 27.1093 2.98242 25.8656 2.98242 24.3357V10.2882C2.98242 8.75859 4.22666 7.51465 5.75596 7.51465H19.8035C21.3325 7.51465 22.5771 8.7583 22.5771 10.2882V24.3357C22.5768 25.8656 21.3325 27.1093 19.8035 27.1093ZM5.75596 9.82002C5.49756 9.82002 5.28779 10.0304 5.28779 10.2882V24.3357C5.28779 24.5936 5.49785 24.8039 5.75596 24.8039H19.8035C20.0619 24.8039 20.2717 24.5936 20.2717 24.3357V10.2882C20.2717 10.0304 20.0616 9.82002 19.8035 9.82002H5.75596Z"
+                fill="#0264FF" stroke="#0264FF" />
+            </svg>
+          </div>
+          <p class="job-detail__modal-text">复制邮箱投递简历</p>
+        </div>
+        <div class="job-detail__modal-card" @click.stop v-else>
           <div class="job-detail__modal-qr">
-            <img src="" alt="微信二维码" class="job-detail__modal-qr-img" />
+            <img src="@/assets/job-qrcode.png" alt="微信二维码" class="job-detail__modal-qr-img" />
           </div>
           <p class="job-detail__modal-text">扫描微信二维码联系</p>
         </div>
@@ -226,42 +276,97 @@ const similarJobs: SimilarJob[] = [
   --color-bg-process: #F1F4F9;
   --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
   --font-heading: 'Inter', 'PingFang SC', sans-serif;
+  --font-alibaba: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;
   width: 100%;
+  background: #F7F9FE;
 }
+
+.job-detail__modal-mask {
+  --font-heading: 'Inter', 'PingFang SC', sans-serif;
+  --font-din: 'DIN Black', sans-serif;
+}
+
+.job-message {
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  z-index: 1001;
+  transform: translateX(-50%);
+  width: fit-content;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-white);
+}
+
+.job-message--show {
+  top: 50px;
+  animation: job-message-show 0.7s ease-in-out;
+}
+
+@keyframes job-message-show {
+  0% {
+    top: -100%;
+  }
+
+  100% {
+    top: 50px;
+  }
+}
+
+.job-message__text {
+  margin: 0;
+}
+
 
 /* ========== Hero Section ========== */
 .job-detail__hero {
   position: relative;
-  width: 1920px;
-  height: 614px;
+  width: 100%;
+  height: 700px;
   margin: 0 auto;
   overflow: hidden;
 }
 
 .job-detail__hero-bg {
-  position: absolute;
-  inset: 0;
-  background: #696969;
+  position: absoluteß;
+  width: 100%;
+  height: 100%;
+  background-image: url('@/assets/job-detail-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
 }
 
 .job-detail__hero-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0, 67, 203, 0.9) 0%, rgba(0, 67, 203, 0.4) 100%);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.60) 21.74%, rgba(0, 67, 203, 0.00) 100%);
 }
 
 .job-detail__hero-inner {
-  position: relative;
-  max-width: 1920px;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  margin: 0 auto;
+  padding: 142px 160px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 168px;
 }
 
 /* ========== Breadcrumb ========== */
 .job-detail__breadcrumb {
-  position: absolute;
-  left: 160px;
-  top: 32px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -277,25 +382,17 @@ const similarJobs: SimilarJob[] = [
 }
 
 .job-detail__breadcrumb-sep {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: -0.0536em;
   color: var(--color-white);
 }
 
 /* ========== Hero Content ========== */
 .job-detail__hero-content {
-  position: absolute;
-  left: 320px;
-  top: 176px;
-  width: 1280px;
+  padding-left: 160px;
 }
 
 .job-detail__title {
-  font-family: var(--font-body);
-  font-weight: 500;
+  font-family: var(--font-alibaba);
+  font-weight: 900;
   font-size: 72px;
   line-height: 72px;
   letter-spacing: -0.05em;
@@ -309,7 +406,7 @@ const similarJobs: SimilarJob[] = [
   font-weight: 500;
   font-size: 20px;
   line-height: 28px;
-  color: #DCE1FF;
+  color: var(--color-white);
   margin: 0 0 32px 0;
 }
 
@@ -320,18 +417,24 @@ const similarJobs: SimilarJob[] = [
 
 .job-detail__apply-btn {
   position: relative;
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 28px;
-  color: var(--color-brand);
-  background: var(--color-white);
-  border: none;
+  width: 235.56px;
+  height: 62px;
   border-radius: 6px;
-  padding: 16.5px 32px 17.5px;
-  cursor: pointer;
-  box-shadow: 0px 8px 10px -6px rgba(0, 0, 0, 0.1), 0px 20px 25px -5px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.2s;
+  background: rgba(255, 255, 255, 0.00);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10);
+  display: flex;
+  padding: 16.5px 32px 17.5px 32px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  /* 155.556% */
 }
 
 .job-detail__apply-btn:hover {
@@ -342,9 +445,9 @@ const similarJobs: SimilarJob[] = [
 .job-detail__content {
   display: flex;
   gap: 48px;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 80px 0;
+  /* max-width: 1280px; */
+  margin: 0 320px;
+  padding: 91px 0;
 }
 
 /* ========== Left Column ========== */
@@ -354,7 +457,7 @@ const similarJobs: SimilarJob[] = [
 }
 
 .job-detail__section {
-  margin-bottom: 60px;
+  margin-bottom: 64px;
 }
 
 .job-detail__section-heading {
@@ -500,17 +603,17 @@ const similarJobs: SimilarJob[] = [
   height: 1px;
   background: var(--color-border-light);
   flex-shrink: 0;
-  margin-bottom: 16px;
+  margin-bottom: 7.5ßpx;
 }
 
 /* ========== Right Sidebar ========== */
 .job-detail__sidebar {
-  width: 400px;
+  flex: 0 0 395px;
+  width: 395px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding-bottom: 392px;
 }
 
 /* ========== Recruiter Card ========== */
@@ -574,7 +677,7 @@ const similarJobs: SimilarJob[] = [
   font-size: 14px;
   line-height: 22.75px;
   color: var(--color-text-body);
-  margin: 0 0 22px 0;
+  margin: 0 0 23px 0;
 }
 
 .job-detail__recruiter-btn {
@@ -585,7 +688,7 @@ const similarJobs: SimilarJob[] = [
   line-height: 24px;
   border: 1px solid transparent;
   border-radius: 6px;
-  padding: 13px 0 12px;
+  padding: 12px 0 12px;
   cursor: pointer;
   transition: opacity 0.2s;
 }
@@ -597,7 +700,7 @@ const similarJobs: SimilarJob[] = [
 .job-detail__recruiter-btn--primary {
   background: var(--color-brand);
   color: var(--color-white);
-  margin-bottom: 19px;
+  margin-bottom: 12px;
 }
 
 .job-detail__recruiter-btn--outline {
@@ -718,6 +821,7 @@ const similarJobs: SimilarJob[] = [
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .job-detail__modal-qr {
@@ -725,8 +829,24 @@ const similarJobs: SimilarJob[] = [
   height: 243px;
   background: #585858;
   border-radius: 0;
-  margin-top: 160px;
   overflow: hidden;
+}
+
+.job-detail__modal-email {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0264FF;
+  text-align: center;
+  font-family: "DIN Black";
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 26px;
+  /* 76.471% */
+}
+.job-detail__modal-email-icon {
+  cursor: pointer;
 }
 
 .job-detail__modal-qr-img {
@@ -737,7 +857,7 @@ const similarJobs: SimilarJob[] = [
 }
 
 .job-detail__modal-text {
-  font-family: var(--font-heading);
+  font-family: var(--font-din);
   font-weight: 400;
   font-size: 24px;
   line-height: 29px;
@@ -756,9 +876,6 @@ const similarJobs: SimilarJob[] = [
     max-width: 1280px;
   }
 
-  .job-detail__breadcrumb {
-    left: 32px;
-  }
 
   .job-detail__hero-content {
     left: 32px;
@@ -787,10 +904,6 @@ const similarJobs: SimilarJob[] = [
     height: 380px;
   }
 
-  .job-detail__breadcrumb {
-    left: 20px;
-    top: 24px;
-  }
 
   .job-detail__hero-content {
     left: 20px;
