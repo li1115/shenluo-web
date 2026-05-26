@@ -7,12 +7,12 @@
     <section class="contact-page__banner">
       <div class="contact-page__banner-inner">
         <div class="contact-page__breadcrumb">
-          <span class="contact-page__breadcrumb-item">关于我们</span>
+          <span class="contact-page__breadcrumb-item">{{ $t('contact.breadcrumb1') }}</span>
           <span class="contact-page__breadcrumb-sep">/</span>
-          <span class="contact-page__breadcrumb-item">招聘</span>
+          <span class="contact-page__breadcrumb-item">{{ $t('contact.breadcrumb2') }}</span>
         </div>
-        <h1 class="contact-page__heading">联系我们</h1>
-        <p class="contact-page__subheading">CONTACTUS</p>
+        <h1 class="contact-page__heading">{{ $t('contact.heading') }}</h1>
+        <p class="contact-page__subheading">{{ $t('contact.subheading') }}</p>
         <div class="contact-page__breadcrumb-dot"></div>
       </div>
     </section>
@@ -21,13 +21,13 @@
       <div class="contact-page__content-inner">
         <div class="contact-page__map">
           <div class="contact-page__map-wrapper">
-            <img src="@/assets/contact-map.png" alt="地图" class="contact-page__map-img" />
+            <img src="@/assets/contact-map.png" :alt="$t('contact.mapAlt')" class="contact-page__map-img" />
           </div>
         </div>
 
         <div class="contact-page__panel">
           <div class="contact-page__panel-header">
-            <h2 class="contact-page__company-name">杭州神络科医疗技有限公司</h2>
+            <h2 class="contact-page__company-name">{{ $t('contact.companyName') }}</h2>
             <div class="contact-page__divider"></div>
           </div>
 
@@ -40,7 +40,7 @@
                     fill="#999999" fill-opacity="0.8" />
                 </svg>
               </div>
-              <span class="contact-page__info-text">地址：浙江省杭州市余杭区余杭街道科技大道8-5号4幢3-5层</span>
+              <span class="contact-page__info-text">{{ $t('contact.address') }}</span>
             </div>
 
             <div class="contact-page__info-row">
@@ -51,8 +51,8 @@
                     fill="#999999" fill-opacity="0.8" />
                 </svg>
               </div>
-              <span class="contact-page__info-text">电话：</span>
-              <span class="contact-page__info-number">0571-88560292</span>
+              <span class="contact-page__info-text">{{ $t('contact.phone') }}</span>
+              <span class="contact-page__info-number">{{ $t('contact.phoneNumber') }}</span>
             </div>
 
             <div class="contact-page__info-row">
@@ -63,7 +63,7 @@
                     fill="#999999" fill-opacity="0.8" />
                 </svg>
               </div>
-              <span class="contact-page__info-text">邮箱：service@seeneuro.com</span>
+              <span class="contact-page__info-text">{{ $t('contact.email') }}</span>
             </div>
 
             <div class="contact-page__info-row">
@@ -75,7 +75,7 @@
                     stroke="#666666" stroke-width="1.5" />
                 </svg>
               </div>
-              <span class="contact-page__info-text">网址：http://www.seeneuro.com/</span>
+              <span class="contact-page__info-text">{{ $t('contact.website') }}</span>
             </div>
 
             <div class="contact-page__info-row">
@@ -93,7 +93,7 @@
                   </defs>
                 </svg>
               </div>
-              <span class="contact-page__info-text">邮编：310000</span>
+              <span class="contact-page__info-text">{{ $t('contact.zipcode') }}</span>
             </div>
           </div>
         </div>

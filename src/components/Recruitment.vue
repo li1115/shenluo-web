@@ -1,28 +1,31 @@
 <script setup lang="ts">
-import { ArrowRight } from 'lucide-vue-next'
 import recruitmentBg from '@/assets/recruitment-bg.png'
 // import recruitmentAcademic from '@/assets/recruitment-academic.svg'
 // import recruitmentSales from '@/assets/recruitment-sales.svg'
 // import recruitmentOther from '@/assets/recruitment-other.svg'     
 import router from '@/router'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const jobCategories = [
+const { t } = useI18n()
+
+const jobCategories = computed(() => [
   {
-    name: '博士后工作站',
+    name: t('home.recruitment.postdoctoral'),
     key: 'academic',
     icon: 'academic',
   },
   {
-    name: '销售部职位',
+    name: t('home.recruitment.sales'),
     key: 'sales',
     icon: 'sales',
   },
   {
-    name: '其他',
+    name: t('home.recruitment.other'),
     key: 'other',
     icon: 'other',
   },
-]
+])
 
 
 const goToCareers = () => {
@@ -49,15 +52,17 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
         <!-- 顶部文字 -->
         <div class="w-full flex items-start justify-between">
           <div class="">
-            <span class="text-xs text-black mb-[10px] block">招聘信息</span>
+            <span class="text-xs text-black mb-[10px] block">
+          {{ $t('home.recruitment.label') }}
+            </span>
             <h2 class="text-[32px] font-bold text-black mb-8">
-              加入创造非凡的团队
+          {{ $t('home.recruitment.heading') }}
             </h2>
           </div>
           <button
             class="flex items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[30px] transition-colors cursor-pointer"
             @click="goToCareers">
-            加入我们
+            {{ $t('home.recruitment.joinUs') }}
             <img src="@/assets/recruitment-arrow-r.svg" alt="arrow-right" class="w-5 h-5" />
           </button>
         </div>

@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import router from '@/router'
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import banner1 from '@/assets/banner-1.png'
 import banner2 from '@/assets/banner-2.png'
 import banner3 from '@/assets/banner-3.png'
 
-const bannerList = ref([
+const { t } = useI18n()
+
+const bannerList = computed(() => [
   {
-    title: '破译神经密码',
-    subTitle: '重启生命原力',
-    description: '从神经信号的微妙波动到生命律动的磅礴交响',
+    title: t('home.hero.slide1.title'),
+    subTitle: t('home.hero.slide1.subTitle'),
+    description: t('home.hero.slide1.description'),
     link: '/product/1',
     titleColor: '#fff',
     subTitleColor: '#BAD500',
@@ -17,9 +20,9 @@ const bannerList = ref([
     bgImage: banner1,
   },
   {
-    title: '以智慧赋能系统',
-    subTitle: '以创新打造未来',
-    description: '精确解码神经活动，联合多学科共同探索精准、可靠、无感的神经调控未来。',
+    title: t('home.hero.slide2.title'),
+    subTitle: t('home.hero.slide2.subTitle'),
+    description: t('home.hero.slide2.description'),
     link: '/about',
     titleColor: '#0163FF',
     subTitleColor: '#000',
@@ -28,9 +31,9 @@ const bannerList = ref([
     descriptionMaxWidth: '576px',
   },
   {
-    title: '精控毫厘 轻盈相伴',
-    subTitle: '持久护航',
-    description: '让治疗精准直达，让设备无感融入，让守护始终如一重新定义治疗新标准。',
+    title: t('home.hero.slide3.title'),
+    subTitle: t('home.hero.slide3.subTitle'),
+    description: t('home.hero.slide3.description'),
     link: '/contact',
     titleColor: '#fff',
     subTitleColor: '#BAD500',
@@ -42,7 +45,7 @@ const bannerList = ref([
 
 const INTERVAL = 3000
 const isActive = ref(0)
-const bannerCount = bannerList.value.length
+const bannerCount = computed(() => bannerList.value.length)
 const timer = ref<number>()
 
 const slideKey = ref(0)
@@ -58,7 +61,7 @@ const handleClick = (link: string) => {
 const startAutoplay = () => {
   stopAutoplay()
   timer.value = window.setInterval(() => {
-    isActive.value = (isActive.value + 1) % bannerCount
+    isActive.value = (isActive.value + 1) % bannerCount.value
   }, INTERVAL)
 }
 
@@ -121,7 +124,7 @@ onBeforeUnmount(stopAutoplay)
                     <button
                       class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[188px] h-[54px] rounded-[40px] transition-colors cursor-pointer"
                       @click="handleClick(item.link)">
-                      了解更多
+                      {{ $t('home.hero.learnMore') }}
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <mask id="mask0_339_2721" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                           width="20" height="20">

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
@@ -19,13 +21,13 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-const navItems = [
-  { name: '首页', path: '/' },
-  { name: '产品展示', path: '/products' },
-  { name: '患者服务', path: '/patient-service' },
-  { name: '资讯', path: '/news' },
-  { name: '关于我们', path: '/about' },
-]
+const navItems = computed(() => [
+  { name: t('header.home'), path: '/' },
+  { name: t('header.products'), path: '/products' },
+  { name: t('header.patientService'), path: '/patient-service' },
+  { name: t('header.news'), path: '/news' },
+  { name: t('header.about'), path: '/about' },
+])
 
 const isActive = (path: string) => {
   if (path === '/') return route.path === '/'
@@ -63,7 +65,7 @@ const navigate = (path: string) => {
       </div>
       <button @click="navigate('/contact')"
         class="bg-[#0163FF] text-white font-bold text-lg px-6 py-3 rounded-[63px] shadow-[0px_9px_10px_0px_rgba(1,94,255,0.14)] hover:bg-blue-700 transition-colors">
-        联系我们
+        {{ $t('header.contact') }}
       </button>
     </div>
   </header>

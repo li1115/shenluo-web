@@ -1,0 +1,364 @@
+{
+  "header": {
+    "home": "首页",
+    "products": "产品展示",
+    "patientService": "患者服务",
+    "news": "资讯",
+    "about": "关于我们",
+    "contact": "联系我们"
+  },
+  "footer": {
+    "companyDesc": "全球唯一同时拥有三大植入式神经调控平台的尖端创新医疗科技企业，致力于打破技术壁垒，守护人类健康。",
+    "joinTeam": "加入非凡团队",
+    "coreBusiness": "核心业务",
+    "scs": "脊髓神经刺激系统SCS",
+    "pns": "外周围神经刺激系统PNS",
+    "tns": "植入式胫神经刺激系统TNS",
+    "aboutUs": "了解我们",
+    "about": "关于我们",
+    "news": "神络资讯",
+    "postdoctoral": "博士后工作站直招",
+    "salesJobs": "全国销售与市场岗位",
+    "contactUs": "联系我们",
+    "serviceHotline": "客服热线",
+    "companyEmail": "企业邮箱",
+    "wechatPublic": "微信公众号",
+    "copyright": "杭州神络医疗科技有限公司. All Rights Reserved."
+  },
+  "home": {
+    "hero": {
+      "slide1": {
+        "title": "破译神经密码",
+        "subTitle": "重启生命原力",
+        "description": "从神经信号的微妙波动到生命律动的磅礴交响"
+      },
+      "slide2": {
+        "title": "以智慧赋能系统",
+        "subTitle": "以创新打造未来",
+        "description": "精确解码神经活动，联合多学科共同探索精准、可靠、无感的神经调控未来。"
+      },
+      "slide3": {
+        "title": "精控毫厘 轻盈相伴",
+        "subTitle": "持久护航",
+        "description": "让治疗精准直达，让设备无感融入，让守护始终如一重新定义治疗新标准。"
+      },
+      "learnMore": "了解更多"
+    },
+    "stats": {
+      "aboutLabel": "关于我们",
+      "heading": "打破技术垄断，领航全球",
+      "rdYears": "核心研发积淀(年)",
+      "patents": "专利技术",
+      "patients": "服务患者",
+      "rdInvestment": "研发投资"
+    },
+    "news": {
+      "label": "资讯中心",
+      "heading": "神络资讯中心",
+      "categoryEnterprise": "企业动态"
+    },
+    "products": {
+      "label": "产品展示",
+      "heading": "三大核心植入平台",
+      "scsName": "脊髓神经刺激系统SCS",
+      "scsDesc": "作为长效疼痛管理的黄金标准，通过微创植入，向脊特定靶点发送高频电脉冲，精准阻断疼痛信号传导。设备支持超长无线续航与智能程控。",
+      "pnsName": "外周围神经刺激系统PNS",
+      "pnsDesc": "基于闭环生物传感与智能反馈机制，专为特发性震颤及瘤病等神经疾病设计，设备自适应调控脉冲强度，温和恢复神经系统正常节律。",
+      "tnsName": "植入式胫神经刺激系统TNS",
+      "tnsDesc": "打破传统神经调控的体积局限，采用超微型无线电极阵列设计，精准靶向外周神经丛，微创改善局部神经功能障碍，重塑患者行动自由。"
+    },
+    "diseaseService": {
+      "label": "患者服务",
+      "heading": "学习疾病知识，获取贴心服务",
+      "serviceTitle": "服务与支持",
+      "serviceDesc": "我们深知，每一次使用都关乎健康与信任。因此，从产品咨询到日常维护从操作指导到售后保障，我们为您搭建起全方位的支持体系。专业客服团队随时待命，全国服务网点便捷可达。",
+      "serviceCenter": "专业服务中心",
+      "servicePhone": "400-808-5561",
+      "diseaseTitle": "特发性震颤的疾病简介、症状和治疗方法",
+      "diseaseSubtitle": "疾病知识与科普教育",
+      "learnMore": "了解更多"
+    },
+    "recruitment": {
+      "label": "招聘信息",
+      "heading": "加入创造非凡的团队",
+      "joinUs": "加入我们",
+      "postdoctoral": "博士后工作站",
+      "sales": "销售部职位",
+      "other": "其他"
+    }
+  },
+  "about": {
+    "hero": {
+      "label": "关于神络",
+      "slogan": "打破技术垄断，领航全球",
+      "desc": "杭州神络医疗科技有限公司成立于2018年，坐落于杭州市余杭区人工智能小镇，是一家专注于神经调控产品研发与生产的高科技企业。拥有近两千平方米的十万级GMP厂房和万级生化实验室，致力于打造国际领先的神经调控产品。自主研发的产品涵盖植入式脊髓神经刺激器（SCS）、外周神经刺激器（PNS）、超小型脊髓神经刺激器（M-SCS）、胫神经刺激（TNS）以及呼吸暂停刺激器等，为患者带来显著的生活质量改善。全球唯一一家同时掌握可充电植入式脉冲发生器IPG、短期半植入、无线携能三大神经调控技术平台的企业，神络医疗持续为医生和患者提供更先进、有效的治疗手段。截至目前，公司已完成C轮融资，融资金额数亿元..."
+    },
+    "stats": {
+      "certificates": "多项国内外认证",
+      "patents": "专利技术",
+      "patients": "服务患者数",
+      "rdYears": "核心研发积淀(年)"
+    },
+    "milestones": {
+      "heading": "神络里程碑",
+      "subtitle": "回首过往，每一步都是对精准医疗的执着追求"
+    },
+    "culture": {
+      "heading": "企业文化"
+    },
+    "values": {
+      "subtitle": "内化于心，外化于行，以患者为核心的价值观体系",
+      "mission": "使命",
+      "missionSub1": "急患者之所急",
+      "missionSub2": "想患者之所想",
+      "responsible": "担当",
+      "responsibleSub1": "侠之大者",
+      "responsibleSub2": "结伴前行",
+      "quality": "高质",
+      "qualitySub1": "攀技术之巅",
+      "qualitySub2": "登品质之峰",
+      "efficient": "高效",
+      "efficientSub1": "雷厉风行",
+      "efficientSub2": "事半功倍"
+    },
+    "partner": {
+      "heading": "诚邀携手，共创未来",
+      "subtitle": "我们正在积极寻找与神络医疗价值观契合、优势互补的渠道、推广和战略投资伙伴，共同定义神经调控新未来",
+      "channelTitle": "渠道合作",
+      "channelDesc": "如果您在神经外科、疼痛科或脊柱外科拥有\n深厚代理销售渠道网络",
+      "promotionTitle": "推广服务",
+      "promotionDesc": "如果您的团队具备优秀的专业学术\n推广能力和临床服务能力",
+      "investmentTitle": "战略投资",
+      "investmentDesc": "如果您认同国产创新医疗、并愿意长期为\n神经调控领域战略投资"
+    },
+    "contactBar": {
+      "heading": "期待与您对话",
+      "text": "我们深知，每一次使用都关乎健康与信任。因此，",
+      "text2": "从产品咨询到日常维护从操作指导到售后保障",
+      "text3": "我们为您搭建起全方位的支持体系。",
+      "desc": "专业客服团队随时待命，全国服务网点便捷可达。",
+      "phone": "电话热线",
+      "email": "企业邮箱",
+      "qrLabel": "扫描添加销售总监微信"
+    },
+    "join": {
+      "heading": "加入我们",
+      "subtitle": "寻找志同道合的你，共同开启生命科技新篇章",
+      "card1": {
+        "tag": "高精尖人才",
+        "title": "博士后工作站",
+        "desc": "神络医疗设立博士后工作站，旨在吸引全球顶尖神经科学、微电子及材料学专家。提供行业领先的研发资源与实验环境，推动前沿技术的临床转化。",
+        "btn": "立即申请"
+      },
+      "card2": {
+        "tag": "市场与职能",
+        "title": "销售及职能部门职位",
+        "desc": "我们寻找具备高度专业素养、敏锐市场触觉及强烈使命感的伙伴。无论您是经验丰富的行业精英，还是充满活力的职场新秀，神络医疗都为您提供广阔的成长舞台。",
+        "btn": "立即申请"
+      },
+      "card3": {
+        "tag": "其他",
+        "title": "其他",
+        "desc": "我们寻找具备高度专业素养、敏锐市场触觉及强烈使命感的伙伴。无论您是经验丰富的行业精英，还是充满活力的职场新秀，神络医疗都为您提供广阔的成长舞台。",
+        "btn": "立即申请"
+      }
+    }
+  },
+  "contact": {
+    "breadcrumb1": "关于我们",
+    "breadcrumb2": "招聘",
+    "heading": "联系我们",
+    "subheading": "CONTACTUS",
+    "companyName": "杭州神络科医疗技有限公司",
+    "address": "地址：浙江省杭州市余杭区余杭街道科技大道8-5号4幢3-5层",
+    "phone": "电话：",
+    "phoneNumber": "0571-88560292",
+    "email": "邮箱：service@seeneuro.com",
+    "website": "网址：http://www.seeneuro.com/",
+    "zipcode": "邮编：310000",
+    "mapAlt": "地图"
+  },
+  "products": {
+    "breadcrumb1": "产品展示",
+    "breadcrumb2": "产品详情",
+    "sectionHeading1": "产品特色",
+    "specsHeading": "技术规格",
+    "howItWorks": "如何运作",
+    "scsName": "植入式胫神经刺激系统TNS",
+    "scsEngName": "Spinal Cord Stimulation . SCS",
+    "scsDesc": "脊髓神经刺激系统（Spinal Cord Stimulation，SCS），是一种成熟的疼痛治疗方法，已被医生使用了50多年。作为微创可逆的先进医疗技术，旨在缓解疼痛，提高患者生活能力和生活质量。主要用于治疗躯干、四肢的慢性顽固性疼痛（如腰椎术后疼痛综合征、复杂性区域疼痛综合征等）。\n通过微创植入电极至脊髓硬膜外腔",
+    "pnsName": "外周围神经刺激系统PNS",
+    "pnsEngName": "Peripheral Nerve Stimulation . PNS",
+    "pnsDesc": "外周围神经刺激系统（Peripheral Nerve Stimulation, PNS），是一种创新的神经调控技术，通过靶向刺激外周神经，精准干预神经系统异常活动，为药物难治性神经疾病患者提供新的治疗选择。",
+    "tnsName": "植入式胫神经刺激系统TNS",
+    "tnsEngName": "Tibial Nerve Stimulation . TNS",
+    "tnsDesc": "植入式胫神经刺激系统（Tibial Nerve Stimulation, TNS），是一种用于治疗膀胱功能障碍的先进神经调控技术。通过刺激胫神经，调节膀胱功能，改善患者排尿控制和盆底功能。",
+    "specs": {
+      "length": "长（mm）",
+      "width": "宽（mm）",
+      "thickness": "厚（mm）",
+      "weight": "重量（g）",
+      "tempLimit": "发热温度限值",
+      "tempValue": "发热温度不超过39℃",
+      "channels": "通道数",
+      "channelsValue": "左：8  右：8",
+      "volume": "体积（cm³）",
+      "volumeValue": "24.8"
+    },
+    "features": {
+      "card1Title": "时可调，精准护航",
+      "card2Title": "微小介入，轻松愈见",
+      "card3Title": "广阔频宽，潜力突破"
+    },
+    "manualTitle": "脊髓神经刺激系统SCS产品手册",
+    "manualDesc": "了解 SCS，这是一种脊髓刺激系统，有助于治疗某些类型的慢性顽固性疼痛。'"
+  },
+  "patientService": {
+    "heading": "患者服务",
+    "subtitle": "为每一位患者提供全方位的医疗服务与支持",
+    "appointment": "预约挂号",
+    "appointmentDesc": "在线预约专家门诊，便捷就医",
+    "reportQuery": "报告查询",
+    "reportQueryDesc": "在线查看检查检验报告",
+    "onlineConsult": "在线咨询",
+    "onlineConsultDesc": "专业医生在线解答健康问题"
+  },
+  "news": {
+    "breadcrumb1": "资讯",
+    "breadcrumb2": "文章合集",
+    "categoryEnterprise": "企业动态",
+    "categoryHealth": "疾病科普",
+    "categoryClinical": "临床应用",
+    "loadMore": "加载更多",
+    "detail": {
+      "breadcrumb1": "资讯",
+      "breadcrumb2": "文章详情",
+      "relatedNews": "相关资讯",
+      "loading": "加载中...",
+      "empty": "文章不存在"
+    }
+  },
+  "careers": {
+    "breadcrumb1": "关于我们",
+    "breadcrumb2": "招聘",
+    "joinTag": "Join Our Mission",
+    "joinTitle": {
+      "other": "加入神络<br />共创未来",
+      "sales": "销售招聘",
+      "academic": "博士后招聘站"
+    },
+    "joinSubtitle": "在医疗科技的前沿，我们寻找富有激情的创新者。通过精密工程与关怀技术，重新定义生命品质。",
+    "postdoctoral": "博士后工作站",
+    "postdoctoralDesc": "Aura MedTech 现已设立省级博士后创新实践基地，诚邀全球神经科学与工程领域顶尖博士人才加入。",
+    "salesJobs": "销售类",
+    "salesJobsDesc": "Aura MedTech 现已设立省级博士后创新实践基地，诚邀全球神经科学与工程领域顶尖博士人才加入。",
+    "other": "其他",
+    "otherDesc": "Aura MedTech 现已设立省级博士后创新实践基地，诚邀全球神经科学与工程领域顶尖博士人才加入。",
+    "jobHeading": "招聘职位",
+    "categories": {
+      "all": "全部",
+      "postdoctoral": "博士后工作站",
+      "sales": "销售类",
+      "technical": "技术类",
+      "medical": "医学类",
+      "procurement": "采购类",
+      "quality": "质量类",
+      "marketing": "市场类",
+      "functional": "职能类",
+      "latest": "最新职位"
+    },
+    "urgent": "急",
+    "applyJob": "申请职位",
+    "viewDetails": "了解申请详情",
+    "jobDetail": {
+      "breadcrumb1": "关于我们",
+      "breadcrumb2": "招聘职位",
+      "breadcrumb3": "社招招聘",
+      "applyNow": "立即申请",
+      "jobDesc": "职位描述",
+      "recruitmentProcess": "招聘流程",
+      "step1": "简历投递",
+      "step2": "技术面试",
+      "step3": "团队面试",
+      "step4": "高管面谈",
+      "step5": "Offer发放",
+      "recruiter": "招聘总监",
+      "recruiterQuote": "\"我们在寻找那些渴望用技术重塑生命质量的梦想\n家。期待在神络医疗见到你。\"",
+      "contactNow": "立即沟通",
+      "sendResume": "投递简历",
+      "relatedJobs": "相关职位",
+      "emailCopied": "邮箱已复制",
+      "copyEmailTip": "复制邮箱投递简历",
+      "scanQrTip": "扫描微信二维码联系"
+    }
+  },
+  "guide": {
+    "heading": "就诊指南",
+    "subtitle": "为您提供详细的就诊信息和指引",
+    "tabs": {
+      "register": "预约挂号",
+      "process": "就诊流程",
+      "time": "就诊时间",
+      "location": "医院位置"
+    },
+    "register": {
+      "heading": "预约挂号方式",
+      "online": "官网预约",
+      "onlineDesc": "登录医院官方网站进行在线预约",
+      "phone": "电话预约",
+      "phoneDesc": "拨打预约热线 400-888-8888",
+      "app": "APP预约",
+      "appDesc": "下载医院官方APP进行预约",
+      "onsite": "现场预约",
+      "onsiteDesc": "前往医院挂号窗口预约"
+    },
+    "process": {
+      "heading": "就诊流程",
+      "step1Title": "预约挂号",
+      "step1Desc": "选择科室和医生，完成预约挂号",
+      "step2Title": "签到候诊",
+      "step2Desc": "凭预约信息或身份证到科室签到等候",
+      "step3Title": "医生诊疗",
+      "step3Desc": "医生问诊、检查，制定治疗方案",
+      "step4Title": "缴费取药",
+      "step4Desc": "凭处方到药房取药或办理检查"
+    },
+    "time": {
+      "heading": "就诊时间",
+      "outpatientTitle": "门诊时间",
+      "outpatientWeekday": "周一至周五：8:00 - 17:30",
+      "outpatientSaturday": "周六：8:00 - 12:00",
+      "outpatientHoliday": "周日及节假日：休息",
+      "emergencyTitle": "急诊时间",
+      "emergency24h": "全年无休，24小时接诊",
+      "emergencyPhone": "急诊热线：400-888-9999"
+    },
+    "location": {
+      "heading": "医院位置",
+      "mapPlaceholder": "地图区域",
+      "address": "地址",
+      "addressValue": "北京市朝阳区神经科学大道100号",
+      "phone": "电话",
+      "phoneValue": "400-888-8888",
+      "transport": "交通路线",
+      "metro": "地铁：10号线神经科站B口出",
+      "bus": "公交：123、456、789路神络医院站",
+      "car": "驾车：导航搜索\"神络医院\""
+    },
+    "faq": {
+      "q1": "如何预约挂号？",
+      "a1": "您可以通过以下方式预约挂号：1. 登录医院官方网站进行在线预约；2. 拨打预约热线400-888-8888；3. 下载医院官方APP进行预约；4. 前往医院挂号窗口现场预约。",
+      "q2": "预约成功后如何取号？",
+      "a2": "预约成功后，请在就诊当天携带患者有效身份证件（身份证、医保卡等）前往医院挂号窗口或自助取号机办理取号手续。建议提前30分钟到达医院。",
+      "q3": "就诊需要携带哪些证件？",
+      "a3": "就诊时请携带患者本人的有效身份证件（身份证、户口本等）、医保卡（如有）、既往病历资料、检查报告、化验结果等相关医疗文件。",
+      "q4": "如何查询检查报告？",
+      "a4": "您可以通过医院官方网站、APP或微信公众号查询检查报告。一般情况下，检查报告在检查完成后的1-3个工作日内可查询。",
+      "q5": "医院提供哪些支付方式？",
+      "a5": "医院支持多种支付方式：现金、银行卡、医保卡、微信支付、支付宝支付等。"
+    }
+  },
+  "common": {
+    "learnMore": "了解更多"
+  }
+}

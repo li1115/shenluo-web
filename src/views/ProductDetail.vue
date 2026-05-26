@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import product1 from '@/assets/product-1.png'
 import product2 from '@/assets/product-2.png'
 import product3 from '@/assets/product-3.png'
@@ -8,6 +9,7 @@ import productD1 from '@/assets/product-d-1.png'
 import productD2 from '@/assets/product-d-2.png'
 import productD3 from '@/assets/product-d-3.png'
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 
@@ -38,67 +40,67 @@ interface ProductBaseDetail {
   sectionHeading1: string
 }
 
-const baseData: ProductBaseDetail = {
+const baseData = computed<ProductBaseDetail>(() => ({
   specsLeft: [
-    { label: '长（mm）', value: '55' },
-    { label: '宽（mm）', value: '48' },
-    { label: '厚（mm）', value: '9.4' },
-    { label: '重量（g）', value: '37.7' },
+    { label: t('products.specs.length'), value: '55' },
+    { label: t('products.specs.width'), value: '48' },
+    { label: t('products.specs.thickness'), value: '9.4' },
+    { label: t('products.specs.weight'), value: '37.7' },
   ],
   specsRight: [
-    { label: '发热温度限值', value: '发热温度不超过39℃' },
-    { label: '通道数', value: '左：8  右：8' },
-    { label: '重量（g）', value: '37.7' },
-    { label: '体积（cm³）', value: '24.8' },
+    { label: t('products.specs.tempLimit'), value: t('products.specs.tempValue') },
+    { label: t('products.specs.channels'), value: t('products.specs.channelsValue') },
+    { label: t('products.specs.weight'), value: '37.7' },
+    { label: t('products.specs.volume'), value: t('products.specs.volumeValue') },
   ],
   featureCards: [
     {
-      title: '时可调，精准护航',
+      title: t('products.features.card1Title'),
       highlight: { label: '重', value: '37.7g' },
       variant: 'gradient',
       image: productD1,
     },
     {
-      title: '微小介入，轻松愈见',
+      title: t('products.features.card2Title'),
       highlight: { label: '微', value: '2mm' },
       variant: 'solid',
       image: productD2,
     },
     {
-      title: '广阔频宽，潜力突破',
+      title: t('products.features.card3Title'),
       highlight: { label: '频', value: '10KHz' },
       variant: 'solid',
       image: productD3,
     },
   ],
-  sectionHeading1: '产品特色',
-}
-let products: ProductDetail[] = [
+  sectionHeading1: t('products.sectionHeading1'),
+}))
+const products = computed<ProductDetail[]>(() => [
   {
     id: 1,
-    name: '植入式胫神经刺激系统TNS',
-    englishName: 'Spinal Cord Stimulation . SCS',
-    description: '脊髓神经刺激系统（Spinal Cord Stimulation，SCS），是一种成熟的疼痛治疗方法，已被医生使用了50多年。作为微创可逆的先进医疗技术，旨在缓解疼痛，提高患者生活能力和生活质量。主要用于治疗躯干、四肢的慢性顽固性疼痛（如腰椎术后疼痛综合征、复杂性区域疼痛综合征等）。\n通过微创植入电极至脊髓硬膜外腔',
+    name: t('products.scsName'),
+    englishName: t('products.scsEngName'),
+    description: t('products.scsDesc'),
     image: product1,
-    ...baseData,
+    ...baseData.value,
   },
   {
     id: 2,
-    name: '外周围神经刺激系统PNS',
-    englishName: 'Peripheral Nerve Stimulation . PNS',
-    description: '外周围神经刺激系统（Peripheral Nerve Stimulation, PNS），是一种创新的神经调控技术，通过靶向刺激外周神经，精准干预神经系统异常活动，为药物难治性神经疾病患者提供新的治疗选择。',
+    name: t('products.pnsName'),
+    englishName: t('products.pnsEngName'),
+    description: t('products.pnsDesc'),
     image: product2,
-    ...baseData,
+    ...baseData.value,
   },
   {
     id: 3,
-    name: '植入式胫神经刺激系统TNS',
-    englishName: 'Tibial Nerve Stimulation . TNS',
-    description: '植入式胫神经刺激系统（Tibial Nerve Stimulation, TNS），是一种用于治疗膀胱功能障碍的先进神经调控技术。通过刺激胫神经，调节膀胱功能，改善患者排尿控制和盆底功能。',
+    name: t('products.tnsName'),
+    englishName: t('products.tnsEngName'),
+    description: t('products.tnsDesc'),
     image: product3,
-    ...baseData,
+    ...baseData.value,
   },
-]
+])
 let product = ref<ProductDetail & ProductBaseDetail>({
   id: 0,
   name: '',
@@ -116,7 +118,7 @@ const goToProducts = () => {
 }
 const getProduct = () => {
   const id = route.params.id || 1
-  return products.find(p => p.id === id) || products[0]
+  return products.value.find(p => p.id === id) || products.value[0]
 }
 onMounted(async () => {
   product.value = await getProduct() as ProductDetail & ProductBaseDetail
@@ -126,9 +128,9 @@ onMounted(async () => {
 <template>
   <div class="product-detail">
     <div class="product-detail__breadcrumb">
-      <span class="product-detail__breadcrumb-link" @click="goToProducts">产品展示</span>
+      <span class="product-detail__breadcrumb-link" @click="goToProducts">{{ $t('products.breadcrumb1') }}</span>
       <span>/</span>
-      <span class="product-detail__breadcrumb-current">产品详情</span>
+      <span class="product-detail__breadcrumb-current">{{ $t('products.breadcrumb2') }}</span>
     </div>
 
     <div class="product-detail__hero">
@@ -166,7 +168,7 @@ onMounted(async () => {
     <div class="product-detail__specs-section">
       <div class="product-detail__specs-inner">
         <div class="product-detail__specs-left">
-          <h3 class="product-detail__specs-heading">技术规格</h3>
+          <h3 class="product-detail__specs-heading">{{ $t('products.specsHeading') }}</h3>
           <div class="product-detail__specs-tables">
             <div class="product-detail__specs-table product-detail__specs-table--left">
               <div v-for="(row, rIdx) in product.specsLeft" :key="'l' + rIdx" class="product-detail__specs-row"
@@ -187,18 +189,18 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="product-detail__section-heading">如何运作</div>
+    <div class="product-detail__section-heading">{{ $t('products.howItWorks') }}</div>
 
     <div class="product-detail__manual">
       <div class="product-detail__manual-card">
         <div class="product-detail__manual-image-box">
           <div class="product-detail__manual-ellipse" />
-          <img src="@/assets/product-pdf.png"  alt="脊髓神经刺激系统SCS产品手册" class="product-detail__manual-img" />
+          <img src="@/assets/product-pdf.png"  :alt="$t('products.manualTitle')" class="product-detail__manual-img" />
         </div>
         <div class="product-detail__manual-content">
           <div class="product-detail__manual-text">
-            <h4 class="product-detail__manual-title"> 脊髓神经刺激系统SCS产品手册 </h4>
-            <p class="product-detail__manual-desc">了解 SCS，这是一种脊髓刺激系统，有助于治疗某些类型的慢性顽固性疼痛。'</p>
+            <h4 class="product-detail__manual-title">{{ $t('products.manualTitle') }}</h4>
+            <p class="product-detail__manual-desc">{{ $t('products.manualDesc') }}</p>
           </div>
         </div>
       </div>

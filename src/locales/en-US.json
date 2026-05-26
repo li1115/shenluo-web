@@ -1,0 +1,364 @@
+{
+  "header": {
+    "home": "Home",
+    "products": "Products",
+    "patientService": "Patient Service",
+    "news": "News",
+    "about": "About Us",
+    "contact": "Contact Us"
+  },
+  "footer": {
+    "companyDesc": "The only global enterprise simultaneously mastering all three major implantable neuromodulation platforms — dedicated to breaking technological barriers and safeguarding human health.",
+    "joinTeam": "Join Our Team",
+    "coreBusiness": "Core Business",
+    "scs": "Spinal Cord Stimulation SCS",
+    "pns": "Peripheral Nerve Stimulation PNS",
+    "tns": "Tibial Nerve Stimulation TNS",
+    "aboutUs": "About Us",
+    "about": "About Us",
+    "news": "Shenluo News",
+    "postdoctoral": "Postdoctoral Recruitment",
+    "salesJobs": "National Sales & Marketing",
+    "contactUs": "Contact Us",
+    "serviceHotline": "Service Hotline",
+    "companyEmail": "Company Email",
+    "wechatPublic": "WeChat Official Account",
+    "copyright": "Hangzhou Shenluo Medical Technology Co., Ltd. All Rights Reserved."
+  },
+  "home": {
+    "hero": {
+      "slide1": {
+        "title": "Decoding Neural Signals",
+        "subTitle": "Revitalizing Life Force",
+        "description": "From subtle fluctuations of neural signals to the magnificent symphony of life's rhythm"
+      },
+      "slide2": {
+        "title": "Empower Systems with Intelligence",
+        "subTitle": "Shape the Future with Innovation",
+        "description": "Precisely decode neural activity and collaborate across disciplines to explore an accurate, reliable, and seamless neuromodulation future."
+      },
+      "slide3": {
+        "title": "Precision Control, Lightweight Companion",
+        "subTitle": "Enduring Protection",
+        "description": "Let treatment be precise and direct, let devices blend seamlessly, let guardianship remain unwavering — redefining the new standard of care."
+      },
+      "learnMore": "Learn More"
+    },
+    "stats": {
+      "aboutLabel": "About Us",
+      "heading": "Breaking Technology Monopoly, Leading Globally",
+      "rdYears": "Core R&D Years",
+      "patents": "Patented Technologies",
+      "patients": "Patients Served",
+      "rdInvestment": "R&D Investment"
+    },
+    "news": {
+      "label": "News Center",
+      "heading": "Shenluo News Center",
+      "categoryEnterprise": "Company News"
+    },
+    "products": {
+      "label": "Products",
+      "heading": "Three Core Implant Platforms",
+      "scsName": "Spinal Cord Stimulation SCS",
+      "scsDesc": "As the gold standard for long-term pain management, SCS delivers high-frequency electrical pulses to specific spinal targets through minimally invasive implantation, precisely blocking pain signal transmission. The device supports ultra-long wireless battery life with intelligent programming.",
+      "pnsName": "Peripheral Nerve Stimulation PNS",
+      "pnsDesc": "Based on closed-loop biosensing and intelligent feedback mechanisms, designed for neurological conditions such as essential tremor and epilepsy, the device adaptively modulates pulse intensity to gently restore normal neural rhythms.",
+      "tnsName": "Tibial Nerve Stimulation TNS",
+      "tnsDesc": "Breaking the volume limitations of traditional neuromodulation, using ultra-miniature wireless electrode array design to precisely target peripheral nerve plexuses, minimally invasively improving local neurological dysfunction and restoring patients' freedom of movement."
+    },
+    "diseaseService": {
+      "label": "Patient Service",
+      "heading": "Learn About Diseases, Receive Caring Service",
+      "serviceTitle": "Service & Support",
+      "serviceDesc": "We understand that every use involves health and trust. Therefore, from product consultation to daily maintenance, from operation guidance to after-sales support, we have built a comprehensive support system for you. Our professional customer service team is always on standby, with nationwide service outlets conveniently accessible.",
+      "serviceCenter": "Professional Service Center",
+      "servicePhone": "400-808-5561",
+      "diseaseTitle": "Essential Tremor: Disease Overview, Symptoms and Treatment",
+      "diseaseSubtitle": "Disease Knowledge & Health Education",
+      "learnMore": "Learn More"
+    },
+    "recruitment": {
+      "label": "Recruitment",
+      "heading": "Join a Team That Creates the Extraordinary",
+      "joinUs": "Join Us",
+      "postdoctoral": "Postdoctoral Station",
+      "sales": "Sales Positions",
+      "other": "Others"
+    }
+  },
+  "about": {
+    "hero": {
+      "label": "About Shenluo",
+      "slogan": "Breaking Technology Monopoly, Leading Globally",
+      "desc": "Founded in 2018 and located in the AI Town of Yuhang District, Hangzhou, Shenluo Medical Technology is a high-tech enterprise focusing on neuromodulation product R&D and manufacturing. With nearly 2,000 square meters of Class 100,000 GMP facility and Class 10,000 biochemical laboratory, we are committed to creating internationally leading neuromodulation products. Our independently developed products encompass implantable spinal cord stimulators (SCS), peripheral nerve stimulators (PNS), ultra-small spinal cord stimulators (M-SCS), tibial nerve stimulation (TNS), and sleep apnea stimulators, bringing significant quality-of-life improvements to patients. As the only global enterprise simultaneously mastering three major neuromodulation technology platforms — rechargeable implantable pulse generator (IPG), short-term semi-implantable, and wireless energy transfer — Shenluo Medical continues to provide physicians and patients with more advanced and effective treatment options. To date, the company has completed Series C financing, raising hundreds of millions of yuan..."
+    },
+    "stats": {
+      "certificates": "Domestic & International Certifications",
+      "patents": "Patented Technologies",
+      "patients": "Patients Served",
+      "rdYears": "Core R&D Years"
+    },
+    "milestones": {
+      "heading": "Shenluo Milestones",
+      "subtitle": "Looking back, every step represents a relentless pursuit of precision medicine"
+    },
+    "culture": {
+      "heading": "Corporate Culture"
+    },
+    "values": {
+      "subtitle": "Internalized in heart, externalized in action — a value system centered on patients",
+      "mission": "Mission",
+      "missionSub1": "Addressing Patients' Urgent Needs",
+      "missionSub2": "Thinking from Patients' Perspective",
+      "responsible": "Responsibility",
+      "responsibleSub1": "Great Responsibility",
+      "responsibleSub2": "Moving Forward Together",
+      "quality": "High Quality",
+      "qualitySub1": "Scaling the Peak of Technology",
+      "qualitySub2": "Ascending the Summit of Quality",
+      "efficient": "Efficiency",
+      "efficientSub1": "Swift and Decisive Action",
+      "efficientSub2": "Achieving Twice the Result with Half the Effort"
+    },
+    "partner": {
+      "heading": "Join Hands, Create the Future Together",
+      "subtitle": "We are actively seeking channel, promotion, and strategic investment partners who share Shenluo Medical's values and complementary strengths to jointly define the new future of neuromodulation",
+      "channelTitle": "Channel Partnership",
+      "channelDesc": "If you have deep distribution\nsales channel networks in neurosurgery, pain management, or spinal surgery",
+      "promotionTitle": "Promotion Services",
+      "promotionDesc": "If your team possesses excellent professional academic\npromotion capabilities and clinical service competencies",
+      "investmentTitle": "Strategic Investment",
+      "investmentDesc": "If you believe in domestic innovative medical technology and are willing to make long-term\nstrategic investments in the neuromodulation field"
+    },
+    "contactBar": {
+      "heading": "We Look Forward to Connecting with You",
+      "text": "We understand that every use involves health and trust. Therefore,",
+      "text2": "from product consultation to daily maintenance, from operation guidance to after-sales support,",
+      "text3": "we have built a comprehensive support system for you.",
+      "desc": "Our professional customer service team is always on standby, with nationwide service outlets conveniently accessible.",
+      "phone": "Phone Hotline",
+      "email": "Company Email",
+      "qrLabel": "Scan to Add Sales Director on WeChat"
+    },
+    "join": {
+      "heading": "Join Us",
+      "subtitle": "Looking for like-minded individuals to start a new chapter in life science technology together",
+      "card1": {
+        "tag": "Top Talent",
+        "title": "Postdoctoral Station",
+        "desc": "Shenluo Medical has established a postdoctoral workstation aimed at attracting top global experts in neuroscience, microelectronics, and materials science. We provide industry-leading R&D resources and experimental environments to drive the clinical translation of cutting-edge technologies.",
+        "btn": "Apply Now"
+      },
+      "card2": {
+        "tag": "Marketing & Functions",
+        "title": "Sales & Functional Positions",
+        "desc": "We are looking for partners with high professional competence, sharp market insight, and a strong sense of mission. Whether you are an experienced industry veteran or a dynamic newcomer, Shenluo Medical offers you a broad stage for growth.",
+        "btn": "Apply Now"
+      },
+      "card3": {
+        "tag": "Others",
+        "title": "Others",
+        "desc": "We are looking for partners with high professional competence, sharp market insight, and a strong sense of mission. Whether you are an experienced industry veteran or a dynamic newcomer, Shenluo Medical offers you a broad stage for growth.",
+        "btn": "Apply Now"
+      }
+    }
+  },
+  "contact": {
+    "breadcrumb1": "About Us",
+    "breadcrumb2": "Careers",
+    "heading": "Contact Us",
+    "subheading": "CONTACTUS",
+    "companyName": "Hangzhou Shenluo Medical Technology Co., Ltd.",
+    "address": "Address: 4th Building, 3-5F, No. 8-5 Keji Avenue, Yuhang Street, Yuhang District, Hangzhou, Zhejiang",
+    "phone": "Phone: ",
+    "phoneNumber": "0571-88560292",
+    "email": "Email: service@seeneuro.com",
+    "website": "Website: http://www.seeneuro.com/",
+    "zipcode": "Zip Code: 310000",
+    "mapAlt": "Map"
+  },
+  "products": {
+    "breadcrumb1": "Products",
+    "breadcrumb2": "Product Details",
+    "sectionHeading1": "Product Features",
+    "specsHeading": "Technical Specifications",
+    "howItWorks": "How It Works",
+    "scsName": "Tibial Nerve Stimulation System TNS",
+    "scsEngName": "Spinal Cord Stimulation . SCS",
+    "scsDesc": "Spinal Cord Stimulation (SCS) is a well-established pain treatment method that has been used by physicians for over 50 years. As a minimally invasive, reversible advanced medical technology, it aims to relieve pain and improve patients' functional ability and quality of life. It is primarily used to treat chronic intractable pain of the trunk and limbs (such as post-lumbar surgery syndrome, complex regional pain syndrome, etc.).\nThrough minimally invasive electrode implantation into the spinal epidural space",
+    "pnsName": "Peripheral Nerve Stimulation System PNS",
+    "pnsEngName": "Peripheral Nerve Stimulation . PNS",
+    "pnsDesc": "Peripheral Nerve Stimulation (PNS) is an innovative neuromodulation technology that precisely intervenes in abnormal nervous system activity by targeting peripheral nerves, offering new treatment options for patients with drug-refractory neurological disorders.",
+    "tnsName": "Tibial Nerve Stimulation System TNS",
+    "tnsEngName": "Tibial Nerve Stimulation . TNS",
+    "tnsDesc": "Tibial Nerve Stimulation (TNS) is an advanced neuromodulation technology for treating bladder dysfunction. By stimulating the tibial nerve, it regulates bladder function, improving urinary control and pelvic floor function.",
+    "specs": {
+      "length": "Length (mm)",
+      "width": "Width (mm)",
+      "thickness": "Thickness (mm)",
+      "weight": "Weight (g)",
+      "tempLimit": "Temperature Limit",
+      "tempValue": "Temperature not exceeding 39°C",
+      "channels": "Channels",
+      "channelsValue": "Left: 8  Right: 8",
+      "volume": "Volume (cm³)",
+      "volumeValue": "24.8"
+    },
+    "features": {
+      "card1Title": "Adjustable, Precision Protection",
+      "card2Title": "Minimal Intervention, Easy Recovery",
+      "card3Title": "Wide Bandwidth, Potential Breakthrough"
+    },
+    "manualTitle": "SCS Product Manual",
+    "manualDesc": "Learn about SCS, a spinal cord stimulation system that helps treat certain types of chronic intractable pain."
+  },
+  "patientService": {
+    "heading": "Patient Service",
+    "subtitle": "Providing comprehensive medical services and support for every patient",
+    "appointment": "Appointment",
+    "appointmentDesc": "Book specialist appointments online for convenient medical care",
+    "reportQuery": "Report Inquiry",
+    "reportQueryDesc": "View examination and test reports online",
+    "onlineConsult": "Online Consultation",
+    "onlineConsultDesc": "Professional doctors answer health questions online"
+  },
+  "news": {
+    "breadcrumb1": "News",
+    "breadcrumb2": "Articles",
+    "categoryEnterprise": "Company News",
+    "categoryHealth": "Health Education",
+    "categoryClinical": "Clinical Applications",
+    "loadMore": "Load More",
+    "detail": {
+      "breadcrumb1": "News",
+      "breadcrumb2": "Article Details",
+      "relatedNews": "Related News",
+      "loading": "Loading...",
+      "empty": "Article not found"
+    }
+  },
+  "careers": {
+    "breadcrumb1": "About Us",
+    "breadcrumb2": "Careers",
+    "joinTag": "Join Our Mission",
+    "joinTitle": {
+      "other": "Join Shenluo<br />Create the Future",
+      "sales": "Sales Recruitment",
+      "academic": "Postdoctoral Recruitment"
+    },
+    "joinSubtitle": "At the forefront of medical technology, we seek passionate innovators. Through precision engineering and caring technology, we redefine the quality of life.",
+    "postdoctoral": "Postdoctoral Station",
+    "postdoctoralDesc": "Aura MedTech has established a provincial postdoctoral innovation practice base, sincerely inviting top doctoral talents in neuroscience and engineering worldwide to join.",
+    "salesJobs": "Sales",
+    "salesJobsDesc": "Aura MedTech has established a provincial postdoctoral innovation practice base, sincerely inviting top doctoral talents in neuroscience and engineering worldwide to join.",
+    "other": "Others",
+    "otherDesc": "Aura MedTech has established a provincial postdoctoral innovation practice base, sincerely inviting top doctoral talents in neuroscience and engineering worldwide to join.",
+    "jobHeading": "Job Openings",
+    "categories": {
+      "all": "All",
+      "postdoctoral": "Postdoctoral",
+      "sales": "Sales",
+      "technical": "Technical",
+      "medical": "Medical",
+      "procurement": "Procurement",
+      "quality": "Quality",
+      "marketing": "Marketing",
+      "functional": "Functional",
+      "latest": "Latest"
+    },
+    "urgent": "Urgent",
+    "applyJob": "Apply",
+    "viewDetails": "View Application Details",
+    "jobDetail": {
+      "breadcrumb1": "About Us",
+      "breadcrumb2": "Job Openings",
+      "breadcrumb3": "Social Recruitment",
+      "applyNow": "Apply Now",
+      "jobDesc": "Job Description",
+      "recruitmentProcess": "Recruitment Process",
+      "step1": "Resume Submission",
+      "step2": "Technical Interview",
+      "step3": "Team Interview",
+      "step4": "Executive Interview",
+      "step5": "Offer",
+      "recruiter": "Recruitment Director",
+      "recruiterQuote": "\"We are looking for dreamers eager to reshape the quality of life through\ntechnology. We look forward to seeing you at Shenluo Medical.\"",
+      "contactNow": "Contact Now",
+      "sendResume": "Send Resume",
+      "relatedJobs": "Related Positions",
+      "emailCopied": "Email Copied",
+      "copyEmailTip": "Copy email to send resume",
+      "scanQrTip": "Scan WeChat QR code to connect"
+    }
+  },
+  "guide": {
+    "heading": "Medical Guide",
+    "subtitle": "Providing detailed medical information and guidance",
+    "tabs": {
+      "register": "Appointment",
+      "process": "Visit Process",
+      "time": "Clinic Hours",
+      "location": "Hospital Location"
+    },
+    "register": {
+      "heading": "Appointment Methods",
+      "online": "Online Booking",
+      "onlineDesc": "Log in to the hospital's official website for online appointment",
+      "phone": "Phone Booking",
+      "phoneDesc": "Call the appointment hotline 400-888-8888",
+      "app": "App Booking",
+      "appDesc": "Download the hospital official app for appointment",
+      "onsite": "On-site Booking",
+      "onsiteDesc": "Visit the hospital registration window for appointment"
+    },
+    "process": {
+      "heading": "Visit Process",
+      "step1Title": "Make an Appointment",
+      "step1Desc": "Select department and doctor, complete appointment registration",
+      "step2Title": "Check-in & Wait",
+      "step2Desc": "Check in at the department with appointment information or ID",
+      "step3Title": "Doctor Consultation",
+      "step3Desc": "Doctor consultation, examination, and treatment planning",
+      "step4Title": "Payment & Medication",
+      "step4Desc": "Pick up medication at the pharmacy or complete examinations with prescription"
+    },
+    "time": {
+      "heading": "Clinic Hours",
+      "outpatientTitle": "Outpatient Hours",
+      "outpatientWeekday": "Monday to Friday: 8:00 - 17:30",
+      "outpatientSaturday": "Saturday: 8:00 - 12:00",
+      "outpatientHoliday": "Sunday & Holidays: Closed",
+      "emergencyTitle": "Emergency Hours",
+      "emergency24h": "Open 24/7, year-round",
+      "emergencyPhone": "Emergency Hotline: 400-888-9999"
+    },
+    "location": {
+      "heading": "Hospital Location",
+      "mapPlaceholder": "Map Area",
+      "address": "Address",
+      "addressValue": "No. 100 Neuroscience Avenue, Chaoyang District, Beijing",
+      "phone": "Phone",
+      "phoneValue": "400-888-8888",
+      "transport": "Transportation",
+      "metro": "Metro: Line 10, Neuroscience Station, Exit B",
+      "bus": "Bus: Routes 123, 456, 789, Shenluo Hospital Stop",
+      "car": "Driving: Navigate to \"Shenluo Hospital\""
+    },
+    "faq": {
+      "q1": "How to make an appointment?",
+      "a1": "You can make an appointment through the following methods: 1. Log in to the hospital's official website for online booking; 2. Call the appointment hotline 400-888-8888; 3. Download the hospital official app for booking; 4. Visit the hospital registration window for on-site booking.",
+      "q2": "How to check in after making an appointment?",
+      "a2": "After a successful appointment, please bring the patient's valid ID (ID card, medical insurance card, etc.) to the hospital registration window or self-service kiosk on the day of the visit. It is recommended to arrive 30 minutes early.",
+      "q3": "What documents should I bring for the visit?",
+      "a3": "Please bring the patient's valid ID (ID card, household registration book, etc.), medical insurance card (if applicable), previous medical records, examination reports, test results, and other relevant medical documents.",
+      "q4": "How to check examination reports?",
+      "a4": "You can check examination reports through the hospital's official website, app, or WeChat official account. Generally, examination reports are available within 1-3 working days after completion.",
+      "q5": "What payment methods does the hospital accept?",
+      "a5": "The hospital accepts multiple payment methods: cash, bank card, medical insurance card, WeChat Pay, Alipay, etc."
+    }
+  },
+  "common": {
+    "learnMore": "Learn More"
+  }
+}

@@ -3,7 +3,7 @@ import news1 from '@/assets/news-1.png'
 import news2 from '@/assets/news-2.png'
 import news3 from '@/assets/news-3.png'
 import news4 from '@/assets/news-4.png'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const newsItems = [
   {
@@ -81,10 +81,10 @@ onBeforeUnmount(() => {
     <div class="max-w-[1920px] mx-auto">
       <div class="text-center">
         <span class="block text-[#0163FF] font-black text-lg mb-5 font-alibabapuhuiti">
-          资讯中心
+          {{ $t('home.news.label') }}
         </span>
         <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
-          神络资讯中心
+          {{ $t('home.news.heading') }}
         </h2>
       </div>
 

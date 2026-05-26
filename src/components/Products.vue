@@ -2,34 +2,36 @@
 import product1 from '@/assets/product-1.png'
 import product2 from '@/assets/product-2.png'
 import product3 from '@/assets/product-3.png'
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { t } = useI18n()
 
-const products = [
+const products = computed(() => [
   {
     id: 1,
-    name: '脊髓神经刺激系统SCS',
-    description: '作为长效疼痛管理的黄金标准，通过微创植入，向脊特定靶点发送高频电脉冲，精准阻断疼痛信号传导。设备支持超长无线续航与智能程控。',
+    name: t('home.products.scsName'),
+    description: t('home.products.scsDesc'),
     image: product1,
     selected: true,
   },
   {
     id: 2,
-    name: '外周围神经刺激系统PNS',
-    description: '基于闭环生物传感与智能反馈机制，专为特发性震颤及瘤病等神经疾病设计，设备自适应调控脉冲强度，温和恢复神经系统正常节律。',
+    name: t('home.products.pnsName'),
+    description: t('home.products.pnsDesc'),
     image: product2,
     selected: false,
   },
   {
     id: 3,
-    name: '植入式胫神经刺激系统TNS',
-    description: '打破传统神经调控的体积局限，采用超微型无线电极阵列设计，精准靶向外周神经丛，微创改善局部神经功能障碍，重塑患者行动自由。',
+    name: t('home.products.tnsName'),
+    description: t('home.products.tnsDesc'),
     image: product3,
     selected: false,
   },
-]
+])
 
 const goToDetail = (id: number) => {
   router.push(`/product/${id}`)
@@ -38,9 +40,9 @@ const goToDetail = (id: number) => {
 const cardWidth = 500
 const gap = 40
 const step = cardWidth + gap
-const totalSetWidth = products.length * step
+const totalSetWidth = computed(() => products.value.length * step)
 
-const duplicated = computed(() => [...products])
+const duplicated = computed(() => [...products.value])
 
 const scrollOffset = ref(0)
 const isPaused = ref(false)
@@ -50,15 +52,15 @@ const SPEED = 0.3
 const animate = () => {
   if (!isPaused.value) {
     scrollOffset.value += SPEED
-    if (scrollOffset.value >= totalSetWidth) {
-      scrollOffset.value -= totalSetWidth
+    if (scrollOffset.value >= totalSetWidth.value) {
+      scrollOffset.value -= totalSetWidth.value
     }
   }
   animId = requestAnimationFrame(animate)
 }
 
 onMounted(() => {
-  if (products.length > 3) {
+  if (products.value.length > 3) {
     animId = requestAnimationFrame(animate)
   }
 })
@@ -73,10 +75,10 @@ onBeforeUnmount(() => {
     <div class="max-w-[1920px] mx-auto">
       <div class="text-center ">
         <span class="block text-[#0163FF] font-black text-lg mb-5 font-alibabapuhuiti">
-          产品展示
+          {{ $t('home.products.label') }}
         </span>
         <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
-          三大核心植入平台
+          {{ $t('home.products.heading') }}
         </h2>
       </div>
 

@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import statsBg from '@/assets/stats-bg.png'
 
-const stats = [
-  { value: 8, suffix: '+', label: '核心研发积淀(年)', animated: ref(0) },
-  { value: 100, suffix: '+', label: '专利技术', animated: ref(0) },
-  { value: 20, suffix: 'K+', label: '服务患者', animated: ref(0) },
-  { value: 8, suffix: '亿+', label: '研发投资', animated: ref(0) },
-]
+const { t } = useI18n()
+
+const stats = computed(() => [
+  { value: 8, suffix: '+', label: t('home.stats.rdYears'), animated: ref(0) },
+  { value: 100, suffix: '+', label: t('home.stats.patents'), animated: ref(0) },
+  { value: 20, suffix: 'K+', label: t('home.stats.patients'), animated: ref(0) },
+  { value: 8, suffix: '亿+', label: t('home.stats.rdInvestment'), animated: ref(0) },
+])
 
 const animateValue = (stat: { value: number; animated: { value: number } }, duration: number) => {
   const startTime = performance.now()
@@ -27,7 +30,7 @@ onMounted(() => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        stats.forEach((stat, index) => {
+        stats.value.forEach((stat, index) => {
           setTimeout(() => {
             animateValue(stat, 2000)
           }, index * 200)
@@ -54,10 +57,10 @@ onMounted(() => {
       <!-- 标题区域 -->
       <div class="text-center mb-[100px]">
         <span class="block text-[#0163FF] font-black text-lg mb-[27px] font-alibabapuhuiti">
-          关于我们
+          {{ $t('home.stats.aboutLabel') }}
         </span>
         <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
-          打破技术垄断，领航全球
+          {{ $t('home.stats.heading') }}
         </h2>
       </div>
 

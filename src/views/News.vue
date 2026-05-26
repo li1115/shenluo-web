@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 import news1 from '@/assets/news-1.png'
 import news2 from '@/assets/news-2.png'
 import news3 from '@/assets/news-3.png'
 import news4 from '@/assets/news-4.png'
 
+const { t } = useI18n()
 const router = useRouter()
 
 interface NewsItem {
@@ -16,10 +19,6 @@ interface NewsItem {
   [key: string]: unknown
 }
 
-interface News {
-  key: string
-  value: NewsItem[]
-}
 const corporateNewsCategories: NewsItem[] = [
   {
     id: 1,
@@ -127,20 +126,20 @@ const clinicAppNews: NewsItem[] = [
     image: news3,
   },
 ]
-const news: News[] = [
+const news = computed(() => [
   {
-    key: '企业动态',
+    key: t('news.categoryEnterprise'),
     value: corporateNewsCategories,
   },
   {
-    key: '疾病科普',
+    key: t('news.categoryHealth'),
     value: healthNews,
   },
   {
-    key: '临床应用',
+    key: t('news.categoryClinical'),
     value: clinicAppNews,
   },
-]
+])
 
 const goToNewsDetail = (id: number) => {
   router.push(`/news/${id}`)
@@ -159,9 +158,9 @@ const goToNewsList = () => {
         <img src="@/assets/news-hero.png" alt="banner" class="news-page__banner-img" />
       </div>
       <div class="news-page__breadcrumb">
-        <span class="news-page__breadcrumb-link" @click="goToNewsList">资讯</span>
+        <span class="news-page__breadcrumb-link" @click="goToNewsList">{{ $t('news.breadcrumb1') }}</span>
         <span>/</span>
-        <span class="news-page__breadcrumb-current">文章合集</span>
+        <span class="news-page__breadcrumb-current">{{ $t('news.breadcrumb2') }}</span>
       </div>
     </div>
 
@@ -193,7 +192,7 @@ const goToNewsList = () => {
 
       <div v-if="newsItem.value.length > 6" class="news-page__load-more-wrap">
         <button class="news-page__load-more">
-          <span>加载更多</span>
+          <span>{{ $t('news.loadMore') }}</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>

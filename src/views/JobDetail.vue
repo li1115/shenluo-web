@@ -73,7 +73,7 @@ const openJobDetail = (id: number) => {
 
 <template>
   <div :class="{ 'job-message': true, 'job-message--show': showMessage }">
-    <span class="job-message__text">邮箱已复制</span>
+    <span class="job-message__text">{{ $t('careers.jobDetail.emailCopied') }}</span>
   </div>
   <div class="job-detail">
     <!-- Hero Section -->
@@ -82,17 +82,17 @@ const openJobDetail = (id: number) => {
       <div class="job-detail__hero-gradient" />
       <div class="job-detail__hero-inner">
         <div class="job-detail__breadcrumb">
-          <span class="job-detail__breadcrumb-item">关于我们</span>
+          <span class="job-detail__breadcrumb-item">{{ $t('careers.jobDetail.breadcrumb1') }}</span>
           <span class="job-detail__breadcrumb-sep">/</span>
-          <span class="job-detail__breadcrumb-item">招聘职位</span>
+          <span class="job-detail__breadcrumb-item">{{ $t('careers.jobDetail.breadcrumb2') }}</span>
           <span class="job-detail__breadcrumb-sep">/</span>
-          <span class="job-detail__breadcrumb-item">社招招聘</span>
+          <span class="job-detail__breadcrumb-item">{{ $t('careers.jobDetail.breadcrumb3') }}</span>
         </div>
         <div class="job-detail__hero-content">
           <h1 class="job-detail__title">数字芯片设计工程师</h1>
           <p class="job-detail__meta">35k-45k · 15薪 | 杭州 (Hangzhou)</p>
           <div class="job-detail__hero-actions">
-            <button class="job-detail__apply-btn" @click="openContactModal">立即申请</button>
+            <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow') }}</button>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ const openJobDetail = (id: number) => {
         <div class="job-detail__section">
           <div class="job-detail__section-heading">
             <span class="job-detail__section-accent" />
-            <h2 class="job-detail__section-title">职位描述</h2>
+            <h2 class="job-detail__section-title">{{ $t('careers.jobDetail.jobDesc') }}</h2>
           </div>
           <div class="job-detail__richtext" v-html="descriptionHtml" />
           <div class="job-detail__list">
@@ -131,14 +131,14 @@ const openJobDetail = (id: number) => {
 
         <!-- Recruitment Process -->
         <div class="job-detail__process">
-          <h2 class="job-detail__process-title">招聘流程</h2>
+          <h2 class="job-detail__process-title">{{ $t('careers.jobDetail.recruitmentProcess') }}</h2>
           <div class="job-detail__process-steps">
             <div class="job-detail__process-step">
               <div class="job-detail__process-circle">
                 <span class="job-detail__process-shadow" />
                 <span class="job-detail__process-num">1</span>
               </div>
-              <span class="job-detail__process-label">简历投递</span>
+              <span class="job-detail__process-label">{{ $t('careers.jobDetail.step1') }}</span>
             </div>
             <span class="job-detail__process-divider" />
             <div class="job-detail__process-step">
@@ -146,7 +146,7 @@ const openJobDetail = (id: number) => {
                 <span class="job-detail__process-shadow" />
                 <span class="job-detail__process-num">2</span>
               </div>
-              <span class="job-detail__process-label">技术面试</span>
+              <span class="job-detail__process-label">{{ $t('careers.jobDetail.step2') }}</span>
             </div>
             <span class="job-detail__process-divider" />
             <div class="job-detail__process-step">
@@ -154,7 +154,7 @@ const openJobDetail = (id: number) => {
                 <span class="job-detail__process-shadow" />
                 <span class="job-detail__process-num">3</span>
               </div>
-              <span class="job-detail__process-label">团队面试</span>
+              <span class="job-detail__process-label">{{ $t('careers.jobDetail.step3') }}</span>
             </div>
             <span class="job-detail__process-divider" />
             <div class="job-detail__process-step">
@@ -162,7 +162,7 @@ const openJobDetail = (id: number) => {
                 <span class="job-detail__process-shadow" />
                 <span class="job-detail__process-num">4</span>
               </div>
-              <span class="job-detail__process-label">高管面谈</span>
+              <span class="job-detail__process-label">{{ $t('careers.jobDetail.step4') }}</span>
             </div>
             <span class="job-detail__process-divider" />
             <div class="job-detail__process-step">
@@ -173,7 +173,7 @@ const openJobDetail = (id: number) => {
                     fill="white" />
                 </svg>
               </div>
-              <span class="job-detail__process-label job-detail__process-label--bold">Offer发放</span>
+              <span class="job-detail__process-label job-detail__process-label--bold">{{ $t('careers.jobDetail.step5') }}</span>
             </div>
           </div>
         </div>
@@ -189,23 +189,23 @@ const openJobDetail = (id: number) => {
             </div>
             <div class="job-detail__recruiter-info">
               <h3 class="job-detail__recruiter-name">Dr. Zhang</h3>
-              <span class="job-detail__recruiter-role">招聘总监</span>
+              <span class="job-detail__recruiter-role">{{ $t('careers.jobDetail.recruiter') }}</span>
             </div>
           </div>
           <p class="job-detail__recruiter-quote">
-            "我们在寻找那些渴望用技术重塑生命质量的梦想<br />家。期待在神络医疗见到你。"
+            {{ $t('careers.jobDetail.recruiterQuote') }}
           </p>
           <button class="job-detail__recruiter-btn job-detail__recruiter-btn--primary" @click="openContactModal">
-            立即沟通
+            {{ $t('careers.jobDetail.contactNow') }}
           </button>
           <button class="job-detail__recruiter-btn job-detail__recruiter-btn--outline" @click="openContactEmail">
-            投递简历
+            {{ $t('careers.jobDetail.sendResume') }}
           </button>
         </div>
 
         <!-- Similar Jobs -->
         <div class="job-detail__similar">
-          <h3 class="job-detail__similar-title">相关职位</h3>
+          <h3 class="job-detail__similar-title">{{ $t('careers.jobDetail.relatedJobs') }}</h3>
           <div class="job-detail__similar-list">
             <div v-for="job in similarJobs" :key="job.id" class="job-detail__similar-item"
               @click="openJobDetail(job.id)">
@@ -250,13 +250,13 @@ const openJobDetail = (id: number) => {
                 fill="#0264FF" stroke="#0264FF" />
             </svg>
           </div>
-          <p class="job-detail__modal-text">复制邮箱投递简历</p>
+          <p class="job-detail__modal-text">{{ $t('careers.jobDetail.copyEmailTip') }}</p>
         </div>
         <div class="job-detail__modal-card" @click.stop v-else>
           <div class="job-detail__modal-qr">
             <img src="@/assets/job-qrcode.png" alt="微信二维码" class="job-detail__modal-qr-img" />
           </div>
-          <p class="job-detail__modal-text">扫描微信二维码联系</p>
+          <p class="job-detail__modal-text">{{ $t('careers.jobDetail.scanQrTip') }}</p>
         </div>
       </div>
     </Teleport>

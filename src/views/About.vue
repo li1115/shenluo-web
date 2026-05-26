@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import investment from '@/assets/investment.png'
 import promotion from '@/assets/promotion.png'
 import channel from '@/assets/channel.png'
@@ -15,45 +16,21 @@ import responsibleIcon from '@/assets/responsible.svg'
 import highQualityIcon from '@/assets/high-quality.svg'
 import missionIcon from '@/assets/mission.svg'
 import efficientIcon from '@/assets/efficient.svg'
-import { R } from 'vue-router/dist/router-CWoNjPRp.mjs'
+
+const { t } = useI18n()
+
 interface Milestone {
   id: number
   month: string
   content: string
 }
 
-interface ValueItem {
-  id: number
-  name: string
-  nameEn: string
-  img: string
-  subtitles: string[]
-  bgColor: string
-  icon: string
-}
-
-interface PartnerCard {
-  id: number
-  title: string
-  img: string
-  icon: string
-  description: string
-}
-
-interface StatItem {
-  id: number
-  value: number
-  suffix: string
-  label: string
-  animated: { value: number }
-}
-
-const stats: StatItem[] = [
-  { id: 1, value: 2000, suffix: '+', label: '㎡ GMP标准厂房', animated: ref(0) },
-  { id: 2, value: 100, suffix: '+', label: '专利技术', animated: ref(0) },
-  { id: 3, value: 8, suffix: '亿+', label: '研发投资', animated: ref(0) },
-  { id: 4, value: 8, suffix: '+', label: '核心研发积淀(年)', animated: ref(0) },
-]
+const stats = computed(() => [
+  { id: 1, value: 20, suffix: '+', label: t('about.stats.certificates'), animated: ref(0) },
+  { id: 2, value: 100, suffix: '+', label: t('about.stats.patents'), animated: ref(0) },
+  { id: 3, value: 20, suffix: 'K+', label: t('about.stats.patients'), animated: ref(0) },
+  { id: 4, value: 8, suffix: '+', label: t('about.stats.rdYears'), animated: ref(0) },
+])
 
 const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020']
 const activeYear = ref('2026')
@@ -111,68 +88,68 @@ const milestonesByYear: Record<string, Milestone[]> = {
 
 const currentMilestones = computed(() => milestonesByYear[activeYear.value] || [])
 
-const values = ref<ValueItem[]>([
+const values = computed(() => [
   {
     id: 1,
-    name: '使命',
+    name: t('about.values.mission'),
     nameEn: 'Mission',
     img: mission,
     icon: missionIcon,
-    subtitles: ['急患者之所急', '想患者之所想'],
+    subtitles: [t('about.values.missionSub1'), t('about.values.missionSub2')],
     bgColor: '#F6F6F6',
   },
   {
     id: 2,
-    name: '担当',
+    name: t('about.values.responsible'),
     nameEn: 'Responsible',
     img: responsible,
     icon: responsibleIcon,
-    subtitles: ['侠之大者', '结伴前行'],
+    subtitles: [t('about.values.responsibleSub1'), t('about.values.responsibleSub2')],
     bgColor: '#F6F6F6',
   },
   {
     id: 3,
-    name: '高质',
+    name: t('about.values.quality'),
     nameEn: 'High Quality',
     img: highQuality,
     icon: highQualityIcon,
-    subtitles: ['攀技术之巅', '登品质之峰'],
+    subtitles: [t('about.values.qualitySub1'), t('about.values.qualitySub2')],
     bgColor: '#EDEDED',
   },
   {
     id: 4,
-    name: '高效',
+    name: t('about.values.efficient'),
     nameEn: 'Efficient',
     img: efficient,
     icon: efficientIcon,
-    subtitles: ['雷厉风行', '事半功倍'],
+    subtitles: [t('about.values.efficientSub1'), t('about.values.efficientSub2')],
     bgColor: '#F6F6F6',
   },
 ])
 
 const activeValue = ref(1)
 
-const partnerCards = ref<PartnerCard[]>([
+const partnerCards = computed(() => [
   {
     id: 1,
-    title: '渠道合作',
+    title: t('about.partner.channelTitle'),
     img: channel,
     icon: channelIcon,
-    description: '如果您在神经外科、疼痛科或脊柱外科拥有\n深厚代理销售渠道网络',
+    description: t('about.partner.channelDesc'),
   },
   {
     id: 2,
-    title: '推广服务',
+    title: t('about.partner.promotionTitle'),
     img: promotion,
     icon: promotionIcon,
-    description: '如果您的团队具备优秀的专业学术\n推广能力和临床服务能力',
+    description: t('about.partner.promotionDesc'),
   },
   {
     id: 3,
-    title: '战略投资',
+    title: t('about.partner.investmentTitle'),
     img: investment,
     icon: investmentIcon,
-    description: '如果您认同国产创新医疗、并愿意长期为\n神经调控领域战略投资',
+    description: t('about.partner.investmentDesc'),
   },
 ])
 
@@ -194,7 +171,7 @@ onMounted(() => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        stats.forEach((stat, index) => {
+        stats.value.forEach((stat, index) => {
           setTimeout(() => {
             animateValue(stat, 2000)
           }, index * 200)
@@ -233,11 +210,11 @@ const handleClick = (key: string) => {
         </div>
 
         <div class="about__hero-right">
-          <h1 class="about__hero-label">关于神络</h1>
+          <h1 class="about__hero-label">{{ $t('about.hero.label') }}</h1>
           <div class="about__hero-text-group">
-            <p class="about__hero-slogan">打破技术垄断，领航全球</p>
+            <p class="about__hero-slogan">{{ $t('about.hero.slogan') }}</p>
             <p class="about__hero-desc">
-              杭州神络医疗科技有限公司成立于2018年，坐落于杭州市余杭区人工智能小镇，是一家专注于神经调控产品研发与生产的高科技企业。拥有近两千平方米的十万级GMP厂房和万级生化实验室，致力于打造国际领先的神经调控产品。自主研发的产品涵盖植入式脊髓神经刺激器（SCS）、外周神经刺激器（PNS）、超小型脊髓神经刺激器（M-SCS）、胫神经刺激（TNS）以及呼吸暂停刺激器等，为患者带来显著的生活质量改善。全球唯一一家同时掌握可充电植入式脉冲发生器IPG、短期半植入、无线携能三大神经调控技术平台的企业，神络医疗持续为医生和患者提供更先进、有效的治疗手段。截至目前，公司已完成C轮融资，融资金额数亿元...
+              {{ $t('about.hero.desc') }}
             </p>
           </div>
         </div>
@@ -256,8 +233,8 @@ const handleClick = (key: string) => {
     <!-- 神络里程碑 -->
     <section class="about__milestones">
       <div class="about__section-header">
-        <h2 class="about__section-heading">神络里程碑</h2>
-        <p class="about__section-subtitle">回首过往，每一步都是对精准医疗的执着追求</p>
+        <h2 class="about__section-heading">{{ $t('about.milestones.heading') }}</h2>
+        <p class="about__section-subtitle">{{ $t('about.milestones.subtitle') }}</p>
       </div>
 
       <div class="about__timeline-wrapper">
@@ -318,8 +295,8 @@ const handleClick = (key: string) => {
         <img src="@/assets/about_culture_bg.png" alt="企业文化" class="about__culture-bg-img" />
       </div>
       <div class="about__section-header">
-        <h2 class="about__section-heading">企业文化</h2>
-        <p class="about__section-subtitle">内化于心，外化于行，以患者为核心的价值观体系</p>
+        <h2 class="about__section-heading">{{ $t('about.culture.heading') }}</h2>
+        <p class="about__section-subtitle">{{ $t('about.values.subtitle') }}</p>
       </div>
 
       <div class="about__values">
@@ -361,9 +338,9 @@ const handleClick = (key: string) => {
     <!-- 商业合作 -->
     <section class="about__partners">
       <div class="about__section-header">
-        <h2 class="about__section-heading">诚邀携手，共创未来</h2>
+        <h2 class="about__section-heading">{{ $t('about.partner.heading') }}</h2>
         <p class="about__section-subtitle about__section-subtitle--narrow">
-          我们正在积极寻找与神络医疗价值观契合、优势互补的渠道、推广和战略投资伙伴，共同定义神经调控新未</p>
+          {{ $t('about.partner.subtitle') }}</p>
       </div>
 
       <div class="about__partner-cards">
@@ -383,12 +360,12 @@ const handleClick = (key: string) => {
 
       <div class="about__contact-bar">
         <div class="about__contact-info">
-          <h3 class="about__contact-heading">期待与您对话</h3>
+          <h3 class="about__contact-heading">{{ $t('about.contactBar.heading') }}</h3>
           <p class="about__contact-text">
-            我们深知，每一次使用都关乎健康与信任。因此，<br />
-            从产品咨询到日常维护从操作指导到售后保障<br />
-            我们为您搭建起全方位的支持体系。<br />
-            专业客服团队随时待命，全国服务网点便捷可达。
+            {{ $t('about.contactBar.text') }}<br />
+            {{ $t('about.contactBar.text2') }}<br />
+            {{ $t('about.contactBar.text3') }}<br />
+            {{ $t('about.contactBar.desc') }}
           </p>
         </div>
 
@@ -397,7 +374,7 @@ const handleClick = (key: string) => {
             <img src="@/assets/about-contact-phone.svg" alt="电话热线" class="about__contact-icon-img" />
           </div>
           <div class="about__contact-detail">
-            <span class="about__contact-label">电话热线</span>
+            <span class="about__contact-label">{{ $t('about.contactBar.phone') }}</span>
             <span class="about__contact-value">400-808-5561</span>
           </div>
         </div>
@@ -407,7 +384,7 @@ const handleClick = (key: string) => {
             <img src="@/assets/about-contact-email.svg" alt="企业邮箱" class="about__contact-icon-img" />
           </div>
           <div class="about__contact-detail about__contact-detail--email">
-            <span class="about__contact-label">企业邮箱</span>
+            <span class="about__contact-label">{{ $t('about.contactBar.email') }}</span>
             <span class="about__contact-value">support@seeneuro.com</span>
           </div>
         </div>
@@ -416,7 +393,7 @@ const handleClick = (key: string) => {
           <div class="about__contact-qr-code">
             <img src="@/assets/about-qr.png" alt="QR Code" class="about__contact-qr-img" />
           </div>
-          <span class="about__contact-qr-label">扫描添加销售总监微信</span>
+          <span class="about__contact-qr-label">{{ $t('about.contactBar.qrLabel') }}</span>
         </div>
       </div>
     </section>
@@ -424,8 +401,8 @@ const handleClick = (key: string) => {
     <!-- 加入我们 -->
     <section class="about__join">
       <div class="about__section-header about__join-header">
-        <h2 class="about__section-heading about__section-heading--light">加入我们</h2>
-        <p class="about__section-subtitle about__section-subtitle--light">寻找志同道合的你，共同开启生命科技新篇章</p>
+        <h2 class="about__section-heading about__section-heading--light">{{ $t('about.join.heading') }}</h2>
+        <p class="about__section-subtitle about__section-subtitle--light">{{ $t('about.join.subtitle') }}</p>
       </div>
 
       <div class="about__join-cards">
@@ -434,11 +411,11 @@ const handleClick = (key: string) => {
             <div class="about__join-card-icon">
               <img src="@/assets/about-join-icon.svg" alt="加入我们" class="about__join-card-icon-img" />
             </div>
-            <span class="about__join-card-tag">高精尖人才</span>
+            <span class="about__join-card-tag">{{ $t('about.join.card1.tag') }}</span>
           </div>
-          <h3 class="about__join-card-title">博士后工作站</h3>
-          <p class="about__join-card-desc">神络医疗设立博士后工作站，旨在吸引全球顶尖神经科学、微电子及材料学专家。提供行业领先的研发资源与实验环境，推动前沿技术的临床转化。</p>
-          <button class="about__join-card-btn" @click="handleClick('doctor')">立即申请</button>
+          <h3 class="about__join-card-title">{{ $t('about.join.card1.title') }}</h3>
+          <p class="about__join-card-desc">{{ $t('about.join.card1.desc') }}</p>
+          <button class="about__join-card-btn" @click="handleClick('doctor')">{{ $t('about.join.card1.btn') }}</button>
         </div>
 
         <div class="about__join-card">
@@ -446,12 +423,12 @@ const handleClick = (key: string) => {
             <div class="about__join-card-icon">
               <img src="@/assets/about-join-icon2.svg" alt="加入我们" class="about__join-card-icon-img" />
             </div>
-            <span class="about__join-card-tag">市场与职能</span>
+            <span class="about__join-card-tag">{{ $t('about.join.card2.tag') }}</span>
           </div>
-          <h3 class="about__join-card-title">销售及职能部门职位</h3>
-          <p class="about__join-card-desc">我们寻找具备高度专业素养、敏锐市场触觉及强烈使命感的伙伴。无论您是经验丰富的行业精英，还是充满活力的职场新秀，神络医疗都为您提供广阔的成长舞台。</p>
+          <h3 class="about__join-card-title">{{ $t('about.join.card2.title') }}</h3>
+          <p class="about__join-card-desc">{{ $t('about.join.card2.desc') }}</p>
           <button class="about__join-card-btn about__join-card-btn--outline"
-            @click="handleClick('sales')">立即申请</button>
+            @click="handleClick('sales')">{{ $t('about.join.card2.btn') }}</button>
         </div>
 
         <div class="about__join-card">
@@ -459,12 +436,12 @@ const handleClick = (key: string) => {
             <div class="about__join-card-icon">
               <img src="@/assets/about-join-icon3.svg" alt="加入我们" class="about__join-card-icon-img" />
             </div>
-            <span class="about__join-card-tag">其他</span>
+            <span class="about__join-card-tag">{{ $t('about.join.card3.tag') }}</span>
           </div>
-          <h3 class="about__join-card-title">其他</h3>
-          <p class="about__join-card-desc">我们寻找具备高度专业素养、敏锐市场触觉及强烈使命感的伙伴。无论您是经验丰富的行业精英，还是充满活力的职场新秀，神络医疗都为您提供广阔的成长舞台。</p>
+          <h3 class="about__join-card-title">{{ $t('about.join.card3.title') }}</h3>
+          <p class="about__join-card-desc">{{ $t('about.join.card3.desc') }}</p>
           <button class="about__join-card-btn about__join-card-btn--outline"
-            @click="handleClick('other')">立即申请</button>
+            @click="handleClick('other')">{{ $t('about.join.card3.btn') }}</button>
         </div>
       </div>
     </section>

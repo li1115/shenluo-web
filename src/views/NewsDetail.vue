@@ -118,9 +118,9 @@ const goToArticle = (id: number) => {
         <img src="@/assets/news-hero.png" alt="banner" class="news-detail__banner-img" />
       </div>
       <div class="news-detail__breadcrumb">
-        <span class="news-detail__breadcrumb-link" @click="goToNews">资讯</span>
+        <span class="news-detail__breadcrumb-link" @click="goToNews">{{ $t('news.detail.breadcrumb1') }}</span>
         <span>/</span>
-        <span class="news-detail__breadcrumb-current">文章详情</span>
+        <span class="news-detail__breadcrumb-current">{{ $t('news.detail.breadcrumb2') }}</span>
       </div>
     </div>
 
@@ -137,7 +137,7 @@ const goToArticle = (id: number) => {
       <aside class="news-detail__sidebar">
         <div class="news-detail__sidebar-heading">
           <div class="news-detail__sidebar-bar" />
-          <h3 class="news-detail__sidebar-heading-text">相关资讯</h3>
+          <h3 class="news-detail__sidebar-heading-text">{{ $t('news.detail.relatedNews') }}</h3>
         </div>
         <div class="news-detail__sidebar-list">
           <div
@@ -159,8 +159,8 @@ const goToArticle = (id: number) => {
       </aside>
     </div>
 
-    <div v-if="loading" class="news-detail__loading">加载中...</div>
-    <div v-if="!loading && !article" class="news-detail__empty">文章不存在</div>
+    <div v-if="loading" class="news-detail__loading">{{ $t('news.detail.loading') }}</div>
+    <div v-if="!loading && !article" class="news-detail__empty">{{ $t('news.detail.empty') }}</div>
   </div>
 </template>
 

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 const router = useRouter()
 const activeCareer = ref<string>(router.currentRoute.value.query.job as string || 'academic')
 
@@ -10,43 +13,43 @@ interface Hero {
   subtitle: string
   tag: string
 }
-const heroList: Record<string, Hero> = {
+const heroList = computed(() => ({
   other: {
     id: 'other',
-    tag: 'Join Our Mission',
-    title: '加入神络<br />共创未来',
-    subtitle: '在医疗科技的前沿，我们寻找富有激情的创新者。通过精密工程与关怀技术，重新定义生命品质。',
+    tag: t('careers.joinTag'),
+    title: t('careers.joinTitle.other'),
+    subtitle: t('careers.joinSubtitle'),
   },
   sales: {
     id: 'sales',
-    tag: 'Join Our Mission',
-    title: '销售招聘',
-    subtitle: '在医疗科技的前沿，我们寻找富有激情的创新者。通过精密工程与关怀技术，重新定义生命品质。',
+    tag: t('careers.joinTag'),
+    title: t('careers.joinTitle.sales'),
+    subtitle: t('careers.joinSubtitle'),
   },
   academic: {
     id: 'academic',
-    tag: 'Join Our Mission',
-    title: '博士后招聘站',
-    subtitle: '在医疗科技的前沿，我们寻找富有激情的创新者。通过精密工程与关怀技术，重新定义生命品质。',
-  }
-}
-const heroHero = computed(() => heroList[activeCareer.value])
+    tag: t('careers.joinTag'),
+    title: t('careers.joinTitle.academic'),
+    subtitle: t('careers.joinSubtitle'),
+  },
+} as Record<string, Hero>))
+const heroHero = computed(() => heroList.value[activeCareer.value])
 // const heroInfo = computed(() => heroList[activeCareer.value])
-const careers = [{
+const careers = computed(() => [{
   id: 'academic',
-  name: '博士后工作站',
-  description: 'Aura MedTech 现已设立省级博士后创新实践基地，诚邀全球神经科学与工程领域顶尖博士人才加入。',
+  name: t('careers.postdoctoral'),
+  description: t('careers.postdoctoralDesc'),
 }, {
   id: 'sales',
-  name: '销售类',
-  description: 'Aura MedTech 现已设立省级博士后创新实践基地，诚邀全球神经科学与工程领域顶尖博士人才加入。',
+  name: t('careers.salesJobs'),
+  description: t('careers.salesJobsDesc'),
 }, {
   id: 'other',
-  name: '其他',
-  description: 'Aura MedTech 现已设立省级博士后创新实践基地，诚邀全球神经科学与工程领域顶尖博士人才加入。',
-}]
+  name: t('careers.other'),
+  description: t('careers.otherDesc'),
+}])
 
-const showCareer = computed(() => careers.filter(c => c.id !== activeCareer.value))
+const showCareer = computed(() => careers.value.filter(c => c.id !== activeCareer.value))
 interface Job {
   id: number
   title: string
@@ -57,22 +60,17 @@ interface Job {
   tags: string[]
 }
 
-interface JobCategory {
-  id: number
-  name: string
-}
-
-const categories = ref<JobCategory[]>([
-  { id: 1, name: '全部' },
-  { id: 2, name: '博士后工作站' },
-  { id: 3, name: '销售类' },
-  { id: 4, name: '技术类' },
-  { id: 5, name: '医学类' },
-  { id: 6, name: '采购类' },
-  { id: 7, name: '质量类' },
-  { id: 8, name: '市场类' },
-  { id: 9, name: '职能类' },
-  { id: 10, name: '最新职位' },
+const categories = computed(() => [
+  { id: 1, name: t('careers.categories.all') },
+  { id: 2, name: t('careers.categories.postdoctoral') },
+  { id: 3, name: t('careers.categories.sales') },
+  { id: 4, name: t('careers.categories.technical') },
+  { id: 5, name: t('careers.categories.medical') },
+  { id: 6, name: t('careers.categories.procurement') },
+  { id: 7, name: t('careers.categories.quality') },
+  { id: 8, name: t('careers.categories.marketing') },
+  { id: 9, name: t('careers.categories.functional') },
+  { id: 10, name: t('careers.categories.latest') },
 ])
 
 const activeCategory = ref<number>(1)
@@ -86,7 +84,7 @@ const jobs = ref<Job[]>([
   { id: 6, title: '数字芯片设计工程师', urgent: true, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
   { id: 7, title: '数字芯片设计工程师', urgent: false, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
 ])
-const getJobList = async (key: string) => {
+const getJobList = async (_key: string) => {
   debugger
   // jobs.value = jobs.value.filter(j => j.type === key)
   // return jobs.value
@@ -160,9 +158,9 @@ const goToPage = (page: number) => {
 
       <div class="careers__hero-content">
         <div class="careers__breadcrumb">
-          <span class="careers__breadcrumb-item">关于我们</span>
+          <span class="careers__breadcrumb-item">{{ $t('careers.breadcrumb1') }}</span>
           <span class="careers__breadcrumb-sep">/</span>
-          <span class="careers__breadcrumb-item">招聘</span>
+          <span class="careers__breadcrumb-item">{{ $t('careers.breadcrumb2') }}</span>
         </div>
         <div class="careers__hero-badge">
           <span class="careers__hero-badge-text">{{ heroHero.tag }}</span>
@@ -178,7 +176,7 @@ const goToPage = (page: number) => {
       <div class="careers__main">
         <div class="careers__heading">
           <div class="careers__heading-title-wrap">
-            <h2 class="careers__heading-title">招聘职位</h2>
+            <h2 class="careers__heading-title">{{ $t('careers.jobHeading') }}</h2>
             <span class="careers__heading-count">{{ totalJobs }}</span>
           </div>
         </div>
@@ -203,7 +201,7 @@ const goToPage = (page: number) => {
                         d="M6.61619 14.667C6.61619 14.667 0.703193 13.3663 3.34603 6.91095C3.34603 6.91095 3.94603 7.62828 3.86353 7.97345C3.86353 7.97345 4.33386 6.34412 5.34903 5.37078C6.22069 4.53445 7.10636 2.18328 6.28953 1.33362C6.28953 1.33362 10.3354 2.18328 10.7857 6.43328C10.7857 6.43328 11.3032 5.07912 12.3657 4.94528C12.3657 4.94528 12.039 5.68928 12.3657 6.80528C12.3657 6.80528 15.717 12.542 9.94136 14.481C9.94136 14.481 11.6727 12.5151 8.00103 9.14162C8.00103 9.14162 7.13536 10.9483 6.61769 11.585C6.61619 11.5866 5.17203 13.2056 6.61619 14.667Z"
                         fill="#862300" />
                     </svg>
-                    急
+                    {{ $t('careers.urgent') }}
                   </span>
                 </div>
                 <div class="careers__job-meta">
@@ -239,7 +237,7 @@ const goToPage = (page: number) => {
                 <span v-for="tag in job.tags" :key="tag" class="careers__job-tag">{{ tag }}</span>
               </div>
               <button class="careers__job-apply" @click="viewJobDetail(job.id)">
-                申请职位
+                {{ $t('careers.applyJob') }}
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="#0163FF" stroke-width="1.5" stroke-linecap="round"
                     stroke-linejoin="round" />
@@ -286,7 +284,7 @@ const goToPage = (page: number) => {
           <button
             :class="`careers__sidebar-link ${index === 0 ? 'careers__sidebar-link--white' : 'careers__sidebar-link--blue'}`"
             @click="toOtherCareer(career.id)">
-            了解申请详情
+            {{ $t('careers.viewDetails') }}
             <svg v-if="index === 0" width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="#0163FF" stroke-width="1.5" stroke-linecap="round"
                 stroke-linejoin="round" />
