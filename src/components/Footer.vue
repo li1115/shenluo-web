@@ -84,3 +84,66 @@ const goToCareers = () => {
     </div>
   </footer>
 </template>
+
+<style scoped>
+/* ========== Responsive ========== */
+@media (max-width: 1600px) {
+  footer>div {
+    padding-left: clamp(40px, 8vw, 230px) !important;
+    padding-right: clamp(40px, 8vw, 230px) !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  footer>div {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+  footer>div>div:first-child {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  footer {
+    padding-top: 60px !important;
+  }
+  footer>div>div:first-child {
+    flex-direction: column;
+    gap: 32px;
+  }
+  footer>div>div:first-child>div {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  footer>div {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  footer {
+    padding-top: 40px !important;
+  }
+  footer>div>div:first-child {
+    padding-bottom: 30px !important;
+    margin-bottom: 30px !important;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  footer>div {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  footer {
+    padding-top: 30px !important;
+  }
+  footer>div>div:first-child {
+    gap: 20px;
+  }
+}
+</style>

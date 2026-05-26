@@ -76,3 +76,97 @@ const handleClick = () => {
     </div>
   </section>
 </template>
+
+<style scoped>
+/* ========== Responsive ========== */
+@media (max-width: 1600px) {
+  section[class*="py-\\[100px\\]"] {
+    padding-top: clamp(50px, 5.2vw, 100px) !important;
+    padding-bottom: clamp(50px, 5.2vw, 100px) !important;
+  }
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: clamp(36px, 3.5vw, 66px) !important;
+  }
+  section div[class*="gap-\\[80px\\]"] {
+    gap: clamp(40px, 4vw, 80px) !important;
+  }
+  section div[class*="w-\\[834px\\]"] {
+    width: clamp(400px, 43vw, 834px) !important;
+    height: clamp(360px, 32vw, 627px) !important;
+    padding: clamp(24px, 3.5vw, 67px) clamp(24px, 3vw, 59px) clamp(40px, 7vw, 138px) !important;
+  }
+  section div[class*="w-\\[746px\\]"] {
+    width: clamp(320px, 38vw, 746px) !important;
+    height: clamp(360px, 32vw, 627px) !important;
+  }
+  section h3[class*="text-\\[32px\\]"] {
+    font-size: clamp(20px, 1.7vw, 32px) !important;
+  }
+  section p[class*="text-\\[16px\\]"] {
+    font-size: clamp(13px, 0.85vw, 16px) !important;
+    line-height: clamp(20px, 1.3vw, 25px) !important;
+  }
+  section div[class*="w-\\[92px\\]"][class*="h-\\[92px\\]"] {
+    width: clamp(60px, 4.8vw, 92px) !important;
+    height: clamp(60px, 4.8vw, 92px) !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  section>div:last-child {
+    flex-direction: column;
+    align-items: center;
+  }
+  section div[class*="w-\\[834px\\]"] {
+    width: 100% !important;
+    max-width: 834px;
+    border-radius: 24px 24px 0 0 !important;
+  }
+  section div[class*="w-\\[746px\\]"] {
+    width: 100% !important;
+    max-width: 834px;
+    height: 400px !important;
+    border-radius: 0 0 24px 24px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  section[class*="py-\\[100px\\]"] {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: 30px !important;
+  }
+  section div[class*="w-\\[834px\\]"] {
+    height: auto !important;
+    padding: 24px 16px !important;
+  }
+  section div[class*="w-\\[746px\\]"] {
+    height: 280px !important;
+  }
+  section div[class*="gap-\\[80px\\]"] {
+    gap: 24px !important;
+  }
+  section h3[class*="text-\\[32px\\]"] {
+    font-size: 20px !important;
+  }
+  section div[class*="w-\\[92px\\]"][class*="h-\\[92px\\]"] {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: 24px !important;
+  }
+  section div[class*="w-\\[746px\\]"] {
+    height: 220px !important;
+  }
+  section h3[class*="text-\\[32px\\]"] {
+    font-size: 18px !important;
+  }
+}
+</style>

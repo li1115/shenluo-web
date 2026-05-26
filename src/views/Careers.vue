@@ -772,4 +772,128 @@ const goToPage = (page: number) => {
 .careers__sidebar-link:hover {
   opacity: 0.85;
 }
+
+/* ========== Responsive (1600px / 1280px / 1024px / 768px / 480px) ========== */
+@media (max-width: 1600px) {
+  .careers__hero {
+    height: clamp(360px, 29vw, 560px);
+  }
+  .careers__hero-content {
+    padding: clamp(100px, 7.5vw, 142px) clamp(24px, 6vw, 160px) 0;
+  }
+  .careers__hero-title {
+    font-size: clamp(32px, 3.5vw, 68px);
+  }
+  .careers__main {
+    padding: clamp(30px, 3.5vw, 60px) clamp(24px, 6vw, 160px);
+    gap: clamp(20px, 2vw, 40px);
+  }
+  .careers__sidebar {
+    width: clamp(260px, 22vw, 433px);
+  }
+  .careers__job-card {
+    padding: clamp(16px, 1.7vw, 32px);
+  }
+}
+
+@media (max-width: 1280px) {
+  .careers__hero-content {
+    padding: 80px 32px 0;
+  }
+  .careers__hero-title {
+    font-size: 40px;
+  }
+  .careers__main {
+    flex-direction: column;
+    padding: 32px;
+  }
+  .careers__list {
+    width: 100%;
+  }
+  .careers__sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .careers__sidebar-card {
+    flex: 1 1 calc(50% - 16px);
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .careers__hero {
+    height: 320px;
+  }
+  .careers__hero-content {
+    padding: 70px 24px 0;
+  }
+  .careers__hero-title {
+    font-size: 34px;
+  }
+  .careers__job-list {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .careers__hero {
+    height: 260px;
+  }
+  .careers__hero-content {
+    padding: 60px 16px 0;
+  }
+  .careers__hero-title {
+    font-size: 28px;
+  }
+  .careers__main {
+    padding: 24px 16px;
+    gap: 24px;
+  }
+  .careers__sidebar {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .careers__sidebar-card {
+    flex: none;
+    min-width: auto;
+  }
+  .careers__job-card {
+    padding: 20px 16px;
+  }
+  .careers__job-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .careers__job-heading {
+    font-size: 22px;
+  }
+  .careers__pagination {
+    padding-top: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .careers__hero {
+    height: 220px;
+  }
+  .careers__hero-content {
+    padding: 50px 12px 0;
+  }
+  .careers__hero-title {
+    font-size: 24px;
+  }
+  .careers__main {
+    padding: 20px 12px;
+  }
+  .careers__job-heading {
+    font-size: 18px;
+  }
+  .careers__page-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
 </style>

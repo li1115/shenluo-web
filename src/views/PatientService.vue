@@ -48,3 +48,55 @@
     </section>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 1600px) {
+  div[class*="px-\\[230px\\]"] {
+    padding-left: clamp(24px, 8vw, 230px) !important;
+    padding-right: clamp(24px, 8vw, 230px) !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  div[class*="px-\\[230px\\]"] {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+  div[class*="grid-cols-3"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  div[class*="pt-\\[120px\\]"] {
+    padding-top: 80px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  section[class*="py-20"] {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  div[class*="px-\\[230px\\]"] {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  div[class*="grid-cols-3"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  div[class*="p-10"] {
+    padding: 24px !important;
+  }
+  h1[class*="text-5xl"] {
+    font-size: 28px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  div[class*="pt-\\[120px\\]"] {
+    padding-top: 70px !important;
+  }
+  h1[class*="text-5xl"] {
+    font-size: 24px !important;
+  }
+}
+</style>

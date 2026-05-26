@@ -280,80 +280,145 @@
   color: #0163FF;
 }
 
+/* ========== Responsive (1600px / 1280px / 1024px / 768px / 480px) ========== */
 @media (max-width: 1600px) {
   .contact-page__banner {
-    height: 600px;
+    height: clamp(420px, 42vw, 959px);
   }
-
+  .contact-page__banner-inner {
+    padding: clamp(80px, 7vw, 135px) clamp(24px, 6vw, 160px) 0;
+  }
   .contact-page__heading {
-    left: 40px;
-    top: 280px;
-    font-size: 56px;
+    font-size: clamp(36px, 4.5vw, 86px);
+    margin-top: clamp(60px, 10.5vw, 200px);
   }
-
   .contact-page__subheading {
-    left: 40px;
-    top: 350px;
-    font-size: 48px;
+    font-size: clamp(32px, 4vw, 78px);
   }
-
   .contact-page__content-inner {
     flex-direction: column;
     align-items: center;
-    padding: 60px 40px;
+    width: 100%;
+    padding: clamp(60px, 8vw, 196px) clamp(24px, 6vw, 116px) clamp(60px, 8vw, 200px);
   }
-
   .contact-page__map {
     width: 100%;
     max-width: 800px;
-    height: 400px;
+    height: clamp(280px, 25vw, 563px);
     border-radius: 18px 18px 0 0;
   }
-
   .contact-page__panel {
     width: 100%;
     max-width: 800px;
     height: auto;
     border-radius: 0 0 18px 18px;
-    padding: 40px;
+    padding: clamp(30px, 4vw, 130px) clamp(20px, 3vw, 60px) clamp(30px, 4vw, 100px);
+    gap: clamp(20px, 2.5vw, 38px);
+  }
+  .contact-page__company-name {
+    font-size: clamp(22px, 1.8vw, 34px);
+  }
+  .contact-page__info-text {
+    font-size: clamp(14px, 0.95vw, 18px);
+  }
+  .contact-page__info-number {
+    font-size: clamp(18px, 1.25vw, 24px);
+  }
+  .contact-page__info-list {
+    gap: clamp(12px, 1vw, 18px);
+  }
+}
+
+@media (max-width: 1280px) {
+  .contact-page__banner {
+    height: auto;
+    min-height: 400px;
+  }
+  .contact-page__banner-inner {
+    padding: 80px 32px 40px;
+  }
+  .contact-page__heading {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .contact-page__banner {
+    min-height: 360px;
+  }
+  .contact-page__content-inner {
+    padding: 40px 24px 50px;
   }
 }
 
 @media (max-width: 768px) {
   .contact-page__banner {
-    height: 400px;
+    min-height: 300px;
   }
-
+  .contact-page__banner-inner {
+    padding: 60px 16px 30px;
+  }
   .contact-page__heading {
-    left: 20px;
-    top: 180px;
-    font-size: 40px;
+    font-size: 36px;
+    margin-top: 40px;
   }
-
   .contact-page__subheading {
-    left: 20px;
-    top: 230px;
-    font-size: 32px;
+    font-size: 30px;
   }
-
   .contact-page__map {
-    height: 300px;
+    height: 240px;
   }
-
   .contact-page__panel {
-    padding: 30px 20px;
+    padding: 24px 16px;
+    gap: 16px;
   }
-
   .contact-page__company-name {
-    font-size: 24px;
+    font-size: 22px;
   }
-
   .contact-page__info-text {
     font-size: 14px;
   }
-
   .contact-page__info-number {
     font-size: 18px;
+  }
+  .contact-page__content-inner {
+    padding: 30px 16px 40px;
+  }
+  .contact-page__info-list {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-page__banner {
+    min-height: 240px;
+  }
+  .contact-page__banner-inner {
+    padding: 50px 12px 20px;
+  }
+  .contact-page__heading {
+    font-size: 28px;
+  }
+  .contact-page__subheading {
+    font-size: 24px;
+  }
+  .contact-page__map {
+    height: 200px;
+  }
+  .contact-page__panel {
+    padding: 20px 14px;
+  }
+  .contact-page__company-name {
+    font-size: 18px;
+  }
+  .contact-page__info-text {
+    font-size: 13px;
+  }
+  .contact-page__info-number {
+    font-size: 16px;
+  }
+  .contact-page__content-inner {
+    padding: 24px 12px 30px;
   }
 }
 </style>

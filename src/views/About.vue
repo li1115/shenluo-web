@@ -1535,323 +1535,404 @@ const handleClick = (key: string) => {
   box-shadow: none;
 }
 
-/* ========== Responsive ========== */
+/* ========== Responsive (1280px / 1024px / 768px / 480px) ========== */
 @media (max-width: 1600px) {
-
-  .about__hero,
-  .about__milestones,
-  .about__culture,
-  .about__partners,
-  .about__join {
-    width: 100%;
-    padding-left: 40px;
-    padding-right: 40px;
+  .about__hero {
+    height: clamp(620px, 50vw, 1000px);
+    padding-top: clamp(160px, 12.5vw, 239px);
   }
+  .about__hero-content {
+    padding: 0 clamp(20px, 8.5vw, 170px);
+  }
+  .about__hero-image {
+    width: clamp(400px, 35vw, 680px);
+    height: clamp(260px, 22vw, 427px);
+  }
+  .about__hero-right {
+    width: clamp(400px, 40vw, 763px);
+    gap: clamp(24px, 2.5vw, 48px);
+  }
+  .about__hero-label {
+    font-size: clamp(30px, 2.6vw, 50px);
+  }
+  .about__hero-stats-wrap {
+    padding-left: clamp(40px, 8vw, 156px);
+    margin-bottom: clamp(40px, 5.5vw, 105px);
+  }
+  .about__hero-stat-number {
+    font-size: clamp(36px, 4vw, 80px);
+    line-height: 1;
+  }
+  .about__hero-stat-label {
+    font-size: clamp(14px, 1.15vw, 22px);
+  }
+  .about__hero-stat:nth-child(1),
+  .about__hero-stat:nth-child(2),
+  .about__hero-stat:nth-child(3) {
+    width: clamp(180px, 20.7vw, 397px);
+  }
+  .about__section-header {
+    width: 100%;
+    padding: 0 clamp(20px, 8vw, 160px);
+  }
+  .about__section-heading {
+    font-size: clamp(36px, 3.4vw, 66px);
+  }
+  .about__milestones {
+    padding: clamp(50px, 5.2vw, 100px) 0;
+  }
+  .about__milestones-content {
+    width: 100%;
+    gap: clamp(30px, 11.7vw, 224px);
+    padding: 0 clamp(20px, 8.5vw, 170px);
+  }
+  .about__milestones-image {
+    flex: 0 0 clamp(300px, 35vw, 666px);
+    width: clamp(300px, 35vw, 666px);
+    height: clamp(200px, 20vw, 380px);
+  }
+  .about__timeline-wrapper {
+    padding: 0 clamp(40px, 10vw, 190px);
+  }
+  .about__timeline-years {
+    gap: clamp(50px, 11vw, 213px);
+  }
+  .about__timeline-big-year {
+    font-size: clamp(32px, 2.6vw, 50px);
+  }
+  .about__timeline-nav {
+    width: clamp(40px, 3vw, 58px);
+    height: clamp(40px, 3vw, 58px);
+  }
+  .about__timeline-nav--prev {
+    left: clamp(-15px, -1.5vw, -29px);
+  }
+  .about__timeline-nav--next {
+    right: clamp(-15px, -1.5vw, -29px);
+  }
+  .about__culture {
+    padding: clamp(40px, 5.2vw, 100px) 0;
+  }
+  .about__values {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: clamp(400px, 30vw, 580px);
+    padding: 0 clamp(20px, 8vw, 160px);
+  }
+  .about__value-card--active {
+    flex-basis: 100%;
+  }
+  .about__value-card--inactive {
+    flex: 1 auto;
+    min-width: clamp(140px, 12vw, 230px);
+  }
+  .about__partner-cards {
+    width: 100%;
+    padding: 0 clamp(20px, 8vw, 160px);
+    gap: clamp(20px, 2vw, 40px);
+  }
+  .about__partner-card {
+    width: clamp(280px, 26vw, 500px);
+    height: clamp(320px, 22vw, 424px);
+  }
+  .about__join {
+    padding: clamp(40px, 5.2vw, 100px) clamp(20px, 8.8vw, 170px);
+  }
+  .about__join-header {
+    width: 100%;
+  }
+  .about__join-cards {
+    width: 100%;
+    gap: clamp(20px, 2vw, 40px);
+  }
+  .about__join-card {
+    min-width: clamp(260px, 24vw, 500px);
+  }
+  .about__contact-bar {
+    height: auto;
+    padding: clamp(30px, 3vw, 50px);
+    flex-wrap: wrap;
+    gap: clamp(20px, 2vw, 40px);
+  }
+}
 
+@media (max-width: 1280px) {
   .about__hero {
     height: auto;
-    min-height: 600px;
-    padding: 60px 40px;
+    min-height: 520px;
+    padding: 120px 20px 40px;
   }
-
   .about__hero-content {
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 24px;
     padding: 0;
   }
-
   .about__hero-left,
   .about__hero-right {
-    width: auto;
+    width: 100%;
+    align-items: center;
   }
-
   .about__hero-image {
     width: 100%;
-    max-width: 680px;
+    max-width: 560px;
     height: auto;
-    aspect-ratio: 680 / 427;
+    aspect-ratio: 680/427;
   }
-
-  .about__hero-right {
-    align-items: center;
-    text-align: center;
-    max-width: 100%;
-  }
-
   .about__hero-label,
   .about__hero-slogan,
   .about__hero-desc {
     text-align: center;
   }
-
-  .about__hero-stats-wrap {
-    margin: 40px 0 0;
-    padding-left: 0;
-  }
-
   .about__hero-stats {
     flex-wrap: wrap;
-    gap: 20px;
+    justify-content: center;
   }
-
-  .about__hero-stat {
-    width: auto !important;
-    min-width: 200px;
+  .about__hero-stats-wrap {
+    padding-left: 0;
   }
-
-  .about__hero-stat-number {
-    font-size: 48px;
-    line-height: 48px;
-  }
-
-  .about__hero-stat-label {
-    font-size: 16px;
-    line-height: 22px;
-  }
-
-  .about__milestones {
-    padding: 60px 0;
-  }
-
-  .about__milestones .about__section-header {
-    margin-bottom: 40px;
-  }
-
-  .about__timeline-wrapper {
-    padding: 0 40px;
-  }
-
-
   .about__milestones-content {
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
   }
-
   .about__milestones-image {
-    flex: 0 0 666px;
-    width: 666px;
-    height: 380px;
+    flex: none;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    aspect-ratio: 666/380;
+    margin-top: 20px;
+    order: -1;
   }
-
-  .about__timeline-decoration {
-    margin-bottom: 20px;
+  .about__timeline-wrapper {
+    padding: 0 20px;
   }
-
-  .about__timeline-nav--prev {
-    left: -20px;
-  }
-
-  .about__timeline-nav--next {
-    right: -20px;
-  }
-
   .about__timeline-years {
-    gap: 60px;
+    gap: 40px;
   }
-
   .about__timeline-ticks {
-    left: 0;
     gap: 30px;
   }
-
-  .about__timeline-line {
-    left: 0;
-    right: 0;
-  }
-
-  .about__culture {
-    padding: 60px 0;
-  }
-
-  .about__culture .about__section-header {
-    margin-bottom: 40px;
-  }
-
-  .about__values {
-    width: 100%;
-    flex-wrap: wrap;
-    height: auto;
-    min-height: 580px;
-  }
-
-  .about__value-card--active {
-    flex-basis: 100%;
-    min-width: 600px;
-  }
-
-  .about__value-card:not(.about__value-card--active) {
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .about__partners {
-    padding: 60px 0;
-  }
-
-  .about__partners .about__section-header {
-    margin-bottom: 40px;
-  }
-
-  .about__partner-cards {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0 40px;
-  }
-
-  .about__contact-bar {
-    width: 100%;
-    height: auto;
-    padding: 40px;
-    border-radius: 36px 36px 0 0;
-    margin-top: 40px;
-    flex-wrap: wrap;
-  }
-
-  .about__contact-info,
-  .about__contact-method--phone,
-  .about__contact-method--email,
-  .about__contact-qr {
-    position: static;
-    margin: 10px 0;
-  }
-
-  .about__contact-qr {
-    margin-left: auto;
-  }
-
   .about__value-left {
+    width: 220px;
     height: auto;
+    padding: 40px 30px;
+    gap: 40px;
+  }
+  .about__value-image {
+    height: 400px;
+  }
+  .about__partner-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .about__partner-card {
+    width: 100%;
+    max-width: 500px;
+  }
+  .about__section-subtitle--narrow {
+    width: 100%;
+    max-width: 470px;
+    padding: 0 20px;
+  }
+  .about__contact-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 24px;
+  }
+  .about__contact-method--phone,
+  .about__contact-method--email {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .about__values {
+    flex-direction: column;
+    height: auto;
+  }
+  .about__value-card--inactive {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 100px;
+  }
+  .about__value-card--active {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .about__value-left {
+    width: 100%;
     padding: 30px;
+    gap: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
-
-  .about__value-name-group,
-  .about__value-subtitles {
-    padding: 0;
-    margin-top: 0;
+  .about__value-image {
+    height: 280px;
   }
-
-  .about__value-subtitles {
-    padding-bottom: 20px;
+  .about__value-collapsed {
+    padding: 20px 30px;
+    flex-direction: row;
+    align-items: center;
   }
-
-  .about__section-header,
-  .about__values,
-  .about__partner-cards,
+  .about__value-small-content {
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+  }
   .about__join-cards {
-    width: 100%;
-    max-width: 1216px;
+    flex-direction: column;
   }
-
-  .about__join {
-    width: 100%;
-  }
-
-  .about__join-header {
-    width: 100%;
-  }
-
-  .about__join-cards {
-    flex-wrap: wrap;
-  }
-
   .about__join-card {
-    min-width: 300px;
-  }
-
-  .about__join-card-header {
     width: 100%;
-    margin-bottom: 24px;
+    min-width: auto;
   }
-
-  .about__join-card-title {
-    width: 100%;
-    margin-bottom: 16px;
-  }
-
+  .about__join-card-header,
+  .about__join-card-title,
   .about__join-card-desc {
     width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .about__join-card-btn {
-    margin-top: auto;
   }
 }
 
 @media (max-width: 768px) {
   .about__section-heading {
-    font-size: 36px;
-  }
-
-  .about__hero {
-    min-height: auto;
-    padding: 40px 20px;
-  }
-
-  .about__hero-image {
-    max-width: 100%;
-  }
-
-  .about__hero-label {
     font-size: 32px;
   }
-
-  .about__hero-slogan {
-    font-size: 22px;
+  .about__hero {
+    min-height: 400px;
+    padding: 100px 16px 30px;
   }
-
-  .about__hero-desc {
-    font-size: 14px;
-    line-height: 24px;
-  }
-
   .about__hero-stat-number {
     font-size: 36px;
     line-height: 36px;
   }
-
   .about__hero-stat-label {
     font-size: 14px;
-    line-height: 18px;
   }
-
+  .about__hero-stats-wrap {
+    margin-bottom: 20px;
+  }
+  .about__milestones {
+    padding: 40px 0;
+  }
   .about__timeline-years {
-    gap: 30px;
+    gap: 20px;
   }
-
   .about__timeline-year-text {
     font-size: 16px;
   }
-
-  .about__value-card--active {
-    flex-direction: column;
-    min-width: auto;
+  .about__timeline-ticks {
+    gap: 15px;
   }
-
+  .about__milestones-content-left {
+    padding: 0 16px;
+  }
+  .about__milestone-text {
+    font-size: 15px;
+    line-height: 26px;
+  }
+  .about__culture {
+    padding: 40px 0;
+  }
+  .about__culture .about__section-header {
+    margin-bottom: 40px;
+  }
+  .about__value-card--inactive {
+    height: 80px;
+  }
+  .about__value-small-name {
+    font-size: 18px;
+  }
+  .about__value-small-sub {
+    font-size: 14px;
+  }
   .about__value-left {
-    width: 100%;
-    height: auto;
-    padding: 30px;
+    flex-direction: column;
+    align-items: flex-start;
   }
-
+  .about__value-name {
+    font-size: 24px;
+  }
   .about__value-image {
-    width: 100%;
-    height: 300px;
+    height: 200px;
   }
-
-  .about__value-name-group,
-  .about__value-subtitles {
-    padding: 0;
+  .about__partner-title {
+    font-size: 20px;
   }
-
-  .about__value-subtitles {
-    padding-bottom: 0;
-    margin-top: 20px;
+  .about__partner-card {
+    padding: 120px 20px 40px;
   }
-
   .about__contact-bar {
-    padding: 30px 20px;
+    padding: 24px 16px;
+    margin-top: 30px;
+  }
+  .about__contact-qr {
+    margin-left: 0;
+    width: 100%;
+    align-items: center;
+  }
+  .about__join {
+    padding: 40px 16px;
+    gap: 40px;
+  }
+  .about__join-card {
+    padding: 24px 20px;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .about__hero {
+    padding: 90px 12px 20px;
+  }
+  .about__hero-label {
+    font-size: 24px;
+  }
+  .about__hero-slogan {
+    font-size: 18px;
+  }
+  .about__hero-desc {
+    font-size: 13px;
+    line-height: 22px;
+  }
+  .about__hero-stat-number {
+    font-size: 28px;
+    line-height: 28px;
+  }
+  .about__hero-stat-label {
+    font-size: 12px;
+  }
+  .about__hero-stat {
+    min-width: 130px;
+  }
+  .about__section-heading {
+    font-size: 26px;
+  }
+  .about__section-subtitle {
+    font-size: 14px;
+  }
+  .about__timeline-nav {
+    width: 32px;
+    height: 32px;
+  }
+  .about__timeline-nav--prev {
+    left: -10px;
+  }
+  .about__timeline-nav--next {
+    right: -10px;
+  }
+  .about__partner-card {
+    height: auto;
+    min-height: 280px;
+  }
+  .about__value-name {
+    font-size: 20px;
+  }
+  .about__value-small-name {
+    font-size: 16px;
   }
 }
 </style>

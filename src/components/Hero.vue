@@ -221,4 +221,64 @@ onBeforeUnmount(stopAutoplay)
     opacity: 1;
   }
 }
+
+/* ========== Responsive ========== */
+@media (max-width: 1600px) {
+  .slide-in,
+  .slide-in-d1 {
+    font-size: clamp(48px, 5.2vw, 100px) !important;
+  }
+  section>div[class*="mx-auto"][class*="px-"] {
+    padding-left: clamp(24px, 6vw, 164px) !important;
+    padding-right: clamp(24px, 6vw, 164px) !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  .slide-in,
+  .slide-in-d1 {
+    font-size: 48px !important;
+  }
+  section>div[class*="mx-auto"][class*="px-"] {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .slide-in,
+  .slide-in-d1 {
+    font-size: 42px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-in,
+  .slide-in-d1 {
+    font-size: 32px !important;
+  }
+  section>div[class*="mx-auto"][class*="px-"] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  section p[class*="text-2xl"] {
+    font-size: 15px !important;
+    line-height: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-in,
+  .slide-in-d1 {
+    font-size: 26px !important;
+  }
+  section p[class*="text-2xl"] {
+    font-size: 13px !important;
+    line-height: 20px !important;
+  }
+  section>div[class*="mx-auto"][class*="px-"] {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
 </style>

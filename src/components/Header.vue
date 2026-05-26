@@ -70,3 +70,84 @@ const navigate = (path: string) => {
     </div>
   </header>
 </template>
+
+<style scoped>
+/* ========== Responsive ========== */
+@media (max-width: 1600px) {
+  header>div {
+    height: clamp(64px, 4.5vw, 86px) !important;
+    padding-left: clamp(24px, 5.2vw, 100px) !important;
+    padding-right: clamp(24px, 5.2vw, 100px) !important;
+  }
+  header>div>div {
+    margin-right: clamp(40px, 8vw, 155px) !important;
+  }
+  header nav {
+    gap: clamp(20px, 2.7vw, 52px) !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  header>div {
+    height: 60px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  header>div>div {
+    margin-right: 24px !important;
+  }
+  header nav {
+    gap: 16px !important;
+  }
+  header button[class*="px-9"] {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+  header button[class*="text-lg"] {
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  header>div {
+    height: 56px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  header>div>div {
+    margin-right: 12px !important;
+  }
+  header nav {
+    gap: 10px !important;
+  }
+  header button[class*="px-9"] {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  header button[class*="text-lg"] {
+    font-size: 12px !important;
+  }
+  header button[class*="py-3"] {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  header>div {
+    height: 52px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  header button[class*="text-lg"] {
+    font-size: 11px !important;
+  }
+  header button[class*="px-9"] {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  header nav {
+    gap: 6px !important;
+  }
+}
+</style>

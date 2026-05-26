@@ -116,3 +116,74 @@ onBeforeUnmount(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+/* ========== Responsive ========== */
+@media (max-width: 1600px) {
+  section[class*="pt-\\[100px\\]"] {
+    padding-top: clamp(50px, 5.2vw, 100px) !important;
+  }
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: clamp(36px, 3.5vw, 66px) !important;
+  }
+  section div[class*="w-\\[492px\\]"] {
+    width: clamp(320px, 25.6vw, 492px) !important;
+    height: clamp(400px, 31.8vw, 612px) !important;
+  }
+  section div[class*="h-\\[360px\\]"] {
+    height: clamp(240px, 18.7vw, 360px) !important;
+  }
+  section h3[class*="text-\\[26px\\]"] {
+    font-size: clamp(16px, 1.35vw, 26px) !important;
+    line-height: clamp(26px, 2.3vw, 44px) !important;
+  }
+  section div[class*="p-\\[50px\\]"] {
+    padding: clamp(20px, 2.6vw, 50px) !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  section div[class*="w-\\[492px\\]"] {
+    width: 380px !important;
+    height: 480px !important;
+  }
+  section div[class*="h-\\[360px\\]"] {
+    height: 200px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  section[class*="pt-\\[100px\\]"] {
+    padding-top: 40px !important;
+  }
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: 30px !important;
+  }
+  section div[class*="w-\\[492px\\]"] {
+    width: 320px !important;
+    height: 420px !important;
+  }
+  section div[class*="h-\\[360px\\]"] {
+    height: 180px !important;
+  }
+  section div[class*="pb-\\[100px\\]"] {
+    padding-bottom: 40px !important;
+  }
+  section div[class*="pt-\\[80px\\]"] {
+    padding-top: 40px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: 24px !important;
+  }
+  section div[class*="w-\\[492px\\]"] {
+    width: 280px !important;
+    height: 380px !important;
+  }
+  section div[class*="h-\\[360px\\]"] {
+    height: 150px !important;
+  }
+}
+</style>

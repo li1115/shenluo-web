@@ -79,3 +79,76 @@ onMounted(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+/* ========== Responsive ========== */
+@media (max-width: 1600px) {
+  section[class*="py-\\[180px\\]"] {
+    padding-top: clamp(60px, 9vw, 180px) !important;
+    padding-bottom: clamp(60px, 9vw, 180px) !important;
+  }
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: clamp(36px, 3.5vw, 66px) !important;
+  }
+  section>div[class*="w-\\[1584px\\]"] {
+    width: 100% !important;
+    padding: 0 clamp(20px, 6vw, 120px);
+  }
+  section>div[class*="gap-10"] {
+    gap: clamp(20px, 2vw, 40px) !important;
+  }
+  section div[class*="w-\\[366px\\]"] {
+    width: clamp(200px, 19vw, 366px) !important;
+    height: clamp(180px, 13.5vw, 260px) !important;
+  }
+  section div[class*="text-\\[80px\\]"] {
+    font-size: clamp(40px, 4.2vw, 80px) !important;
+  }
+  section div[class*="text-\\[22px\\]"] {
+    font-size: clamp(14px, 1.15vw, 22px) !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  section>div[class*="gap-10"] {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  section div[class*="w-\\[366px\\]"] {
+    width: calc(50% - 16px) !important;
+    min-width: 240px;
+    height: 180px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  section[class*="py-\\[180px\\]"] {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: 30px !important;
+  }
+  section div[class*="text-\\[80px\\]"] {
+    font-size: 36px !important;
+  }
+  section div[class*="text-\\[22px\\]"] {
+    font-size: 14px !important;
+  }
+  section div[class*="w-\\[366px\\]"] {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  section h2[class*="text-\\[66px\\]"] {
+    font-size: 24px !important;
+  }
+  section div[class*="text-\\[80px\\]"] {
+    font-size: 30px !important;
+  }
+  section div[class*="w-\\[366px\\]"] {
+    height: 150px !important;
+  }
+}
+</style>

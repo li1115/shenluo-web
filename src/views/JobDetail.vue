@@ -865,100 +865,175 @@ const openJobDetail = (id: number) => {
   margin: 40px 0 0 0;
 }
 
-/* ========== Responsive ========== */
+/* ========== Responsive (1600px / 1280px / 1024px / 768px / 480px) ========== */
 @media (max-width: 1600px) {
   .job-detail__hero {
     width: 100%;
-    height: 480px;
+    height: clamp(420px, 33vw, 680px);
   }
-
-  .job-detail__hero-inner {
-    max-width: 1280px;
-  }
-
-
   .job-detail__hero-content {
-    left: 32px;
-    top: 140px;
-    width: auto;
-    right: 32px;
+    padding: 0 clamp(24px, 6vw, 116px);
   }
-
-  .job-detail__title {
-    font-size: 56px;
-    line-height: 56px;
+  .job-detail__hero-card {
+    width: clamp(320px, 30vw, 400px);
+    height: auto;
+    min-height: clamp(200px, 17vw, 277px);
   }
-
-  .job-detail__content {
-    padding: 60px 32px;
-    gap: 40px;
+  .job-detail__hero-card-title {
+    font-size: clamp(22px, 1.9vw, 36px);
   }
+  .job-detail__hero-card-item {
+    font-size: clamp(14px, 1vw, 20px);
+  }
+  .job-detail__breadcrumb {
+    padding: clamp(60px, 6.25vw, 120px) clamp(24px, 6vw, 116px) 0;
+  }
+  .job-detail__breadcrumb-text {
+    font-size: clamp(14px, 0.9vw, 18px);
+  }
+  .job-detail__main {
+    width: 100%;
+    padding: clamp(40px, 4vw, 80px) clamp(24px, 6vw, 116px);
+    gap: clamp(20px, 4vw, 80px);
+  }
+  .job-detail__post-heading {
+    font-size: clamp(24px, 1.9vw, 36px);
+  }
+  .job-detail__detail-text {
+    font-size: clamp(16px, 1.15vw, 22px);
+    line-height: clamp(26px, 2vw, 38px);
+  }
+  .job-detail__detail-item-label {
+    font-size: clamp(18px, 1.25vw, 24px);
+  }
+  .job-detail__detail-item-value {
+    font-size: clamp(16px, 1.15vw, 22px);
+    line-height: clamp(26px, 2vw, 38px);
+  }
+  .job-detail__info-row {
+    display: grid;
+    grid-template-columns: clamp(90px, 7vw, 139px) 1fr;
+    gap: clamp(12px, 1.5vw, 30px);
+  }
+  .job-detail__section-heading {
+    font-size: clamp(20px, 1.5vw, 28px);
+  }
+  .job-detail__sidebar-btn {
+    font-size: clamp(14px, 0.9vw, 18px);
+    height: clamp(42px, 3vw, 58px);
+  }
+  .job-detail__map-section {
+    width: 100%;
+    padding: 0 clamp(24px, 6vw, 116px) clamp(40px, 4vw, 80px);
+  }
+}
 
-  .job-detail__sidebar {
-    width: 360px;
+@media (max-width: 1280px) {
+  .job-detail__hero {
+    height: auto;
+    min-height: 420px;
+    padding: 40px 0;
+  }
+  .job-detail__hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .job-detail__hero-left {
+    width: 100%;
+  }
+  .job-detail__hero-card {
+    width: 100%;
+    padding: 24px;
+    height: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .job-detail__breadcrumb {
+    padding: 60px 24px 0;
+  }
+  .job-detail__main {
+    padding: 40px 24px;
+    gap: 32px;
   }
 }
 
 @media (max-width: 768px) {
   .job-detail__hero {
-    height: 380px;
+    min-height: 340px;
   }
-
-
   .job-detail__hero-content {
-    left: 20px;
-    right: 20px;
-    top: 100px;
-    width: auto;
+    padding: 0 16px;
   }
-
-  .job-detail__title {
-    font-size: 36px;
-    line-height: 40px;
+  .job-detail__hero-card {
+    padding: 20px;
   }
-
-  .job-detail__meta {
-    font-size: 16px;
-    line-height: 24px;
-    margin-bottom: 24px;
+  .job-detail__hero-card-title {
+    font-size: 24px;
   }
-
-  .job-detail__apply-btn {
-    font-size: 16px;
-    padding: 12px 24px;
+  .job-detail__hero-card-item {
+    font-size: 14px;
   }
-
-  .job-detail__content {
+  .job-detail__breadcrumb {
+    padding: 50px 16px 0;
+  }
+  .job-detail__main {
     flex-direction: column;
-    padding: 40px 20px;
-    gap: 32px;
+    padding: 32px 16px;
   }
-
-  .job-detail__sidebar {
+  .job-detail__content {
     width: 100%;
-    padding-bottom: 0;
   }
-
-  .job-detail__process {
-    padding: 24px;
+  .job-detail__detail-text {
+    font-size: 15px;
+    line-height: 26px;
   }
-
-  .job-detail__process-steps {
-    flex-wrap: wrap;
-    gap: 16px;
+  .job-detail__detail-item-label {
+    font-size: 17px;
   }
-
-  .job-detail__process-divider {
-    display: none;
+  .job-detail__detail-item-value {
+    font-size: 15px;
+    line-height: 26px;
   }
+  .job-detail__info-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .job-detail__sidebar-card {
+    padding: 20px;
+  }
+  .job-detail__map-section {
+    padding: 0 16px 32px;
+  }
+}
 
+@media (max-width: 480px) {
+  .job-detail__breadcrumb {
+    padding: 40px 12px 0;
+  }
+  .job-detail__main {
+    padding: 24px 12px;
+  }
+  .job-detail__hero-card-title {
+    font-size: 20px;
+  }
+  .job-detail__post-heading {
+    font-size: 20px;
+  }
+  .job-detail__detail-text {
+    font-size: 14px;
+    line-height: 24px;
+  }
   .job-detail__section-heading {
-    margin-bottom: 24px;
+    font-size: 18px;
   }
-
-  .job-detail__section-title {
-    font-size: 22px;
-    line-height: 30px;
+  .job-detail__sidebar-btn {
+    font-size: 14px;
+    height: 44px;
+  }
+  .job-detail__map-section {
+    padding: 0 12px 24px;
   }
 }
 </style>

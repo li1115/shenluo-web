@@ -85,3 +85,76 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
     </div>
   </section>
 </template>
+
+<style scoped>
+/* ========== Responsive ========== */
+@media (max-width: 1600px) {
+  section[class*="h-\\[900px\\]"] {
+    height: clamp(480px, 46vw, 900px) !important;
+  }
+  section div[class*="px-\\[230px\\]"] {
+    padding-left: clamp(24px, 8vw, 230px) !important;
+    padding-right: clamp(24px, 8vw, 230px) !important;
+  }
+  section h2[class*="text-\\[32px\\]"] {
+    font-size: clamp(22px, 1.7vw, 32px) !important;
+  }
+  section div[class*="w-\\[260px\\]"] {
+    width: clamp(180px, 13.5vw, 260px) !important;
+    height: clamp(100px, 6.8vw, 130px) !important;
+    border-radius: clamp(20px, 1.9vw, 36px) !important;
+  }
+  section div[class*="gap-\\[50px\\]"] {
+    gap: clamp(20px, 2.6vw, 50px) !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  section[class*="h-\\[900px\\]"] {
+    height: auto !important;
+    min-height: 480px;
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+  }
+  section div[class*="px-\\[230px\\]"] {
+    padding: 40px 32px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  section[class*="h-\\[900px\\]"] {
+    min-height: 400px;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  section div[class*="px-\\[230px\\]"] {
+    padding: 30px 20px !important;
+  }
+  section h2[class*="text-\\[32px\\]"] {
+    font-size: 22px !important;
+  }
+  section div[class*="w-\\[260px\\]"] {
+    width: 150px !important;
+    height: 90px !important;
+    border-radius: 16px !important;
+  }
+  section div[class*="gap-\\[50px\\]"] {
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  section div[class*="w-\\[260px\\]"] {
+    width: 100% !important;
+    height: 80px !important;
+  }
+  section div[class*="gap-\\[50px\\]"] {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px !important;
+  }
+  section h2[class*="text-\\[32px\\]"] {
+    font-size: 18px !important;
+  }
+}
+</style>

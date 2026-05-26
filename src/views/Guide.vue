@@ -237,3 +237,44 @@ const toggleFaq = (index: number) => {
     </section>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 768px) {
+  div[class*="pt-24"] {
+    padding-top: 72px !important;
+  }
+  section[class*="py-20"] {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  h1[class*="text-4xl"] {
+    font-size: 28px !important;
+  }
+  div[class*="p-8"] {
+    padding: 20px !important;
+  }
+  div[class*="p-6"] {
+    padding: 16px !important;
+  }
+  div[class*="space-x-4"][class*="flex"][class*="items-start"] {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  h1[class*="text-4xl"] {
+    font-size: 22px !important;
+  }
+  section[class*="py-16"] {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
+  }
+  div[class*="gap-4"][class*="flex-wrap"] {
+    gap: 8px !important;
+  }
+  button[class*="px-6"][class*="py-3"] {
+    padding: 8px 16px !important;
+    font-size: 13px !important;
+  }
+}
+</style>

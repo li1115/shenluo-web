@@ -197,3 +197,45 @@ const selectDoctor = (doctor: typeof doctors[0]) => {
     </section>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 768px) {
+  div[class*="pt-24"] {
+    padding-top: 72px !important;
+  }
+  section[class*="py-20"] {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  h1[class*="text-4xl"] {
+    font-size: 28px !important;
+  }
+  div[class*="p-8"] {
+    padding: 20px !important;
+  }
+  div[class*="p-4"] {
+    padding: 12px !important;
+  }
+  div[class*="w-14"][class*="h-14"] {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1[class*="text-4xl"] {
+    font-size: 22px !important;
+  }
+  section[class*="py-16"] {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
+  }
+  h3[class*="text-2xl"] {
+    font-size: 18px !important;
+  }
+  div[class*="space-x-4"] {
+    flex-wrap: wrap;
+    gap: 8px !important;
+  }
+}
+</style>

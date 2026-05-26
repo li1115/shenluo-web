@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神神经医疗 SNEUROMEDICAL - 让神经调控普惠大众</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 清新/高端医疗科技色彩体系 */
+            --bg-body: #F5F7FA;          /* 极浅的高级灰底色 */
+            --bg-white: #FFFFFF;
+            --primary-dark: #0A192F;     /* 极深蓝，用于主标题 */
+            --primary-blue: #112A46;     /* 医疗深蓝 */
+            --accent-mint: #00D09C;      /* 高亮薄荷绿/医疗青 */
+            --accent-mint-light: #E6FAF5;
+            --text-main: #334155;        /* 正文灰 */
+            --text-light: #64748B;       /* 辅助灰 */
+            
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-pill: 50px;
+            --transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 30px 60px rgba(0, 208, 156, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* 公共布局与组件 */
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        .section-padding { padding: 140px 0; }
+
+        .title-wrapper {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--accent-mint);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            display: inline-block;
+            background: var(--accent-mint-light);
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            letter-spacing: 1px;
+        }
+
+        /* 按钮设计 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-mint);
+            color: var(--bg-white);
+            box-shadow: 0 10px 20px rgba(0, 208, 156, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 208, 156, 0.4);
+            background-color: #00E3AA;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-dark);
+            color: var(--primary-dark);
+        }
+        .btn-outline:hover {
+            background-color: var(--primary-dark);
+            color: var(--bg-white);
+        }
+
+        /* 进场动画 */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= A. 创新悬浮胶囊导航 ================= */
+        header {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 48px);
+            max-width: 1320px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-pill);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            top: 0;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 100%;
+            border-radius: 0;
+            border-top: none; border-left: none; border-right: none;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-dot {
+            width: 12px; height: 12px;
+            background: var(--accent-mint);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-mint);
+        }
+
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a {
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            padding: 8px 0;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 0; height: 3px; background: var(--accent-mint); border-radius: 2px;
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--accent-mint); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        /* ================= B. 明亮科技感首屏 ================= */
+        .hero {
+            height: 100vh;
+            min-height: 800px;
+            /* 使用一张极简、干净的白色系医疗实验室/设备背景图 */
+            background: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=2560&q=80') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            /* 明亮的渐变遮罩，确保文字清晰同时保持画面通透 */
+            background: linear-gradient(90deg, rgba(245,247,250,0.95) 0%, rgba(245,247,250,0.7) 40%, rgba(245,247,250,0) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            margin-top: 60px;
+        }
+        
+        .hero-tag {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--bg-white);
+            color: var(--primary-dark);
+            font-weight: 700;
+            border-radius: var(--radius-pill);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        
+        .hero-title span { color: var(--accent-mint); }
+
+        .hero-desc {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            margin-bottom: 48px;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        /* ================= C. 产品展示区 ================= */
+        .products { background: var(--bg-body); position: relative; }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            group: hover;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-mint-light);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 240px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 30px;
+            background: #F8F9FA;
+            position: relative;
+        }
+
+        .product-img img {
+            transition: transform 0.6s ease;
+        }
+        .product-card:hover .product-img img { transform: scale(1.08); }
+
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+        }
+
+        .product-desc {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .product-link {
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+        }
+        .product-card:hover .product-link { color: var(--accent-mint); }
+
+        /* ================= D. 知识服务区 (Bento 式) ================= */
+        .service { background: var(--bg-white); }
+        
+        .bento-service {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            height: 500px;
+        }
+
+        .bento-card {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-text-card {
+            background: var(--bg-body);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .bento-text-card h3 { font-size: 2.2rem; color: var(--primary-dark); margin-bottom: 20px;}
+        .bento-text-card p { font-size: 1.1rem; color: var(--text-main); margin-bottom: 40px;}
+
+        .service-feature {
+            display: flex; align-items: center; gap: 16px;
+            background: var(--bg-white);
+            padding: 20px 30px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            width: max-content;
+        }
+
+        .icon-circle {
+            width: 48px; height: 48px;
+            background: var(--accent-mint-light);
+            color: var(--accent-mint);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .bento-img-card img { transition: var(--transition); }
+        .bento-img-card:hover img { transform: scale(1.05); }
+        
+        .bento-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 25, 47, 0.9) 0%, rgba(10, 25, 47, 0.1) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+        }
+        .bento-overlay h4 { color: var(--bg-white); font-size: 1.8rem; margin-bottom: 12px; }
+        .bento-overlay p { color: rgba(255,255,255,0.8); font-size: 1rem; }
+
+        /* ================= E. 新闻中心 (Bento 网格结构) ================= */
+        .news { background: var(--bg-body); }
+        
+        .news-bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 300px);
+            gap: 24px;
+        }
+
+        .news-item {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+        }
+        
+        .news-item:hover .news-img { transform: scale(1.05); }
+
+        /* 便当盒尺寸分配 */
+        .n-large { grid-column: span 2; grid-row: span 2; }
+        .n-wide { grid-column: span 2; grid-row: span 1; }
+        .n-square { grid-column: span 1; grid-row: span 1; }
+
+        .news-img {
+            position: absolute; inset: 0;
+            transition: transform 0.8s ease;
+        }
+
+        .news-content {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10, 25, 47, 0.95) 0%, rgba(10, 25, 47, 0) 80%);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .news-item.n-square .news-content { padding: 20px; }
+        
+        .news-meta {
+            background: var(--accent-mint);
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 4px;
+            width: max-content;
+            margin-bottom: 16px;
+        }
+
+        .news-title {
+            color: var(--bg-white);
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        .n-large .news-title { font-size: 1.8rem; }
+        .n-wide .news-title { font-size: 1.4rem; }
+        .n-square .news-title { font-size: 1.1rem; }
+
+        /* ================= F. 公司实力 / 数据区 ================= */
+        .stats { background: var(--primary-blue); color: var(--bg-white); overflow: hidden;}
+        
+        .stats-layout {
+            display: flex; align-items: center; gap: 80px;
+        }
+
+        .stats-left { flex: 1; }
+        .stats-left .section-title { color: var(--bg-white); margin-bottom: 24px; text-align: left; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 40px;
+        }
+
+        .stat-num {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent-mint);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stats-right { flex: 1; position: relative; }
+        .stats-img-wrapper {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            height: 600px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .slogan-badge {
+            position: absolute;
+            bottom: -30px; left: -30px;
+            background: var(--bg-white);
+            color: var(--primary-dark);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            font-size: 1.5rem;
+            font-weight: 900;
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* ================= G. 招聘与加入我们 ================= */
+        .careers { text-align: center; background: var(--bg-body); }
+        .careers .section-title { margin-bottom: 40px; }
+        
+        .career-cards {
+            display: flex; justify-content: center; gap: 24px; margin-top: 60px;
+        }
+
+        .career-card {
+            background: var(--bg-white);
+            padding: 30px 60px;
+            border-radius: var(--radius-pill);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex; align-items: center; gap: 12px;
+            box-shadow: var(--shadow-card);
+        }
+        .career-card:hover { background: var(--accent-mint); color: var(--bg-white); transform: translateY(-5px); }
+
+        /* ================= H. 页脚 ================= */
+        footer { background: var(--bg-white); padding: 80px 0 40px; border-top: 1px solid rgba(0,0,0,0.05); }
+        
+        .footer-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding-bottom: 60px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo { margin-bottom: 24px; }
+        .contact-info { display: flex; gap: 60px; margin-top: 30px; }
+        .contact-item h5 { color: var(--text-light); font-size: 0.85rem; margin-bottom: 8px; font-weight: 500;}
+        .contact-item p { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; }
+
+        .footer-links-area { display: flex; gap: 80px; }
+        .footer-col h4 { color: var(--primary-dark); font-size: 1.1rem; margin-bottom: 24px; }
+        .footer-col ul { display: flex; flex-direction: column; gap: 16px; }
+        .footer-col a { color: var(--text-main); font-size: 0.95rem; }
+        .footer-col a:hover { color: var(--accent-mint); }
+
+        .qr-section { text-align: center; }
+        .qr-img { width: 120px; height: 120px; background: #F8F9FA; border-radius: 12px; padding: 10px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.05);}
+        
+        .footer-bottom { display: flex; justify-content: space-between; color: var(--text-light); font-size: 0.9rem; }
+
+        /* 响应式断点 */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 3.5rem; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .bento-service { grid-template-columns: 1fr; height: auto; }
+            .news-bento-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+            .n-large, .n-wide, .n-square { grid-column: span 2; grid-row: span 1; height: 300px; }
+            .stats-layout { flex-direction: column; }
+            .slogan-badge { left: 20px; bottom: 20px; }
+            header { width: 95%; padding: 0 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-title { font-size: 2.8rem; }
+            .product-grid { grid-template-columns: 1fr; }
+            .news-bento-grid { grid-template-columns: 1fr; }
+            .n-large, .n-wide, .n-square { grid-column: span 1; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .footer-top { flex-direction: column; gap: 40px; }
+            .contact-info { flex-direction: column; gap: 24px; }
+            .footer-links-area { flex-direction: column; gap: 40px; }
+            .career-cards { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- A. 悬浮胶囊导航 -->
+    <header id="header">
+        <div class="logo">
+            <span class="logo-dot"></span> SNEUROMEDICAL
+        </div>
+        <nav class="nav-links">
+            <a href="#" class="active">主页</a>
+            <a href="#">产品与解决方案</a>
+            <a href="#">文章中心</a>
+            <a href="#">关于我们</a>
+        </nav>
+        <button class="btn btn-outline" style="padding: 10px 24px;">已有咨询</button>
+    </header>
+
+    <!-- B. 首屏明亮科技区 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content reveal">
+                <div class="hero-tag">SNEUROMEDICAL 医疗科技</div>
+                <h1 class="hero-title">让神经调控<br><span>普惠大众</span></h1>
+                <p class="hero-desc">我们是全球唯一同时拥有可充电IPG、短期半植入、无线微型三大植入式神经调控平台的尖端创新医疗科技企业，致力于打破技术壁垒，守护人类健康。</p>
+                <div style="display: flex; gap: 16px;">
+                    <button class="btn btn-primary">了解产品方案</button>
+                    <button class="btn" style="background: var(--bg-white); color: var(--primary-dark); box-shadow: var(--shadow-card);">关于神神经 →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- C. 产品展示区 (真实科技硬件图) -->
+    <section class="products section-padding">
+        <div class="container">
+            <div class="title-wrapper reveal">
+                <span class="section-subtitle">Core Products</span>
+                <h2 class="section-title">核心产品展示</h2>
+            </div>
+            
+            <div class="product-grid">
+                <!-- 产品 1 -->
+                <div class="product-card reveal">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1584308666744-24d5e478ce13?auto=format&fit=crop&w=800&q=80" alt="SCS 设备">
+                    </div>
+                    <h3 class="product-title">骶髂神经刺激系统 SCS</h3>
+                    <p class="product-desc">通过微创手术植入，向脊髓特定靶点发送电脉冲，有效阻断疼痛信号传导，提供长效疼痛管理。</p>
+                    <a href="#" class="product-link">了解技术规格 →</a>
+                </div>
+                <!-- 产品 2 -->
+                <div class="product-card reveal" style="transition-delay: 0.1s;">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1615460549969-36fa19521a4f?auto=format&fit=crop&w=800&q=80" alt="PNS 设备">
+                    </div>
+                    <h3 class="product-title">外周神经刺激器 PNS</h3>
+                    <p class="product-desc">采用超微型无线电极阵列设计，精准靶向外周神经丛，改善神经损伤与局部功能障碍。</p>
+                    <a href="#" class="product-link">了解技术规格 →</a>
+                </div>
+                <!-- 产品 3 -->
+                <div class="product-card reveal" style="transition-delay: 0.2s;">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=800&q=80" alt="TNS 设备">
+                    </div>
+                    <h3 class="product-title">植入式迷走神经刺激 TNS</h3>
+                    <p class="product-desc">基于闭环传感反馈机制，专为特发性震颤及癫痫等神经系统疾病设计，自适应调控脉冲。</p>
+                    <a href="#" class="product-link">了解技术规格 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- D. 知识与服务 (便当盒排版) -->
+    <section class="service section-padding">
+        <div class="container">
+            <div class="bento-service reveal">
+                <div class="bento-card bento-text-card">
+                    <span class="section-subtitle" style="align-self: flex-start;">Patient Care</span>
+                    <h3>学习疾病知识，<br>获取贴心服务</h3>
+                    <p>我们深知，每一次使用都关乎健康与信任。从产品咨询、操作指导到售后保障，我们为您搭建起全方位的支持体系，让科技更有温度，让关怀永不掉线。</p>
+                    <div class="service-feature">
+                        <div class="icon-circle">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <span style="font-size: 1.2rem; font-weight: 900; color: var(--primary-dark);">全国售后服务中心</span>
+                    </div>
+                </div>
+                
+                <div class="bento-card bento-img-card">
+                    <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1200&q=80" alt="医生与患者沟通">
+                    <div class="bento-overlay">
+                        <h4>特发性震颤的简介与治疗</h4>
+                        <p>探索前沿脑科学疾病知识，帮助患者与家属更好地认知与应对。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- E. 新闻中心 (Bento Grid) -->
+    <section class="news section-padding">
+        <div class="container">
+            <div class="title-wrapper reveal">
+                <span class="section-subtitle">News Center</span>
+                <h2 class="section-title">新闻中心</h2>
+            </div>
+
+            <div class="news-bento-grid">
+                <!-- 新闻 1：大卡片 -->
+                <div class="news-item n-large reveal">
+                    <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=1000&q=80" class="news-img" alt="科研工作站">
+                    <div class="news-content">
+                        <span class="news-meta">企业动态</span>
+                        <h3 class="news-title">喜讯！神神经医疗博士后科研工作站获批成立，加速顶尖人才引进与研发闭环</h3>
+                    </div>
+                </div>
+
+                <!-- 新闻 2：正方形 -->
+                <div class="news-item n-square reveal" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80" class="news-img" alt="植入手术">
+                    <div class="news-content">
+                        <span class="news-meta">临床突破</span>
+                        <h3 class="news-title">植入式骶神经刺激器创多项全球纪录，引领神经调控</h3>
+                    </div>
+                </div>
+
+                <!-- 新闻 3：正方形 -->
+                <div class="news-item n-square reveal" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1551076805-e18690c5e53b?auto=format&fit=crop&w=800&q=80" class="news-img" alt="获奖榜单">
+                    <div class="news-content">
+                        <span class="news-meta">荣誉表彰</span>
+                        <h3 class="news-title">两度登榜投资界新芽榜TOP10，彰显硬核研发实力</h3>
+                    </div>
+                </div>
+
+                <!-- 新闻 4：宽卡片 -->
+                <div class="news-item n-wide reveal" style="transition-delay: 0.3s;">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1000&q=80" class="news-img" alt="脊髓神经">
+                    <div class="news-content">
+                        <span class="news-meta">产品发布</span>
+                        <h3 class="news-title">喜报：植入式可充电脊髓神经刺激器正式获批上市</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- F. 公司实力 / 数据区 -->
+    <section class="stats section-padding">
+        <div class="container stats-layout">
+            <div class="stats-left reveal">
+                <span class="section-subtitle">Company Strength</span>
+                <h2 class="section-title">深耕医疗科技<br>守护人类健康</h2>
+                <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; margin-bottom: 40px; line-height: 1.8;">
+                    我们致力于打破国外技术垄断，以自主研发的核心科技，为全球患者提供更安全、更高效、更亲民的神经调控解决方案。
+                </p>
+                
+                <div class="stats-grid">
+                    <div>
+                        <div class="stat-num">8+</div>
+                        <p style="color: var(--accent-mint-light);">核心研发经验（年）</p>
+                    </div>
+                    <div>
+                        <div class="stat-num">100+</div>
+                        <p style="color: var(--accent-mint-light);">全球独家专利技术</p>
+                    </div>
+                    <div>
+                        <div class="stat-num">50K+</div>
+                        <p style="color: var(--accent-mint-light);">已服务全球患者</p>
+                    </div>
+                    <div>
+                        <div class="stat-num">8亿+</div>
+                        <p style="color: var(--accent-mint-light);">持续研发资金投入</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-right reveal" style="transition-delay: 0.2s;">
+                <div class="stats-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1000&q=80" alt="实验室科研团队">
+                </div>
+                <div class="slogan-badge">
+                    让神经调控<span style="color: var(--accent-mint);">普惠大众</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- G. 招聘与加入我们 -->
+    <section class="careers section-padding">
+        <div class="container reveal">
+            <span class="section-subtitle">Join Us</span>
+            <h2 class="section-title">加入创造非凡的团队</h2>
+            <button class="btn btn-primary" style="margin-top: 24px;">查看全部岗位 →</button>
+
+            <div class="career-cards">
+                <a href="#" class="career-card">
+                    <span style="color: var(--accent-mint);">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </span>
+                    博士后工作站直招
+                </a>
+                <a href="#" class="career-card">
+                    <span style="color: var(--accent-mint);">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+                    </span>
+                    全国销售及市场管理
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- H. 页脚 Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-dot"></span> SNEUROMEDICAL
+                    </div>
+                    <p style="color: var(--text-light); max-width: 300px;">全球尖端神经调控医疗器械研发制造企业，用科技创新点亮生命之光。</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h5>联系电话</h5>
+                            <p>0571-88560292</p>
+                        </div>
+                        <div class="contact-item">
+                            <h5>企业邮箱</h5>
+                            <p>public@sneeuro.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-links-area">
+                    <div class="footer-col">
+                        <h4>快速链接</h4>
+                        <ul>
+                            <li><a href="#">主页</a></li>
+                            <li><a href="#">核心产品展示</a></li>
+                            <li><a href="#">患者支持服务</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>了解更多</h4>
+                        <ul>
+                            <li><a href="#">新闻与资讯中心</a></li>
+                            <li><a href="#">关于神神经医疗</a></li>
+                            <li><a href="#">加入我们</a></li>
+                        </ul>
+                    </div>
+                    <div class="qr-section">
+                        <div class="qr-img">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SNEUROMEDICAL&color=0A192F" alt="公众号二维码">
+                        </div>
+                        <span style="font-size: 0.85rem; color: var(--text-main); font-weight: 700;">扫码关注官方微信</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 杭州神神经医疗科技有限公司. All Rights Reserved.</div>
+                <div>地址：浙江省杭州市余杭区科技大道8-2号6幢 | 浙ICP备XXXXXXXX号</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 交互脚本 -->
+    <script>
+        // 1. 悬浮导航栏滚动效果：向下滚动收缩，并贴紧顶部
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 2. 滚动元素进场动画 (Scroll Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // 提前量
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // 初始化时触发一次，确保首屏元素直接显示
+        setTimeout(reveal, 100); 
+    </script>
+</body>
+</html>
