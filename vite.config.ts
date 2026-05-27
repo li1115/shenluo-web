@@ -17,5 +17,12 @@ export default defineConfig({
       protocol: 'ws',
       host: 'localhost',
     },
+    proxy: {
+      '/api': {
+        target: 'https://pconsole-dev.seeneuro.com',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 })

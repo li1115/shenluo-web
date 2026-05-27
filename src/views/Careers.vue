@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { getRecruitCategories, getRecruitPage } from '@/api/recruit'
+import type { RecruitCategory, PublicRecruitItem } from '@/api/types'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -34,7 +36,6 @@ const heroList = computed(() => ({
   },
 } as Record<string, Hero>))
 const heroHero = computed(() => heroList.value[activeCareer.value])
-// const heroInfo = computed(() => heroList[activeCareer.value])
 const careers = computed(() => [{
   id: 'academic',
   name: t('careers.postdoctoral'),
@@ -50,8 +51,10 @@ const careers = computed(() => [{
 }])
 
 const showCareer = computed(() => careers.value.filter(c => c.id !== activeCareer.value))
-interface Job {
-  id: number
+
+/** 页面展示用的职位 */
+interface JobDisplay {
+  recruitNo: string
   title: string
   urgent: boolean
   location: string
@@ -60,54 +63,52 @@ interface Job {
   tags: string[]
 }
 
-const categories = computed(() => [
-  { id: 1, name: t('careers.categories.all') },
-  { id: 2, name: t('careers.categories.postdoctoral') },
-  { id: 3, name: t('careers.categories.sales') },
-  { id: 4, name: t('careers.categories.technical') },
-  { id: 5, name: t('careers.categories.medical') },
-  { id: 6, name: t('careers.categories.procurement') },
-  { id: 7, name: t('careers.categories.quality') },
-  { id: 8, name: t('careers.categories.marketing') },
-  { id: 9, name: t('careers.categories.functional') },
-  { id: 10, name: t('careers.categories.latest') },
-])
-
-const activeCategory = ref<number>(1)
-
-const jobs = ref<Job[]>([
-  { id: 1, title: '数字芯片设计工程师', urgent: true, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
-  { id: 2, title: '前端开发工程师', urgent: false, location: '杭州 · 余杭区', type: '全职', education: '硕士', tags: ['芯片设计', '脑机接口', '神经调控'] },
-  { id: 3, title: '高级嵌入式软件工程师', urgent: true, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
-  { id: 4, title: '数字芯片设计工程师', urgent: true, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
-  { id: 5, title: '数字芯片设计工程师', urgent: false, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
-  { id: 6, title: '数字芯片设计工程师', urgent: true, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
-  { id: 7, title: '数字芯片设计工程师', urgent: false, location: '杭州 · 余杭区', type: '全职', education: '博士', tags: ['芯片设计', '脑机接口', '神经调控'] },
-])
-const getJobList = async (_key: string) => {
-  debugger
-  // jobs.value = jobs.value.filter(j => j.type === key)
-  // return jobs.value
-}
-const toOtherCareer = (id: string) => {
-  router.push({ query: { job: id } })
-  getJobList(id)
+/** 招聘类目 Tab 项（含固定 ALL/LATEST） */
+interface CategoryTab {
+  code: string
+  name: string
 }
 
-onMounted(() => {
-  getJobList(activeCareer.value)
-  toOtherCareer(activeCareer.value)
+/** API 招聘项 → 页面展示字段映射 */
+function mapRecruitItem(item: PublicRecruitItem): JobDisplay {
+  return {
+    recruitNo: item.recruitNo,
+    title: item.title,
+    urgent: item.isUrgent === 1,
+    location: [item.city, item.district].filter(Boolean).join(' · '),
+    type: item.employmentTypeName,
+    education: item.educationLevelName,
+    tags: (item.tags || []).map((t) => t.name),
+  }
+}
+
+const apiCategories = ref<RecruitCategory[]>([])
+const categoryTabs = computed<CategoryTab[]>(() => {
+  const seen = new Set<string>()
+  const tabs: CategoryTab[] = []
+  const add = (code: string, name: string) => {
+    if (seen.has(code)) return
+    seen.add(code)
+    tabs.push({ code, name })
+  }
+  add('ALL', t('careers.categories.all'))
+  for (const c of apiCategories.value) {
+    add(c.code, c.name)
+  }
+  add('LATEST', t('careers.categories.latest'))
+  return tabs
 })
-const pageSize = 7
-const totalJobs = ref(7)
+
+const activeCategoryCode = ref<string>('ALL')
+
+const jobs = ref<JobDisplay[]>([])
+const totalJobs = ref(0)
 const currentPage = ref(1)
+const pageSize = 7
 
-const totalPages = computed(() => Math.ceil(totalJobs.value / pageSize))
+const totalPages = computed(() => Math.ceil(totalJobs.value / pageSize) || 1)
 
-const paginatedJobs = computed(() => {
-  const start = (currentPage.value - 1) * pageSize
-  return jobs.value.slice(start, start + pageSize)
-})
+const paginatedJobs = computed(() => jobs.value)
 
 const visiblePages = computed(() => {
   const total = totalPages.value
@@ -133,19 +134,99 @@ const visiblePages = computed(() => {
   return pages
 })
 
-const selectCategory = (id: number) => {
-  activeCategory.value = id
+async function fetchJobList() {
+  const categoryCode = activeCategoryCode.value === 'ALL' ? undefined : activeCategoryCode.value
+  try {
+    const res = await getRecruitPage({ page: currentPage.value, size: pageSize, categoryCode })
+    jobs.value = (res.data?.records || []).map(mapRecruitItem)
+    totalJobs.value = res.data?.total || 0
+  } catch {
+    jobs.value = [
+      {
+        recruitNo: 'mock-001',
+        title: '高级嵌入式软件工程师',
+        urgent: true,
+        location: '杭州 · 余杭区',
+        type: '全职',
+        education: '本科及以上',
+        tags: ['嵌入式', 'C/C++', 'ARM'],
+      },
+      {
+        recruitNo: 'mock-002',
+        title: '医疗器械注册专员',
+        urgent: false,
+        location: '杭州 · 西湖区',
+        type: '全职',
+        education: '本科及以上',
+        tags: ['注册申报', 'NMPA', 'CE'],
+      },
+      {
+        recruitNo: 'mock-003',
+        title: '临床研究经理',
+        urgent: true,
+        location: '上海 · 浦东新区',
+        type: '全职',
+        education: '硕士及以上',
+        tags: ['临床试验', '项目管理', 'GCP'],
+      },
+      {
+        recruitNo: 'mock-004',
+        title: '硬件测试工程师',
+        urgent: false,
+        location: '杭州 · 滨江区',
+        type: '全职',
+        education: '本科及以上',
+        tags: ['硬件测试', 'PCB', 'EMC'],
+      },
+      {
+        recruitNo: 'mock-005',
+        title: '神经调控算法研究员',
+        urgent: false,
+        location: '杭州 · 余杭区',
+        type: '全职',
+        education: '博士',
+        tags: ['信号处理', '机器学习', 'Python'],
+      },
+    ]
+    totalJobs.value = 5
+  }
 }
 
-const viewJobDetail = (id: number) => {
-  router.push(`/careers/${id}`)
+const selectCategory = (code: string) => {
+  activeCategoryCode.value = code
+  currentPage.value = 1
+  fetchJobList()
+}
+
+const viewJobDetail = (recruitNo: string) => {
+  router.push(`/careers/${recruitNo}`)
 }
 
 const goToPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
+    fetchJobList()
   }
 }
+
+const toOtherCareer = (id: string) => {
+  router.push({ query: { job: id } })
+}
+
+onMounted(async () => {
+  try {
+    const catRes = await getRecruitCategories()
+    apiCategories.value = catRes.data || []
+  } catch {
+    apiCategories.value = [
+      { code: 'ALL', name: t('careers.categories.all'), sortOrder: 0 },
+      { code: 'ACADEMIC', name: t('careers.categories.academic'), sortOrder: 1 },
+      { code: 'SALES', name: t('careers.categories.sales'), sortOrder: 2 },
+      { code: 'LATEST', name: t('careers.categories.latest'), sortOrder: 3 },
+    ]
+  }
+  fetchJobList()
+})
 </script>
 
 <template>
@@ -182,15 +263,15 @@ const goToPage = (page: number) => {
         </div>
 
         <div class="careers__tabs">
-          <button v-for="cat in categories" :key="cat.id"
-            :class="['careers__tab', { 'careers__tab--active': activeCategory === cat.id }]"
-            @click="selectCategory(cat.id)">
+          <button v-for="cat in categoryTabs" :key="cat.code"
+            :class="['careers__tab', { 'careers__tab--active': activeCategoryCode === cat.code }]"
+            @click="selectCategory(cat.code)">
             {{ cat.name }}
           </button>
         </div>
 
         <div class="careers__job-list">
-          <div v-for="job in paginatedJobs" :key="job.id" class="careers__job-card">
+          <div v-for="job in paginatedJobs" :key="job.recruitNo" class="careers__job-card">
             <div class="careers__job-top">
               <div class="careers__job-info">
                 <div class="careers__job-title-row">
@@ -236,7 +317,7 @@ const goToPage = (page: number) => {
               <div class="careers__job-tags">
                 <span v-for="tag in job.tags" :key="tag" class="careers__job-tag">{{ tag }}</span>
               </div>
-              <button class="careers__job-apply" @click="viewJobDetail(job.id)">
+              <button class="careers__job-apply" @click="viewJobDetail(job.recruitNo)">
                 {{ $t('careers.applyJob') }}
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="#0163FF" stroke-width="1.5" stroke-linecap="round"

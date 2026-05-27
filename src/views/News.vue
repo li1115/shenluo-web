@@ -1,153 +1,165 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { getNewsCategories, getNewsPage } from '@/api/news'
+import type { NewsCategory, PublicNewsItem } from '@/api/types'
 import news1 from '@/assets/news-1.png'
 import news2 from '@/assets/news-2.png'
 import news3 from '@/assets/news-3.png'
 import news4 from '@/assets/news-4.png'
 
-const { t } = useI18n()
 const router = useRouter()
 
-interface NewsItem {
-  id: number
+/** 页面展示用的新闻项 */
+interface NewsDisplayItem {
+  newsNo: string
   title: string
   date: string
   category: string
   image: string
-  [key: string]: unknown
 }
 
-const corporateNewsCategories: NewsItem[] = [
+/** API 字段 → 页面展示字段映射 */
+function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
+  return {
+    newsNo: item.newsNo,
+    title: item.title,
+    date: item.displayDate,
+    category: item.categoryName,
+    image: item.coverUrl,
+  }
+}
+
+const mockNewsItems: NewsDisplayItem[] = [
   {
-    id: 1,
+    newsNo: '1',
     title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
     date: '2026.03.14',
     category: '企业动态',
     image: news1,
   },
   {
-    id: 2,
+    newsNo: '2',
     title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
     date: '2026.03.14',
     category: '企业动态',
     image: news2,
   },
   {
-    id: 3,
+    newsNo: '3',
     title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
     date: '2026.03.14',
     category: '企业动态',
     image: news3,
   },
   {
-    id: 4,
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
+    newsNo: '4',
+    title: '新功能  神络医疗植入式可充电脊髓神经刺激器新增功能',
     date: '2026.03.14',
     category: '企业动态',
     image: news4,
   },
   {
-    id: 5,
-    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
+    newsNo: '5',
+    title: '新功能  神络医疗植入式可充电脊髓神经刺激器新增功能',
     date: '2026.03.14',
     category: '企业动态',
-    image: news1,
-  },
-  {
-    id: 6,
-    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news2,
-  },
-]
-
-const healthNews: NewsItem[] = [
-  {
-    id: 7,
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '疾病科普',
-    image: news3,
-  },
-  {
-    id: 8,
-    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
-    date: '2026.03.14',
-    category: '疾病科普',
     image: news4,
   },
   {
-    id: 9,
-    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
+    newsNo: '6',
+    title: '新功能  神络医疗植入式可充电脊髓神经刺激器新增功能',
     date: '2026.03.14',
-    category: '疾病科普',
-    image: news1,
-  },
-  {
-    id: 10,
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '疾病科普',
-    image: news2,
-  },
-  {
-    id: 11,
-    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
-    date: '2026.03.14',
-    category: '疾病科普',
-    image: news3,
-  },
-  {
-    id: 12,
-    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
-    date: '2026.03.14',
-    category: '疾病科普',
+    category: '企业动态',
     image: news4,
   },
 ]
 
+const categories = ref<NewsCategory[]>([])
+const newsMap = ref<Record<string, NewsDisplayItem[]>>({})
+const loading = ref(false)
 
-const clinicAppNews: NewsItem[] = [
-  {
-    id: 13,
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '临床应用',
-    image: news3,
-  },
-  {
-    id: 14,
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '临床应用',
-    image: news3,
-  },
-]
-const news = computed(() => [
-  {
-    key: t('news.categoryEnterprise'),
-    value: corporateNewsCategories,
-  },
-  {
-    key: t('news.categoryHealth'),
-    value: healthNews,
-  },
-  {
-    key: t('news.categoryClinical'),
-    value: clinicAppNews,
-  },
-])
+/** 每个分类的当前页码 */
+const pageMap = ref<Record<string, number>>({})
+/** 每个分类的总条数 */
+const totalMap = ref<Record<string, number>>({})
+/** 每页条数 */
+const PAGE_SIZE = 6
 
-const goToNewsDetail = (id: number) => {
-  router.push(`/news/${id}`)
+/** 初始化加载：每个分类请求第1页（1-6条） */
+async function fetchData() {
+  loading.value = true
+  try {
+    const catRes = await getNewsCategories()
+    categories.value = catRes.data || []
+    const map: Record<string, NewsDisplayItem[]> = {}
+    for (const cat of categories.value) {
+      if (cat.code === 'ALL') continue
+      try {
+        const pageRes = await getNewsPage({ page: 1, size: PAGE_SIZE, categoryCode: cat.code })
+        map[cat.code] = (pageRes.data?.records || []).map(mapNewsItem)
+        pageMap.value[cat.code] = 1
+        totalMap.value[cat.code] = pageRes.data?.total || 0
+      } catch {
+        map[cat.code] = mockNewsItems
+        pageMap.value[cat.code] = 1
+        totalMap.value[cat.code] = mockNewsItems.length
+      }
+    }
+    newsMap.value = map
+  } finally {
+    loading.value = false
+  }
+}
+
+const loadingMoreMap = ref<Record<string, boolean>>({})
+
+/** 加载更多：请求下一页并追加到已有数据 */
+async function loadMore(categoryCode: string) {
+  if (loadingMoreMap.value[categoryCode]) return
+  loadingMoreMap.value[categoryCode] = true
+  try {
+    const nextPage = (pageMap.value[categoryCode] || 1) + 1
+    const pageRes = await getNewsPage({ page: nextPage, size: PAGE_SIZE, categoryCode })
+    const newItems = (pageRes.data?.records || []).map(mapNewsItem)
+    newsMap.value[categoryCode] = [...(newsMap.value[categoryCode] || []), ...newItems]
+    pageMap.value[categoryCode] = nextPage
+    totalMap.value[categoryCode] = pageRes.data?.total || totalMap.value[categoryCode] || 0
+  } catch {
+    // 加载失败，保持现有数据
+  } finally {
+    loadingMoreMap.value[categoryCode] = false
+  }
+}
+
+/** 是否还有更多 */
+function hasMore(categoryCode: string): boolean {
+  const current = (newsMap.value[categoryCode] || []).length
+  const total = totalMap.value[categoryCode] || 0
+  return current < total
+}
+
+const newsSections = computed(() =>
+  categories.value
+    .filter((c) => c.code !== 'ALL')
+    .map((c) => ({
+      key: c.name,
+      code: c.code,
+      value: newsMap.value[c.code] || [],
+    })),
+)
+
+const goToNewsDetail = (newsNo: string) => {
+  router.push(`/news/${newsNo}`)
 }
 
 const goToNewsList = () => {
   router.push('/news')
 }
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <template>
@@ -164,18 +176,18 @@ const goToNewsList = () => {
       </div>
     </div>
 
-    <div class="news-page__section" v-for="newsItem in news" :key="newsItem.key">
+    <div class="news-page__section" v-for="section in newsSections" :key="section.key">
       <div class="news-page__heading">
         <div class="news-page__heading-bar" />
-        <h2 class="news-page__heading-text">{{ newsItem.key }}</h2>
+        <h2 class="news-page__heading-text">{{ section.key }}</h2>
       </div>
 
       <div class="news-page__grid">
         <div
-          v-for="item in newsItem.value"
-          :key="item.id"
+          v-for="item in section.value"
+          :key="item.newsNo"
           class="news-page__card"
-          @click="goToNewsDetail(item.id)"
+          @click="goToNewsDetail(item.newsNo)"
         >
           <div class="news-page__card-image">
             <img :src="item.image" :alt="item.title" class="news-page__card-img" />
@@ -190,9 +202,9 @@ const goToNewsList = () => {
         </div>
       </div>
 
-      <div v-if="newsItem.value.length > 6" class="news-page__load-more-wrap">
-        <button class="news-page__load-more">
-          <span>{{ $t('news.loadMore') }}</span>
+      <div v-if="hasMore(section.code)" class="news-page__load-more-wrap">
+        <button class="news-page__load-more" @click="loadMore(section.code)" :disabled="loadingMoreMap[section.code]">
+          <span>{{ loadingMoreMap[section.code] ? '加载中...' : $t('news.loadMore') }}</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -414,6 +426,10 @@ const goToNewsList = () => {
 }
 .news-page__load-more:hover {
   background: #0052d4;
+}
+.news-page__load-more:disabled {
+  background: #99B8FF;
+  cursor: not-allowed;
 }
 .news-page__load-more span {
   font-family: var(--font-body);

@@ -11,30 +11,27 @@ const { t } = useI18n()
 
 const products = computed(() => [
   {
-    id: 1,
+    productCode: '1',
     name: t('home.products.scsName'),
     description: t('home.products.scsDesc'),
     image: product1,
-    selected: true,
   },
   {
-    id: 2,
+    productCode: '2',
     name: t('home.products.pnsName'),
     description: t('home.products.pnsDesc'),
     image: product2,
-    selected: false,
   },
   {
-    id: 3,
+    productCode: '3',
     name: t('home.products.tnsName'),
     description: t('home.products.tnsDesc'),
     image: product3,
-    selected: false,
   },
 ])
 
-const goToDetail = (id: number) => {
-  router.push(`/product/${id}`)
+const goToDetail = (productCode: string) => {
+  router.push(`/product/${productCode}`)
 }
 
 const cardWidth = 500
@@ -88,7 +85,7 @@ onBeforeUnmount(() => {
             class="w-[500px] h-[500px] bg-[#F9FAFC] border border-[#F1F2F4] rounded-[10px] overflow-hidden flex flex-col flex-shrink-0 cursor-pointer 
             transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)]
             hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border-[#CDEAF5] hover:cursor-pointer hover:translate-y-[-10px] group"
-              @click="goToDetail(product.id)">
+              @click="goToDetail(product.productCode)">
             <div class="h-[340px] flex items-center justify-center overflow-hidden">
               <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
             </div>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getRecruitDetail, getRecruitRelated } from '@/api/recruit'
+import type { PublicRecruitDetail, PublicRecruitItem } from '@/api/types'
 
+const route = useRoute()
 const router = useRouter()
 
 const showContactModal = ref(false)
@@ -15,7 +18,7 @@ const isEmail = ref(false)
 const openContactEmail = () => {
   try {
     window.open(`mailto:${email.value}`, '_blank')
-  } catch (error) {
+  } catch {
     isEmail.value = true
     showContactModal.value = true
   }
@@ -37,12 +40,32 @@ const closeContactModal = () => {
 }
 
 interface SimilarJob {
-  id: number
+  recruitNo: string
   title: string
   salary: string
 }
 
-const descriptionHtml = ref(`<p>1.架构与模块设计：参与脑机芯片系统级架构定义，负责关键数字模块(如神经信号数字预处理单元、片上神经网络加速器、高速低功耗数据接口、安全与控制状态机)的微架构设计与RTL实现。</p>
+/** 格式化薪资展示 */
+function formatSalary(item: PublicRecruitDetail | PublicRecruitItem): string {
+  if (item.salaryNegotiable) return '薪资面议'
+  const min = item.salaryMin ? `${(item.salaryMin / 1000).toFixed(0)}k` : ''
+  const max = item.salaryMax ? `${(item.salaryMax / 1000).toFixed(0)}k` : ''
+  const months = item.salaryMonths ? `${item.salaryMonths}薪` : ''
+  const range = min && max ? `${min}-${max}` : min || max
+  return [range, months].filter(Boolean).join(' · ')
+}
+
+/** API 招聘项 → 相似职位映射 */
+function mapSimilarJob(item: PublicRecruitItem): SimilarJob {
+  return {
+    recruitNo: item.recruitNo,
+    title: item.title,
+    salary: formatSalary(item),
+  }
+}
+
+// ====== 模拟数据（已注释，保留备用） ======
+const mockdescriptionHtml = `<p>1.架构与模块设计：参与脑机芯片系统级架构定义，负责关键数字模块(如神经信号数字预处理单元、片上神经网络加速器、高速低功耗数据接口、安全与控制状态机)的微架构设计与RTL实现。</p>
 <p>2.RTL实现与验证：使用Verilog/SystemVerilog进行高质量的RTL编码，并搭建或维护基于UVM/形式验证的验证环境，确保功能正确性，满足植入式设备标准。</p>
 <p>3.低功耗设计：深入应用芯片级、架构级、RTL级与门级低功耗技术(如电源门控、多电压域、动态电压频率调节、时钟门控)，实现超低功耗目标。</p>
 <p>4.时序与物理设计协同：进行综合、静态时序分析、功耗分析，并与物理设计团队紧密合作。指导布局布线，解决时序收敛、信号完整性和可靠性问题。</p>
@@ -59,16 +82,73 @@ const descriptionHtml = ref(`<p>1.架构与模块设计：参与脑机芯片系�
 <p>1.数字设计全流程精通：熟练掌握从RTL到GDSII的设计流程，包括RTL设计、验证、综合、形式验证、静态时序分析。</p>
 <p>2.硬件描述语言：精通Verilog/SystemVerilog，具备编写高质量、可综合、可复用代码的能力。</p>
 <p>3.验证方法学：熟练掌握UVM或类似高级验证方法学，能构建复杂的验证环境。</p>
-<p>4.低功耗技术：具备丰富的低功耗设计实践经验，熟悉UPF/CPF功耗意图描述。</p>`)
-
-const similarJobs: SimilarJob[] = [
-  { id: 1, title: '神经算法研究员', salary: '25k-40k' },
-  { id: 2, title: '高级嵌入式软件工程师', salary: '28k-45k' },
-  { id: 3, title: '临床医学总监', salary: '20k-35k' },
+<p>4.低功耗技术：具备丰富的低功耗设计实践经验，熟悉UPF/CPF功耗意图描述。</p>`
+const mockSimilarJobs = [
+  { recruitNo: '1', title: '神经算法研究员', salary: '25k-40k' },
+  { recruitNo: '2', title: '神经算法研究员', salary: '25k-40k' },
+  { recruitNo: '3', title: '神经算法研究员', salary: '25k-40k' },
+  { recruitNo: '4', title: '神经算法研究员', salary: '25k-40k' },
 ]
-const openJobDetail = (id: number) => {
-  router.push(`/careers/${id}`)
+// ====== 模拟数据结束 ======
+
+const detailTitle = ref('')
+const detailMeta = ref('')
+const descriptionHtml = ref('')
+const similarJobs = ref<SimilarJob[]>([])
+const loading = ref(true)
+
+async function fetchDetail() {
+  const recruitNo = (route.params.recruitNo as string) || ''
+  if (!recruitNo) {
+    loading.value = false
+    return
+  }
+  loading.value = true
+  try {
+    const [detailRes, relatedRes] = await Promise.allSettled([
+      getRecruitDetail(recruitNo),
+      getRecruitRelated(recruitNo),
+    ])
+    if (detailRes.status === 'fulfilled') {
+      const detail = detailRes.value.data
+      detailTitle.value = detail.title
+      const locationStr = [detail.location?.city, detail.location?.district].filter(Boolean).join(' · ')
+      detailMeta.value = `${formatSalary(detail)} | ${locationStr}`
+      descriptionHtml.value = detail.content || ''
+    }else{
+      detailTitle.value = ''
+      detailMeta.value = ''
+      descriptionHtml.value = ''
+    }
+    if (relatedRes.status === 'fulfilled') {
+      similarJobs.value = (relatedRes.value.data || []).map(mapSimilarJob)
+    }else{
+      similarJobs.value = []
+    }
+  } catch {
+    detailTitle.value = ''
+    detailMeta.value = ''
+    descriptionHtml.value = ''
+    similarJobs.value = []
+
+    
+      // 模拟数据
+      detailTitle.value = '神经算法研究员'
+      detailMeta.value = '25k-40k | 中国 · 北京'
+      descriptionHtml.value = mockdescriptionHtml
+      similarJobs.value = mockSimilarJobs
+  } finally {
+    loading.value = false
+  }
 }
+
+const openJobDetail = (recruitNo: string) => {
+  router.push(`/careers/${recruitNo}`)
+}
+
+onMounted(() => {
+  fetchDetail()
+})
 </script>
 
 <template>
@@ -89,8 +169,8 @@ const openJobDetail = (id: number) => {
           <span class="job-detail__breadcrumb-item">{{ $t('careers.jobDetail.breadcrumb3') }}</span>
         </div>
         <div class="job-detail__hero-content">
-          <h1 class="job-detail__title">数字芯片设计工程师</h1>
-          <p class="job-detail__meta">35k-45k · 15薪 | 杭州 (Hangzhou)</p>
+          <h1 class="job-detail__title">{{ detailTitle }}</h1>
+          <p class="job-detail__meta">{{ detailMeta }}</p>
           <div class="job-detail__hero-actions">
             <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow') }}</button>
           </div>
@@ -207,8 +287,8 @@ const openJobDetail = (id: number) => {
         <div class="job-detail__similar">
           <h3 class="job-detail__similar-title">{{ $t('careers.jobDetail.relatedJobs') }}</h3>
           <div class="job-detail__similar-list">
-            <div v-for="job in similarJobs" :key="job.id" class="job-detail__similar-item"
-              @click="openJobDetail(job.id)">
+            <div v-for="job in similarJobs" :key="job.recruitNo" class="job-detail__similar-item"
+              @click="openJobDetail(job.recruitNo)">
               <h4 class="job-detail__similar-item-title">{{ job.title }}</h4>
               <span class="job-detail__similar-item-meta">{{ job.salary }}</span>
             </div>

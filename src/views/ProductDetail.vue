@@ -8,6 +8,8 @@ import product3 from '@/assets/product-3.png'
 import productD1 from '@/assets/product-d-1.png'
 import productD2 from '@/assets/product-d-2.png'
 import productD3 from '@/assets/product-d-3.png'
+import { getProductDetail } from '@/api/product'
+import type { ProductItem } from '@/api/types'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -26,9 +28,9 @@ interface FeatureCard {
 }
 
 interface ProductDetail {
+  productCode: string
   id: number
   name: string
-  englishName: string
   description: string
   image: string
 }
@@ -39,6 +41,48 @@ interface ProductBaseDetail {
   featureCards: FeatureCard[]
   sectionHeading1: string
 }
+
+/** 根据 productCode 选择对应产品图片 */
+function getProductImage(productCode: string): string {
+  const imageMap: Record<string, string> = {
+    SCS: product1,
+    PNS: product2,
+    TNS: product3,
+  }
+  return imageMap[productCode] || product1
+}
+
+/** API 产品详情 → 页面展示数据映射 */
+function mapProductDetail(detail: ProductItem): Omit<ProductDetail, 'image'> {
+  return {
+    productCode: detail.productCode,
+    id: detail.id,
+    name: detail.name,
+    description: detail.description,
+  }
+}
+
+// ====== 模拟数据（已注释，保留备用） ======
+const mockProductDetail: ProductItem[] = [{
+  productCode: 'PNS',
+  id: 1,
+    name: t('products.pnsName'),
+    description: t('products.pnsDesc'),
+},
+  {
+    productCode: 'TNS',
+    id: 2,
+    name: t('products.pnsName'),
+    description: t('products.pnsDesc'),
+  },
+  {
+    productCode: 'SCS',
+    id: 3,
+    name: t('products.tnsName'),
+    description: t('products.tnsDesc'),
+  },
+]
+// ====== 模拟数据结束 ======
 
 const baseData = computed<ProductBaseDetail>(() => ({
   specsLeft: [
@@ -75,36 +119,12 @@ const baseData = computed<ProductBaseDetail>(() => ({
   ],
   sectionHeading1: t('products.sectionHeading1'),
 }))
-const products = computed<ProductDetail[]>(() => [
-  {
-    id: 1,
-    name: t('products.scsName'),
-    englishName: t('products.scsEngName'),
-    description: t('products.scsDesc'),
-    image: product1,
-    ...baseData.value,
-  },
-  {
-    id: 2,
-    name: t('products.pnsName'),
-    englishName: t('products.pnsEngName'),
-    description: t('products.pnsDesc'),
-    image: product2,
-    ...baseData.value,
-  },
-  {
-    id: 3,
-    name: t('products.tnsName'),
-    englishName: t('products.tnsEngName'),
-    description: t('products.tnsDesc'),
-    image: product3,
-    ...baseData.value,
-  },
-])
-let product = ref<ProductDetail & ProductBaseDetail>({
+
+const loading = ref(false)
+const product = ref<ProductDetail & ProductBaseDetail>({
+  productCode: '',
   id: 0,
   name: '',
-  englishName: '',
   description: '',
   image: '',
   specsLeft: [],
@@ -113,15 +133,48 @@ let product = ref<ProductDetail & ProductBaseDetail>({
   sectionHeading1: '',
 })
 
+async function fetchData() {
+  const productCode = (route.params.productCode as string) || ''
+  if (!productCode) return
+  loading.value = true
+  try {
+    const detailRes = await getProductDetail(productCode)
+    const detail = detailRes.data || {}
+    const mapped = mapProductDetail(detail)
+    product.value = {
+      ...mapped,
+      image: getProductImage(detail.productCode),
+      ...baseData.value,
+    }
+  } catch {
+    product.value = {
+      productCode: '',
+      id: 0,
+      name: '',
+      description: '',
+      image: '',
+      specsLeft: [],
+      specsRight: [],
+      featureCards: [],
+      sectionHeading1: '',
+    }
+    // 模拟数据
+    product.value = {
+      ...mockProductDetail[0],
+      image: getProductImage('PNS'),
+      ...baseData.value,
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
 const goToProducts = () => {
   router.push('/products')
 }
-const getProduct = () => {
-  const id = route.params.id || 1
-  return products.value.find(p => p.id === id) || products.value[0]
-}
-onMounted(async () => {
-  product.value = await getProduct() as ProductDetail & ProductBaseDetail
+
+onMounted(() => {
+  fetchData()
 })
 </script>
 
@@ -138,7 +191,7 @@ onMounted(async () => {
         <img :src="product.image" :alt="product.name" class="product-detail__hero-img" />
       </div>
       <div class="product-detail__hero-info">
-        <p class="product-detail__hero-eng">{{ product.englishName }}</p>
+        <p class="product-detail__hero-eng">Spinal Cord Stimulation . SCS</p>
         <h1 class="product-detail__hero-name">{{ product.name }}</h1>
         <p class="product-detail__hero-desc">{{ product.description }}</p>
       </div>

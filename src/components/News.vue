@@ -1,45 +1,92 @@
 <script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { getNewsCategoriesTop } from '@/api/news'
+import type { PublicNewsItem } from '@/api/types'
+
+const router = useRouter()
+
+interface NewsDisplayItem {
+  newsNo: string
+  title: string
+  date: string
+  category: string
+  image: string
+}
+
+/** API 新闻项 → 页面展示数据映射 */
+function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
+  return {
+    newsNo: item.newsNo,
+    title: item.title,
+    date: item.displayDate,
+    category: item.categoryName,
+    image: item.coverUrl,
+  }
+}
+
+// ====== 模拟数据（已注释，保留备用） ======
+
 import news1 from '@/assets/news-1.png'
 import news2 from '@/assets/news-2.png'
 import news3 from '@/assets/news-3.png'
 import news4 from '@/assets/news-4.png'
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-
-const newsItems = [
+const mockNewsItems: NewsDisplayItem[] = [
   {
-    id: 1,
+    newsNo: '1',
     title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
     date: '2026.03.14',
     category: '企业动态',
     image: news1,
   },
   {
-    id: 2,
-    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
+    newsNo: '2',
+    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
     date: '2026.03.14',
     category: '企业动态',
     image: news2,
   },
   {
-    id: 3,
-    title: '喜报 I 神络医疗植入式可充电脊髓神经刺激器获批上市',
+    newsNo: '3',
+    title: '...神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
     date: '2026.03.14',
     category: '企业动态',
     image: news3,
   },
   {
-    id: 4,
-    title: '喜报  神络医疗博士后科研工作站获批成立',
+    newsNo: '4',
+    title: '.神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴..',
     date: '2026.03.14',
     category: '企业动态',
     image: news4,
   },
 ]
+// ====== 模拟数据结束 ======
+
+const apiNewsItems = ref<NewsDisplayItem[]>([])
+
+const newsItems = computed(() => apiNewsItems.value)
+
+async function fetchNews() {
+  try {
+    const res = await getNewsCategoriesTop()
+    apiNewsItems.value = (res.data || []).map(mapNewsItem)
+  } catch {
+    // apiNewsItems.value = []
+    // 模拟数据
+    apiNewsItems.value = mockNewsItems
+  }
+  animId = requestAnimationFrame(animate)
+}
+
+const goToNewsDetail = (newsNo: string) => {
+  router.push(`/news/${newsNo}`)
+}
 
 const cardWidth = 492
 const gap = 40
 const step = cardWidth + gap
-const totalSetWidth = newsItems.length * step
+const totalSetWidth = computed(() => newsItems.value.length * step)
 
 const scrollOffset = ref(0)
 const isPaused = ref(false)
@@ -49,8 +96,8 @@ const SPEED = 0.35
 const animate = () => {
   if (!isPaused.value) {
     scrollOffset.value += SPEED
-    if (scrollOffset.value >= totalSetWidth) {
-      scrollOffset.value -= totalSetWidth
+    if (scrollOffset.value >= totalSetWidth.value) {
+      scrollOffset.value -= totalSetWidth.value
     }
   }
   animId = requestAnimationFrame(animate)
@@ -60,15 +107,15 @@ const handleWheel = (e: WheelEvent) => {
   return 
   scrollOffset.value += e.deltaY * 2
   if (scrollOffset.value < 0) {
-    scrollOffset.value += totalSetWidth
+    scrollOffset.value += totalSetWidth.value
   }
-  if (scrollOffset.value >= totalSetWidth) {
-    scrollOffset.value -= totalSetWidth
+  if (scrollOffset.value >= totalSetWidth.value) {
+    scrollOffset.value -= totalSetWidth.value
   }
 }
 
 onMounted(() => {
-  animId = requestAnimationFrame(animate)
+  fetchNews()
 })
 
 onBeforeUnmount(() => {
@@ -92,7 +139,8 @@ onBeforeUnmount(() => {
         <div @mouseenter="isPaused = true" @mouseleave="isPaused = false" @wheel="handleWheel">
           <div class="flex gap-10 will-change-transform" :style="{ transform: `translateX(-${scrollOffset}px)` }">
             <div v-for="(item, idx) in [...newsItems, ...newsItems]" :key="idx" class="w-[492px] h-[612px] bg-white rounded-[30px] overflow-hidden border border-[#E5E5E5] shadow-[0px_0px_29px_0px_rgba(148,148,148,0.22)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 cursor-pointer group flex-shrink-0
-            hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border hover:border-[#CDEAF5] hover:cursor-pointer group">
+            hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border hover:border-[#CDEAF5] hover:cursor-pointer group"
+            @click="goToNewsDetail(item.newsNo)">
               <div class="h-[360px] relative overflow-hidden">
                 <img :src="item.image" :alt="item.title" class="w-full h-full object-cover" />
               </div>
@@ -104,7 +152,9 @@ onBeforeUnmount(() => {
                   <span class="text-black text-base font-semibold font-pingfang">{{ item.date }}</span>
                 </div>
                 <h3
-                  class="text-[26px] font-semibold text-black group-hover:text-[#0163FF] transition-colors line-clamp-2 leading-[44px] font-pingfang">
+                  class="text-[26px] font-semibold text-black group-hover:text-[#0163FF] transition-colors line-clamp-2 leading-[44px] font-pingfang"
+                  :title="item.title"
+                  >
                   {{ item.title }}
                 </h3>
               </div>
