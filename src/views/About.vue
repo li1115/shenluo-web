@@ -551,7 +551,8 @@ const handleClick = (key: string) => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 170px 0 161px;
+  /* padding: 0 170px 0 161px; */
+  margin: 0 auto;
   z-index: 2;
   flex-shrink: 0;
 }
@@ -1440,7 +1441,7 @@ const handleClick = (key: string) => {
 .about__join {
   width: 100%;
   margin: 0 auto;
-  padding: 100px 170px;
+  padding: 100px 0;
   background: var(--color-join-bg);
   box-sizing: border-box;
   display: flex;
