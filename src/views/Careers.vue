@@ -853,4 +853,18 @@ onMounted(async () => {
 .careers__sidebar-link:hover {
   opacity: 0.85;
 }
+
+@media (max-width: 1024px) {
+  .careers__hero { padding: 60px; }
+  .careers__tab-list { padding: 0 60px; }
+  .careers__list { padding: 60px; }
+  .careers__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .careers__hero { padding: 40px 24px; }
+  .careers__tab-list { padding: 0 24px; flex-wrap: nowrap; overflow-x: auto; }
+  .careers__tab-btn { white-space: nowrap; }
+  .careers__list { padding: 40px 24px; }
+  .careers__grid { grid-template-columns: 1fr; }
+}
 </style>

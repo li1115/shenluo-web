@@ -80,9 +80,9 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="overflow-hidden pt-[80px] pb-[100px]" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
-        <div class="flex gap-10 will-change-transform mx-auto w-fit" :style="{ transform: `translateX(-${scrollOffset}px)` }">
+        <div class="flex gap-10 will-change-transform mx-auto w-fit max-w-full" :style="{ transform: `translateX(-${scrollOffset}px)` }">
           <div v-for="(product, idx) in duplicated" :key="idx"
-            class="w-[500px] h-[500px] bg-[#F9FAFC] border border-[#F1F2F4] rounded-[10px] overflow-hidden flex flex-col flex-shrink-0 cursor-pointer 
+            class="flex-auto w-[500px] h-[500px] bg-[#F9FAFC] border border-[#F1F2F4] rounded-[10px] overflow-hidden flex flex-col cursor-pointer 
             transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)]
             hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border-[#CDEAF5] hover:cursor-pointer hover:translate-y-[-10px] group"
               @click="goToDetail(product.productCode)">
@@ -90,8 +90,8 @@ onBeforeUnmount(() => {
               <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
             </div>
             <div class="flex-1 flex flex-col items-center justify-center px-[70px] gap-5 pb-[7px]">
-              <h3 class="text-2xl font-black text-black text-center font-dinblack">{{ product.name }}</h3>
-              <p class="text-[15px] text-[#999999] text-center leading-[23px] font-pingfang">
+              <h3 class="text-2xl font-black text-black text-center font-dinblack line-clamp-1" :title="product.name ">{{ product.name }}</h3>
+              <p class="text-[15px] text-[#999999] text-center leading-[23px] font-pingfang line-clamp-4" :title="product.description ">
                 {{ product.description }}
               </p>
             </div>
@@ -101,3 +101,18 @@ onBeforeUnmount(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 1024px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+@media (max-width: 768px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+</style>

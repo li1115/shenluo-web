@@ -4,13 +4,13 @@
 <template>
   <div class="pt-[120px]">
     <section class="py-20 bg-gradient-to-r from-[#0163FF] to-[#008ACB] text-white">
-      <div class="max-w-[1920px] mx-auto px-[230px] text-center">
+      <div class="max-w-[1460px] mx-auto px-[60px] text-center">
         <h1 class="text-5xl font-black mb-4">{{ $t('patientService.heading') }}</h1>
         <p class="text-white/70 text-lg">{{ $t('patientService.subtitle') }}</p>
       </div>
     </section>
     <section class="py-20 bg-white">
-      <div class="max-w-[1920px] mx-auto px-[230px]">
+      <div class="max-w-[1460px] mx-auto px-[60px]">
         <div class="grid grid-cols-3 gap-8">
           <div class="bg-[#F9FAFC] rounded-[10px] p-10 text-center">
             <div class="w-16 h-16 bg-[#E9F1FF] rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -48,3 +48,18 @@
     </section>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 1024px) {
+  .patient-service :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+@media (max-width: 768px) {
+  .patient-service :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+</style>

@@ -65,9 +65,9 @@ onMounted(() => {
       </div>
 
       <!-- 统计卡片 -->
-      <div class="flex justify-center gap-10 w-[1584px] mx-auto">
+      <div class="flex justify-center gap-10 max-w-[1584px] mx-auto">
         <div v-for="stat in stats" :key="stat.label"
-          class="bg-white rounded-[18px] w-[366px] h-[260px] flex flex-col items-center justify-center gap-4">
+          class="flex-auto bg-white rounded-[18px] w-[366px] h-[260px] flex flex-col items-center justify-center gap-4">
           <div class="text-[80px] font-black text-[#0163FF] leading-none font-alibabapuhuiti">
             {{ stat.animated.value }}{{ stat.suffix }}
           </div>
@@ -79,3 +79,24 @@ onMounted(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 1024px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  section :deep(.gap-\[100px\]) {
+    gap: 60px;
+  }
+}
+@media (max-width: 768px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  section :deep(.gap-\[100px\]) {
+    gap: 40px;
+  }
+}
+</style>

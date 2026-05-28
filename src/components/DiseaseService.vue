@@ -14,14 +14,14 @@ const handleClick = () => {
 <template>
   <section class="py-[100px] bg-[#F6F6F6]">
     <div class="flex flex-col items-center gap-[80px]">
-      <div class="flex flex-col items-center gap-[27px] px-[240px] w-full">
+      <div class="flex flex-col items-center gap-[27px] w-full">
         <span class="text-[18px] font-black text-[#0163FF] text-center font-alibabapuhuiti">{{ $t('home.diseaseService.label') }}</span>
         <h2 class="text-[66px] font-black text-black leading-tight text-center w-full font-alibabapuhuiti">{{ $t('home.diseaseService.heading') }}</h2>
       </div>
 
       <div class="flex justify-center items-stretch w-full">
         <div
-          class="w-[834px] h-[627px] px-[59px] pt-[67px] pb-[138px] flex flex-col justify-between bg-white rounded-l-[36px] shadow-[0px_0px_94px_rgba(148,148,148,0.22)] relative flex-shrink-0">
+          class="flex-auto w-[834px] max-w-[834px] h-[627px] px-[59px] pt-[67px] pb-[138px] flex flex-col justify-between bg-white rounded-l-[36px] shadow-[0px_0px_94px_rgba(148,148,148,0.22)] relative ">
           <div>
             <h3 class="text-[32px] font-black text-[#0163FF] mb-[22px] ml-[3px] font-alibabapuhuiti">{{ $t('home.diseaseService.serviceTitle') }}</h3>
             <p class="text-[16px] text-[#333] leading-[25px] max-w-[530px]">
@@ -39,7 +39,7 @@ const handleClick = () => {
           </div>
         </div>
 
-        <div class="w-[746px] h-[627px] rounded-r-[36px] relative flex-shrink-0 overflow-hidden"
+        <div class="flex-auto w-[746px] max-w-[746px] h-[627px] rounded-r-[36px] relative  overflow-hidden"
           :style="{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
           <div class="absolute bottom-[40px] left-[40px]">
             <div
@@ -76,3 +76,32 @@ const handleClick = () => {
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 1024px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  section :deep(.left-\[110px\]),
+  section :deep(.right-\[110px\]) {
+    left: 40px;
+    right: 40px;
+  }
+  section :deep(.w-\[580px\]) {
+    width: 100%;
+    max-width: 580px;
+  }
+}
+@media (max-width: 768px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  section :deep(.left-\[110px\]),
+  section :deep(.right-\[110px\]) {
+    left: 16px;
+    right: 16px;
+  }
+}
+</style>

@@ -155,6 +155,21 @@ onBeforeUnmount(stopAutoplay)
 </template>
 
 <style scoped>
+@media (max-width: 1024px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  .hero-title :deep(.text-\[56px\]) {
+    font-size: 40px;
+  }
+}
+@media (max-width: 768px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
 .bannerSwiper .swiper-slide-active img,
 .bannerSwiper .swiper-slide-duplicate-active img {
   transition: 6s linear;

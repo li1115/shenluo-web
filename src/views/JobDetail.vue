@@ -946,99 +946,21 @@ onMounted(() => {
 }
 
 /* ========== Responsive ========== */
-@media (max-width: 1600px) {
-  .job-detail__hero {
-    width: 100%;
-    height: 480px;
-  }
-
-  .job-detail__hero-inner {
-    max-width: 1280px;
-  }
-
-
-  .job-detail__hero-content {
-    left: 32px;
-    top: 140px;
-    width: auto;
-    right: 32px;
-  }
-
-  .job-detail__title {
-    font-size: 56px;
-    line-height: 56px;
-  }
-
-  .job-detail__content {
-    padding: 60px 32px;
-    gap: 40px;
-  }
-
-  .job-detail__sidebar {
-    width: 360px;
-  }
+@media (max-width: 1024px) {
+  .job-detail__hero { height: 450px; }
+  .job-detail__hero-content { left: 32px; right: 32px; top: 120px; }
+  .job-detail__title { font-size: 48px; line-height: 52px; }
+  .job-detail__content { padding: 60px 32px; gap: 40px; }
+  .job-detail__sidebar { width: 320px; }
 }
 
 @media (max-width: 768px) {
-  .job-detail__hero {
-    height: 380px;
-  }
-
-
-  .job-detail__hero-content {
-    left: 20px;
-    right: 20px;
-    top: 100px;
-    width: auto;
-  }
-
-  .job-detail__title {
-    font-size: 36px;
-    line-height: 40px;
-  }
-
-  .job-detail__meta {
-    font-size: 16px;
-    line-height: 24px;
-    margin-bottom: 24px;
-  }
-
-  .job-detail__apply-btn {
-    font-size: 16px;
-    padding: 12px 24px;
-  }
-
-  .job-detail__content {
-    flex-direction: column;
-    padding: 40px 20px;
-    gap: 32px;
-  }
-
-  .job-detail__sidebar {
-    width: 100%;
-    padding-bottom: 0;
-  }
-
-  .job-detail__process {
-    padding: 24px;
-  }
-
-  .job-detail__process-steps {
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .job-detail__process-divider {
-    display: none;
-  }
-
-  .job-detail__section-heading {
-    margin-bottom: 24px;
-  }
-
-  .job-detail__section-title {
-    font-size: 22px;
-    line-height: 30px;
-  }
+  .job-detail__hero { height: 350px; }
+  .job-detail__hero-content { left: 20px; right: 20px; top: 90px; }
+  .job-detail__title { font-size: 32px; line-height: 38px; }
+  .job-detail__meta { font-size: 14px; }
+  .job-detail__content { flex-direction: column; padding: 40px 20px; gap: 32px; }
+  .job-detail__sidebar { width: 100%; }
+  .job-detail__section-title { font-size: 22px; line-height: 30px; }
 }
 </style>

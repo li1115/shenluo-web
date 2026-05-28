@@ -9,7 +9,7 @@ const goToCareers = () => {
 
 <template>
   <footer class="bg-[#323438] pt-[99px] pb-5">
-    <div class="max-w-[1920px] mx-auto px-[230px]">
+    <div class="max-w-[1460px] mx-auto px-[60px]">
       <div class="flex justify-between pb-[60px] mb-[50px]">
         <!-- 左侧公司信息 -->
         <div class="max-w-[299px]">
@@ -84,3 +84,22 @@ const goToCareers = () => {
     </div>
   </footer>
 </template>
+
+<style scoped>
+@media (max-width: 1024px) {
+  footer :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+@media (max-width: 768px) {
+  footer :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  footer :deep(.flex.justify-between) {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+}
+</style>

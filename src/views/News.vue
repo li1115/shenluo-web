@@ -439,4 +439,13 @@ onMounted(() => {
   color: var(--color-white);
   text-align: center;
 }
+
+@media (max-width: 1024px) {
+  .news-page__section { padding: 60px; }
+  .news-page__grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .news-page__section { padding: 40px 24px; }
+  .news-page__grid { grid-template-columns: 1fr; }
+}
 </style>

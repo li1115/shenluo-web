@@ -492,4 +492,18 @@ const goToArticle = (newsNo: string) => {
   font-size: 16px;
   color: var(--color-text-muted);
 }
+
+.news-detail__right-panel-related-item:hover .news-detail__right-panel-related-title {
+  color: #00a0e8;
+}
+
+@media (max-width: 1024px) {
+  .news-detail__left { flex: 1 1 100%; max-width: 100%; }
+  .news-detail__right { flex: 0 0 360px; }
+}
+@media (max-width: 768px) {
+  .news-detail__body { flex-direction: column; padding: 40px 24px 80px; }
+  .news-detail__right { width: 100%; flex: auto; }
+  .news-detail__title { font-size: 28px; line-height: 36px; }
+}
 </style>

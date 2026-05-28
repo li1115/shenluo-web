@@ -166,3 +166,24 @@ onBeforeUnmount(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 1024px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  section :deep(.w-\[492px\]) {
+    width: calc(50% - 24px);
+  }
+}
+@media (max-width: 768px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  section :deep(.w-\[492px\]) {
+    width: 100%;
+  }
+}
+</style>

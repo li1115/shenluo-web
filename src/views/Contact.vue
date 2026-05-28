@@ -181,7 +181,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  width: 1568px;
+  max-width: 1568px;
   margin: 0 auto;
   padding: 196px 0 200px 0;
   margin: 0 auto;
@@ -208,6 +208,7 @@
 }
 
 .contact-page__panel {
+  flex: auto;
   width: 659px;
   height: 563px;
   background: #F6F6F6;
@@ -217,7 +218,6 @@
   display: flex;
   flex-direction: column;
   gap: 38px;
-  flex-shrink: 0;
 }
 
 .contact-page__panel-header {
@@ -280,80 +280,23 @@
   color: #0163FF;
 }
 
-@media (max-width: 1600px) {
-  .contact-page__banner {
-    height: 600px;
-  }
-
-  .contact-page__heading {
-    left: 40px;
-    top: 280px;
-    font-size: 56px;
-  }
-
-  .contact-page__subheading {
-    left: 40px;
-    top: 350px;
-    font-size: 48px;
-  }
-
-  .contact-page__content-inner {
-    flex-direction: column;
-    align-items: center;
-    padding: 60px 40px;
-  }
-
-  .contact-page__map {
-    width: 100%;
-    max-width: 800px;
-    height: 400px;
-    border-radius: 18px 18px 0 0;
-  }
-
-  .contact-page__panel {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-    border-radius: 0 0 18px 18px;
-    padding: 40px;
-  }
+@media (max-width: 1024px) {
+  .contact-page__banner { height: 500px; }
+  .contact-page__heading { left: 40px; top: 220px; font-size: 48px; }
+  .contact-page__subheading { left: 40px; top: 280px; font-size: 40px; }
+  .contact-page__content-inner { flex-direction: column; align-items: center; padding: 60px 40px; }
+  .contact-page__map { width: 100%; max-width: 800px; height: 350px; border-radius: 18px 18px 0 0; }
+  .contact-page__panel { width: 100%; max-width: 800px; height: auto; border-radius: 0 0 18px 18px; padding: 40px; }
 }
 
 @media (max-width: 768px) {
-  .contact-page__banner {
-    height: 400px;
-  }
-
-  .contact-page__heading {
-    left: 20px;
-    top: 180px;
-    font-size: 40px;
-  }
-
-  .contact-page__subheading {
-    left: 20px;
-    top: 230px;
-    font-size: 32px;
-  }
-
-  .contact-page__map {
-    height: 300px;
-  }
-
-  .contact-page__panel {
-    padding: 30px 20px;
-  }
-
-  .contact-page__company-name {
-    font-size: 24px;
-  }
-
-  .contact-page__info-text {
-    font-size: 14px;
-  }
-
-  .contact-page__info-number {
-    font-size: 18px;
-  }
+  .contact-page__banner { height: 350px; }
+  .contact-page__heading { left: 20px; top: 160px; font-size: 36px; }
+  .contact-page__subheading { left: 20px; top: 210px; font-size: 28px; }
+  .contact-page__map { height: 250px; }
+  .contact-page__panel { padding: 30px 20px; }
+  .contact-page__company-name { font-size: 24px; }
+  .contact-page__info-text { font-size: 14px; }
+  .contact-page__info-number { font-size: 18px; }
 }
 </style>

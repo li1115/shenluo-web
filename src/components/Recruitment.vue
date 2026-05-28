@@ -43,7 +43,7 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
       <img :src="recruitmentBg" alt="background" class="w-full h-full object-cover" />
     </div>
 
-    <div class="relative h-full max-w-[1920px] mx-auto px-[230px] py-[100px] flex">
+    <div class="relative h-full max-w-[1460px] mx-auto px-[60px] py-[100px] flex">
       <div class="w-full h-full flex items-center justify-center absolute top-0 left-0 z-0">
         <img src="@/assets/recruitment-main-bg.png" alt="main-bg" class="w-full h-full" />
       </div>
@@ -85,3 +85,31 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 1024px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  section :deep(.left-\[110px\]),
+  section :deep(.right-\[110px\]) {
+    left: 40px;
+    right: 40px;
+  }
+}
+@media (max-width: 768px) {
+  section :deep(.px-\[230px\]) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  section :deep(.left-\[110px\]),
+  section :deep(.right-\[110px\]) {
+    left: 16px;
+    right: 16px;
+  }
+  section :deep(.gap-\[80px\]) {
+    gap: 40px;
+  }
+}
+</style>
