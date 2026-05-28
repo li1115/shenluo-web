@@ -434,8 +434,11 @@ onMounted(async () => {
   padding: 142px 160px 0;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
-
+.careers__hero-img {
+  width: 100%;
+}
 /* ========== Breadcrumb ========== */
 .careers__breadcrumb {
   display: flex;

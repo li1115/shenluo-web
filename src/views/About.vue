@@ -359,7 +359,8 @@ const handleClick = (key: string) => {
       </div>
 
       <div class="about__contact-bar">
-        <div class="about__contact-info">
+        <div class="about__contact-content"> 
+          <div class="about__contact-info">
           <h3 class="about__contact-heading">{{ $t('about.contactBar.heading') }}</h3>
           <p class="about__contact-text">
             {{ $t('about.contactBar.text') }}<br />
@@ -395,6 +396,8 @@ const handleClick = (key: string) => {
           </div>
           <span class="about__contact-qr-label">{{ $t('about.contactBar.qrLabel') }}</span>
         </div>
+        </div>
+        
       </div>
     </section>
 
@@ -618,6 +621,11 @@ const handleClick = (key: string) => {
   margin: 0;
   text-align: right;
 }
+.about__hero-stats-wrap,
+.about__hero-content {
+  max-width: 1920px;
+  margin: 0 auto;
+}
 
 .about__hero-stats-wrap {
   margin-top: auto;
@@ -722,6 +730,7 @@ const handleClick = (key: string) => {
   box-sizing: border-box;
   padding: 100px 0;
   min-height: 967px;
+  max-width: 1920px;
 }
 
 .about__milestones .about__section-header {
@@ -785,6 +794,7 @@ const handleClick = (key: string) => {
   justify-content: end;
   position: relative;
   margin-bottom: 12px;
+  overflow: hidden;
 }
 
 .about__timeline-line {
@@ -1294,15 +1304,19 @@ const handleClick = (key: string) => {
   width: 100%;
   height: 300px;
   background: var(--color-contact-bar-bg);
-  border-radius: 36px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  padding: 0 170px;
-  gap: 0;
+
   margin-top: 81px;
 }
 
+.about__contact-content {
+  max-width: 1580px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
 .about__contact-info {
   display: flex;
   flex-direction: column;
@@ -1535,323 +1549,4 @@ const handleClick = (key: string) => {
   box-shadow: none;
 }
 
-/* ========== Responsive ========== */
-@media (max-width: 1600px) {
-
-  .about__hero,
-  .about__milestones,
-  .about__culture,
-  .about__partners,
-  .about__join {
-    width: 100%;
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  .about__hero {
-    height: auto;
-    min-height: 600px;
-    padding: 60px 40px;
-  }
-
-  .about__hero-content {
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    padding: 0;
-  }
-
-  .about__hero-left,
-  .about__hero-right {
-    width: auto;
-  }
-
-  .about__hero-image {
-    width: 100%;
-    max-width: 680px;
-    height: auto;
-    aspect-ratio: 680 / 427;
-  }
-
-  .about__hero-right {
-    align-items: center;
-    text-align: center;
-    max-width: 100%;
-  }
-
-  .about__hero-label,
-  .about__hero-slogan,
-  .about__hero-desc {
-    text-align: center;
-  }
-
-  .about__hero-stats-wrap {
-    margin: 40px 0 0;
-    padding-left: 0;
-  }
-
-  .about__hero-stats {
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-  .about__hero-stat {
-    width: auto !important;
-    min-width: 200px;
-  }
-
-  .about__hero-stat-number {
-    font-size: 48px;
-    line-height: 48px;
-  }
-
-  .about__hero-stat-label {
-    font-size: 16px;
-    line-height: 22px;
-  }
-
-  .about__milestones {
-    padding: 60px 0;
-  }
-
-  .about__milestones .about__section-header {
-    margin-bottom: 40px;
-  }
-
-  .about__timeline-wrapper {
-    padding: 0 40px;
-  }
-
-
-  .about__milestones-content {
-    width: 100%;
-  }
-
-  .about__milestones-image {
-    flex: 0 0 666px;
-    width: 666px;
-    height: 380px;
-  }
-
-  .about__timeline-decoration {
-    margin-bottom: 20px;
-  }
-
-  .about__timeline-nav--prev {
-    left: -20px;
-  }
-
-  .about__timeline-nav--next {
-    right: -20px;
-  }
-
-  .about__timeline-years {
-    gap: 60px;
-  }
-
-  .about__timeline-ticks {
-    left: 0;
-    gap: 30px;
-  }
-
-  .about__timeline-line {
-    left: 0;
-    right: 0;
-  }
-
-  .about__culture {
-    padding: 60px 0;
-  }
-
-  .about__culture .about__section-header {
-    margin-bottom: 40px;
-  }
-
-  .about__values {
-    width: 100%;
-    flex-wrap: wrap;
-    height: auto;
-    min-height: 580px;
-  }
-
-  .about__value-card--active {
-    flex-basis: 100%;
-    min-width: 600px;
-  }
-
-  .about__value-card:not(.about__value-card--active) {
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .about__partners {
-    padding: 60px 0;
-  }
-
-  .about__partners .about__section-header {
-    margin-bottom: 40px;
-  }
-
-  .about__partner-cards {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0 40px;
-  }
-
-  .about__contact-bar {
-    width: 100%;
-    height: auto;
-    padding: 40px;
-    border-radius: 36px 36px 0 0;
-    margin-top: 40px;
-    flex-wrap: wrap;
-  }
-
-  .about__contact-info,
-  .about__contact-method--phone,
-  .about__contact-method--email,
-  .about__contact-qr {
-    position: static;
-    margin: 10px 0;
-  }
-
-  .about__contact-qr {
-    margin-left: auto;
-  }
-
-  .about__value-left {
-    height: auto;
-    padding: 30px;
-  }
-
-  .about__value-name-group,
-  .about__value-subtitles {
-    padding: 0;
-    margin-top: 0;
-  }
-
-  .about__value-subtitles {
-    padding-bottom: 20px;
-  }
-
-  .about__section-header,
-  .about__values,
-  .about__partner-cards,
-  .about__join-cards {
-    width: 100%;
-    max-width: 1216px;
-  }
-
-  .about__join {
-    width: 100%;
-  }
-
-  .about__join-header {
-    width: 100%;
-  }
-
-  .about__join-cards {
-    flex-wrap: wrap;
-  }
-
-  .about__join-card {
-    min-width: 300px;
-  }
-
-  .about__join-card-header {
-    width: 100%;
-    margin-bottom: 24px;
-  }
-
-  .about__join-card-title {
-    width: 100%;
-    margin-bottom: 16px;
-  }
-
-  .about__join-card-desc {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .about__join-card-btn {
-    margin-top: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .about__section-heading {
-    font-size: 36px;
-  }
-
-  .about__hero {
-    min-height: auto;
-    padding: 40px 20px;
-  }
-
-  .about__hero-image {
-    max-width: 100%;
-  }
-
-  .about__hero-label {
-    font-size: 32px;
-  }
-
-  .about__hero-slogan {
-    font-size: 22px;
-  }
-
-  .about__hero-desc {
-    font-size: 14px;
-    line-height: 24px;
-  }
-
-  .about__hero-stat-number {
-    font-size: 36px;
-    line-height: 36px;
-  }
-
-  .about__hero-stat-label {
-    font-size: 14px;
-    line-height: 18px;
-  }
-
-  .about__timeline-years {
-    gap: 30px;
-  }
-
-  .about__timeline-year-text {
-    font-size: 16px;
-  }
-
-  .about__value-card--active {
-    flex-direction: column;
-    min-width: auto;
-  }
-
-  .about__value-left {
-    width: 100%;
-    height: auto;
-    padding: 30px;
-  }
-
-  .about__value-image {
-    width: 100%;
-    height: 300px;
-  }
-
-  .about__value-name-group,
-  .about__value-subtitles {
-    padding: 0;
-  }
-
-  .about__value-subtitles {
-    padding-bottom: 0;
-    margin-top: 20px;
-  }
-
-  .about__contact-bar {
-    padding: 30px 20px;
-  }
-}
 </style>

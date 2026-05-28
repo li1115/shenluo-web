@@ -169,11 +169,14 @@ onMounted(() => {
       <div class="news-page__banner-bg">
         <img src="@/assets/news-hero.png" alt="banner" class="news-page__banner-img" />
       </div>
-      <div class="news-page__breadcrumb">
+      <div class="news-page__content">
+            <div class="news-page__breadcrumb">
         <span class="news-page__breadcrumb-link" @click="goToNewsList">{{ $t('news.breadcrumb1') }}</span>
         <span>/</span>
         <span class="news-page__breadcrumb-current">{{ $t('news.breadcrumb2') }}</span>
       </div>
+      </div>
+  
     </div>
 
     <div class="news-page__section" v-for="section in newsSections" :key="section.key">
@@ -260,6 +263,11 @@ onMounted(() => {
 }
 
 /* ========== Breadcrumb ========== */
+.news-page__content { 
+  max-width: 1920px;
+  margin: 0 auto;
+  position: relative;
+}
 .news-page__breadcrumb {
   position: absolute;
   top: 142px;

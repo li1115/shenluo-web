@@ -43,11 +43,11 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
       <img :src="recruitmentBg" alt="background" class="w-full h-full object-cover" />
     </div>
 
-    <div class="relative h-full max-w-[1920px] mx-auto px-[230px] py-[100px] flex">
+    <div class="relative h-full mx-auto px-[230px] py-[100px] flex">
       <div class="w-full h-full flex items-center justify-center absolute top-0 left-0 z-0">
         <img src="@/assets/recruitment-main-bg.png" alt="main-bg" class="w-full h-full" />
       </div>
-      <div class="w-full flex flex-col items-center justify-between position-relative z-10">
+      <div class="max-w-[1580px] mx-auto w-full flex flex-col items-center justify-between position-relative z-10">
 
         <!-- 顶部文字 -->
         <div class="w-full flex items-start justify-between">

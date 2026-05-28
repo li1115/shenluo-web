@@ -96,13 +96,13 @@ const onDropdownMouseLeave = () => {
       ? 'top-0 w-full rounded-none shadow-[0px_4px_20px_0px_rgba(0,0,0,0.08)]'
       : 'top-[20px]  max-w-[1732px] w-[91%] rounded-[60px]'
   ]">
-    <div class="bg-white h-[86px] flex items-center justify-between px-[100px]"
+    <div class="bg-white h-[86px] flex items-center justify-between px-[100px] header-container"
       :class="isScrolled ? '' : 'rounded-[60px] shadow-[0px_4px_29px_0px_rgba(0,0,0,0.04)]'">
-      <div class="flex flex-1 items-center justify-between mr-[155px]">
-        <div class="w-[149px] h-[50px] flex items-center">
+      <div class="flex flex-1 items-center justify-between mr-[155px] header-left">
+        <div class="w-[149px] h-[50px] flex items-center header-logo">
           <img src="@/assets/header-logo.svg" alt="logo" class="w-full h-full">
         </div>
-        <nav class="flex items-center gap-[52px]">
+        <nav class="flex items-center gap-[52px] header-nav">
           <template v-for="item in navItems" :key="item.path">
             <!-- 产品展示：带下拉 -->
             <div v-if="item.hasDropdown"
@@ -173,5 +173,29 @@ const onDropdownMouseLeave = () => {
 .dropdown-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+@media (max-width: 1400px) {
+  .header-nav { gap: 28px; }
+  .header-nav :deep(button) { padding-left: 20px; padding-right: 20px; }
+  .header-left { margin-right: 80px; }
+}
+@media (max-width: 1200px) {
+  .header-nav { gap: 18px; }
+  .header-nav :deep(button) { padding-left: 14px; padding-right: 14px; font-size: 15px; }
+  .header-left { margin-right: 40px; }
+}
+@media (max-width: 1024px) {
+  .header-container { padding-left: 24px; padding-right: 24px; }
+  .header-nav { gap: 10px; }
+  .header-nav :deep(button) { padding-left: 10px; padding-right: 10px; font-size: 14px; }
+  .header-left { margin-right: 20px; }
+}
+@media (max-width: 768px) {
+  .header-container { padding-left: 16px; padding-right: 16px; }
+  .header-nav { gap: 6px; }
+  .header-nav :deep(button) { padding-left: 8px; padding-right: 8px; font-size: 13px; }
+  .header-left { margin-right: 12px; }
+  .header-logo { width: 110px; }
 }
 </style>

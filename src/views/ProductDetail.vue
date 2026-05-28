@@ -287,6 +287,9 @@ onMounted(() => {
   --font-display: 'DIN Black', 'DIN', 'PingFang SC', sans-serif;
 
   background: var(--color-bg-page);
+
+  max-width: 1920px;
+  margin: auto;
 }
 
 /* ========== Breadcrumb ========== */
