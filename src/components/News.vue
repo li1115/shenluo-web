@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-import { getNewsCategoriesTop } from '@/api/news'
+import { formatDate } from '@/shared/utils/formatDate'
+import { getNewsCategoryTop } from '@/api/news'
 import type { PublicNewsItem } from '@/api/types'
 
 const router = useRouter()
@@ -19,7 +20,7 @@ function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
   return {
     newsNo: item.newsNo,
     title: item.title,
-    date: item.displayDate,
+    date: formatDate(item.displayDate),
     category: item.categoryName,
     image: item.coverUrl,
   }
@@ -65,18 +66,25 @@ const mockNewsItems: NewsDisplayItem[] = [
 
 const apiNewsItems = ref<NewsDisplayItem[]>([])
 
-const newsItems = computed(() => apiNewsItems.value)
+const newsItems = computed(() => {
+  if (apiNewsItems.value.length > 3) {
+    return [...apiNewsItems.value, ...apiNewsItems.value]
+  }
+  return apiNewsItems.value
+})
 
 async function fetchNews() {
   try {
-    const res = await getNewsCategoriesTop()
+    const res = await getNewsCategoryTop('ALL')
     apiNewsItems.value = (res.data || []).map(mapNewsItem)
   } catch {
     // apiNewsItems.value = []
     // 模拟数据
     apiNewsItems.value = mockNewsItems
   }
-  animId = requestAnimationFrame(animate)
+  if (apiNewsItems.value.length > 3) {
+    animId = requestAnimationFrame(animate)
+  }
 }
 
 const goToNewsDetail = (newsNo: string) => {
@@ -104,7 +112,7 @@ const animate = () => {
 }
 
 const handleWheel = (e: WheelEvent) => {
-  return 
+  return
   scrollOffset.value += e.deltaY * 2
   if (scrollOffset.value < 0) {
     scrollOffset.value += totalSetWidth.value
@@ -112,6 +120,7 @@ const handleWheel = (e: WheelEvent) => {
   if (scrollOffset.value >= totalSetWidth.value) {
     scrollOffset.value -= totalSetWidth.value
   }
+  return e.preventDefault()
 }
 
 onMounted(() => {
@@ -137,24 +146,25 @@ onBeforeUnmount(() => {
 
       <div class="overflow-hidden pb-[100px] pt-[80px]">
         <div @mouseenter="isPaused = true" @mouseleave="isPaused = false" @wheel="handleWheel">
-          <div class="flex gap-10 will-change-transform" :style="{ transform: `translateX(-${scrollOffset}px)` }">
-            <div v-for="(item, idx) in [...newsItems, ...newsItems]" :key="idx" class="w-[492px] h-[612px] bg-white rounded-[30px] overflow-hidden border border-[#E5E5E5] shadow-[0px_0px_29px_0px_rgba(148,148,148,0.22)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 cursor-pointer group flex-shrink-0
-            hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border hover:border-[#CDEAF5] hover:cursor-pointer group"
-            @click="goToNewsDetail(item.newsNo)">
+          <div class="flex gap-10 will-change-transform justify-center"
+            :style="{ transform: `translateX(-${scrollOffset}px)` }">
+            <div v-for="(item, idx) in newsItems" :key="idx"
+              class="w-[492px] h-[612px] bg-white rounded-[30px] overflow-hidden border border-[#E5E5E5] shadow-[0px_0px_29px_0px_rgba(148,148,148,0.22)] transition-all duration-300 cursor-pointer group flex-shrink-0 transform hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border-[#CDEAF5] hover:-translate-y-2"
+              @click="goToNewsDetail(item.newsNo)">
               <div class="h-[360px] relative overflow-hidden">
-                <img :src="item.image" :alt="item.title" class="w-full h-full object-cover" />
+                <img :src="item.image" :alt="item.title" class="w-full h-full transition-transform duration-300 group-hover:scale-103" />
               </div>
               <div class="p-[50px] flex flex-col gap-6">
                 <div class="flex items-center justify-between">
-                  <span class="bg-[#E5F0FF] text-[#0163FF] text-base font-semibold px-3 py-2 rounded-[50px] font-pingfang">
+                  <span
+                    class="bg-[#E5F0FF] text-[#0163FF] text-base font-semibold px-3 py-2 rounded-[50px] font-pingfang">
                     {{ item.category }}
                   </span>
                   <span class="text-black text-base font-semibold font-pingfang">{{ item.date }}</span>
                 </div>
                 <h3
                   class="text-[26px] font-semibold text-black group-hover:text-[#0163FF] transition-colors line-clamp-2 leading-[44px] font-pingfang"
-                  :title="item.title"
-                  >
+                  :title="item.title">
                   {{ item.title }}
                 </h3>
               </div>

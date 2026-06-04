@@ -1,37 +1,13 @@
 <script setup lang="ts">
-import product1 from '@/assets/product-1.png'
-import product2 from '@/assets/product-2.png'
-import product3 from '@/assets/product-3.png'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-
+import { productsData } from '@/shared/products'
 const router = useRouter()
-const { t } = useI18n()
 
-const products = computed(() => [
-  {
-    productCode: '1',
-    name: t('home.products.scsName'),
-    description: t('home.products.scsDesc'),
-    image: product1,
-  },
-  {
-    productCode: '2',
-    name: t('home.products.pnsName'),
-    description: t('home.products.pnsDesc'),
-    image: product2,
-  },
-  {
-    productCode: '3',
-    name: t('home.products.tnsName'),
-    description: t('home.products.tnsDesc'),
-    image: product3,
-  },
-])
+const products = computed(() => productsData)
 
 const goToDetail = (productCode: string) => {
-  router.push(`/product/${productCode}`)
+  router.push(`/products/product/${productCode}`)
 }
 
 const cardWidth = 500
@@ -87,12 +63,12 @@ onBeforeUnmount(() => {
             hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border-[#CDEAF5] hover:cursor-pointer hover:translate-y-[-10px] group"
               @click="goToDetail(product.productCode)">
             <div class="h-[340px] flex items-center justify-center overflow-hidden">
-              <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
+              <img :src="product.image" :alt="product.productCode" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-103" />
             </div>
             <div class="flex-1 flex flex-col items-center justify-center px-[70px] gap-5 pb-[7px]">
-              <h3 class="text-2xl font-black text-black text-center font-dinblack">{{ product.name }}</h3>
+              <h3 class="text-2xl font-black text-black text-center font-dinblack">{{ $t(product.nameKey) }}</h3>
               <p class="text-[15px] text-[#999999] text-center leading-[23px] font-pingfang">
-                {{ product.description }}
+                {{ $t(product.descKey) }}
               </p>
             </div>
           </div>

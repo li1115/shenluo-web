@@ -40,7 +40,42 @@
 
 @font-face {
   font-family: 'Alibaba PuHuiTi 3.0';
-  src: url('/fonts/AlibabaPuHuiTi-3-115-Black.ttf') format('truetype');
+  src: url('/fonts/AlibabaPuHuiTi-3-35-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('/fonts/AlibabaPuHuiTi-3-45-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('/fonts/AlibabaPuHuiTi-3-55-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('/fonts/AlibabaPuHuiTi-3-65-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('/fonts/AlibabaPuHuiTi-3-75-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba PuHuiTi 3.0';
+  src: url('/fonts/AlibabaPuHuiTi-3-105-Heavy.otf') format('opentype');
   font-weight: 900;
   font-display: swap;
 }
@@ -82,4 +117,16 @@ body {
 #app {
   width: 100%;
   min-width: 1580px;
+}
+
+/* 视口感知滚动入场动画 —— 全局样式 */
+.reveal {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }

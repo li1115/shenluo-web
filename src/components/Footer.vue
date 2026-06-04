@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { ArrowRight } from 'lucide-vue-next'
 import router from '@/router'
+import { productsData } from '@/shared/products'
 
 const goToCareers = () => {
-  router.push({ path: '/careers' })
+  router.push({ path: '/about/careers' })
+}
+
+const goToProduct = (productCode: string) => {
+  router.push(`/products/product/${productCode}`)
+}
+
+const goTo = (path: string) => {
+  router.push(path)
 }
 </script>
 
@@ -31,19 +40,17 @@ const goToCareers = () => {
         <div>
           <h4 class="text-white font-black text-base leading-[22px] mb-[31px] font-dinblack">{{ $t('footer.coreBusiness') }}</h4>
           <div class="flex flex-col gap-5">
-            <a href="#" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors">{{ $t('footer.scs') }}</a>
-            <a href="#" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors">{{ $t('footer.pns') }}</a>
-            <a href="#" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors">{{ $t('footer.tns') }}</a>
+            <a v-for="product in productsData" :key="product.productCode" href="javascript:void(0)" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors" @click="goToProduct(product.productCode)">{{ $t(product.nameKey) }}</a>
           </div>
         </div>
         <!-- 了解我们 -->
         <div class="flex flex-col">
           <h4 class="text-white font-black text-base leading-[22px] mb-[31px] font-dinblack">{{ $t('footer.aboutUs') }}</h4>
           <div class="flex flex-col gap-5">
-            <a href="#" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors">{{ $t('footer.about') }}</a>
-            <a href="#" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors">{{ $t('footer.news') }}</a>
-            <a href="#" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors">{{ $t('footer.postdoctoral') }}</a>
-            <a href="#" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors">{{ $t('footer.salesJobs') }}</a>
+            <a href="javascript:void(0)" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/about')">{{ $t('footer.about') }}</a>
+            <a href="javascript:void(0)" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/news')">{{ $t('footer.news') }}</a>
+            <a href="javascript:void(0)" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/about/careers?job=academic')">{{ $t('footer.postdoctoral') }}</a>
+            <a href="javascript:void(0)" class="text-[15px] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/about/careers?job=sales')">{{ $t('footer.salesJobs') }}</a>
           </div>
         </div>
 

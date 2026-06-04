@@ -1,11 +1,11 @@
 import axios from 'axios'
 import type { ApiResult } from './types'
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://pconsole-dev.seeneuro.com'
+const isDev = import.meta.env.DEV
 const isStatic = import.meta.env.VITE_STATIC_MODE === 'true'
 
 const request = axios.create({
-  baseURL: BASE_URL,
+  baseURL: isDev ? '' : (import.meta.env.VITE_API_BASE_URL || 'https://portal-api.seeneuro.com'),
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

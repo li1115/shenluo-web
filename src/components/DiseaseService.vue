@@ -54,7 +54,7 @@ const handleClick = () => {
               {{ $t('home.diseaseService.diseaseSubtitle') }}
             </p>
             <button
-              class="relative flex items-center justify-center gap-[3px] bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-[12px] w-[96px] h-[40px] rounded-[63px] shadow-[0px_9px_10px_rgba(0,190,153,0.17)] transition-colors cursor-pointer"
+              class="relative flex items-center justify-center gap-[3px] bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-[12px] w-[96px] h-[40px] rounded-[63px] shadow-[0px_9px_10px_rgba(0,190,153,0.17)] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
               @click="handleClick"
               >
               {{ $t('home.diseaseService.learnMore') }}

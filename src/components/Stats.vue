@@ -67,7 +67,7 @@ onMounted(() => {
       <!-- 统计卡片 -->
       <div class="flex justify-center gap-10 w-[1584px] mx-auto">
         <div v-for="stat in stats" :key="stat.label"
-          class="bg-white rounded-[18px] w-[366px] h-[260px] flex flex-col items-center justify-center gap-4">
+          class="bg-white rounded-[18px] w-[366px] h-[260px] flex flex-col items-center justify-center gap-4 transition-transform duration-300 hover:-translate-y-2 hover:box-shadow-[0px_8px_30px_rgba(0,0,0,0.1)]">
           <div class="text-[80px] font-black text-[#0163FF] leading-none font-alibabapuhuiti">
             {{ stat.animated.value }}{{ stat.suffix }}
           </div>

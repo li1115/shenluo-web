@@ -29,10 +29,10 @@ const jobCategories = computed(() => [
 
 
 const goToCareers = () => {
-  router.push({ path: '/careers' })
+  router.push({ path: '/about/careers' })
 }
 const handleClick = (job: { key: string; name: string; icon: string }) => {
-  router.push({ path: '/careers', query: { job: job.key } })
+  router.push({ path: '/about/careers', query: { job: job.key } }) 
 }
 </script>
 
@@ -60,7 +60,7 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
             </h2>
           </div>
           <button
-            class="flex items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[30px] transition-colors cursor-pointer"
+            class="flex items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[30px] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
             @click="goToCareers">
             {{ $t('home.recruitment.joinUs') }}
             <img src="@/assets/recruitment-arrow-r.svg" alt="arrow-right" class="w-5 h-5" />
@@ -71,7 +71,7 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
         <div class="flex items-center gap-[50px] mb-[215px]">
           <div v-for="job in jobCategories" :key="job.name"
             @click="handleClick(job)"
-            class="w-[260px] h-[130px] bg-[#0163FF] rounded-[36px] flex flex-col items-center justify-center gap-2.5 text-white hover:bg-blue-600 transition-colors cursor-pointer">
+            class="w-[260px] h-[130px] bg-[#0163FF] rounded-[36px] flex flex-col items-center justify-center gap-2.5 text-white hover:bg-blue-600 transition-colors cursor-pointer transform transition-transform duration-300 hover:-translate-y-2">
             <div class="w-[50px] h-[50px] flex items-center justify-center">
               <img v-if="job.icon === 'academic'" src="@/assets/recruitment-academic.svg" alt="academic"
                 class="w-10 h-10" />

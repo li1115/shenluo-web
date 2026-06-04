@@ -2,7 +2,11 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getRecruitDetail, getRecruitRelated } from '@/api/recruit'
-import type { PublicRecruitDetail, PublicRecruitItem } from '@/api/types'
+import type { PublicRecruitItem } from '@/api/types'
+import { formatSalary } from '@/shared/utils/formatSalary'
+import { useRevealOnScroll } from '@/shared/utils/useRevealOnScroll'
+
+useRevealOnScroll()
 
 const route = useRoute()
 const router = useRouter()
@@ -43,16 +47,6 @@ interface SimilarJob {
   recruitNo: string
   title: string
   salary: string
-}
-
-/** 格式化薪资展示 */
-function formatSalary(item: PublicRecruitDetail | PublicRecruitItem): string {
-  if (item.salaryNegotiable) return '薪资面议'
-  const min = item.salaryMin ? `${(item.salaryMin / 1000).toFixed(0)}k` : ''
-  const max = item.salaryMax ? `${(item.salaryMax / 1000).toFixed(0)}k` : ''
-  const months = item.salaryMonths ? `${item.salaryMonths}薪` : ''
-  const range = min && max ? `${min}-${max}` : min || max
-  return [range, months].filter(Boolean).join(' · ')
 }
 
 /** API 招聘项 → 相似职位映射 */
@@ -143,7 +137,7 @@ async function fetchDetail() {
 }
 
 const openJobDetail = (recruitNo: string) => {
-  router.push(`/careers/${recruitNo}`)
+  router.push(`/about/careers/${recruitNo}`)
 }
 
 onMounted(() => {
@@ -157,7 +151,7 @@ onMounted(() => {
   </div>
   <div class="job-detail">
     <!-- Hero Section -->
-    <section class="job-detail__hero">
+    <section class="job-detail__hero reveal">
       <div class="job-detail__hero-bg" />
       <div class="job-detail__hero-gradient" />
       <div class="job-detail__hero-inner">
@@ -183,34 +177,16 @@ onMounted(() => {
       <!-- Left Column -->
       <div class="job-detail__left">
         <!-- Job Description -->
-        <div class="job-detail__section">
+        <div class="job-detail__section reveal">
           <div class="job-detail__section-heading">
             <span class="job-detail__section-accent" />
             <h2 class="job-detail__section-title">{{ $t('careers.jobDetail.jobDesc') }}</h2>
           </div>
           <div class="job-detail__richtext" v-html="descriptionHtml" />
-          <div class="job-detail__list">
-            <div class="job-detail__list-item">
-              <span class="job-detail__list-bullet" />
-              <span class="job-detail__list-text">负责植入式脊髓神经刺激器(SCS)的系统架构设计与算法优化。</span>
-            </div>
-            <div class="job-detail__list-item">
-              <span class="job-detail__list-bullet" />
-              <span class="job-detail__list-text">领导核心芯片的功能定义与硬件电路开发。</span>
-            </div>
-            <div class="job-detail__list-item">
-              <span class="job-detail__list-bullet" />
-              <span class="job-detail__list-text">协同临床团队进行动物实验与临床试验数据分析。</span>
-            </div>
-            <div class="job-detail__list-item">
-              <span class="job-detail__list-bullet" />
-              <span class="job-detail__list-text">参与国内外医疗器械注册报批相关技术文档编写。</span>
-            </div>
-          </div>
         </div>
 
         <!-- Recruitment Process -->
-        <div class="job-detail__process">
+        <div class="job-detail__process reveal">
           <h2 class="job-detail__process-title">{{ $t('careers.jobDetail.recruitmentProcess') }}</h2>
           <div class="job-detail__process-steps">
             <div class="job-detail__process-step">
@@ -262,7 +238,7 @@ onMounted(() => {
       <!-- Right Sidebar -->
       <aside class="job-detail__sidebar">
         <!-- Recruiter Card -->
-        <div class="job-detail__recruiter">
+        <div class="job-detail__recruiter reveal">
           <div class="job-detail__recruiter-top">
             <div class="job-detail__recruiter-avatar">
               <img src="@/assets/job-detail-hr.png" alt="Dr. Zhang" class="job-detail__recruiter-avatar-img" />
@@ -284,19 +260,22 @@ onMounted(() => {
         </div>
 
         <!-- Similar Jobs -->
-        <div class="job-detail__similar">
+        <div class="job-detail__similar reveal">
           <h3 class="job-detail__similar-title">{{ $t('careers.jobDetail.relatedJobs') }}</h3>
-          <div class="job-detail__similar-list">
+          <div class="job-detail__similar-list" v-show="similarJobs.length">
             <div v-for="job in similarJobs" :key="job.recruitNo" class="job-detail__similar-item"
               @click="openJobDetail(job.recruitNo)">
               <h4 class="job-detail__similar-item-title">{{ job.title }}</h4>
               <span class="job-detail__similar-item-meta">{{ job.salary }}</span>
             </div>
           </div>
+          <div v-show="similarJobs.length === 0" class="job-detail__similar-no-data">
+            <span class="job-detail__similar-no-data">{{ $t('careers.noSimilarJobs') }}</span>
+          </div>
         </div>
 
         <!-- Location Map -->
-        <div class="job-detail__map">
+        <div class="job-detail__map reveal">
           <div class="job-detail__map-bg">
             <img src="@/assets/job-detail-location.png" alt="地图" class="job-detail__map-img" />
           </div>
@@ -343,7 +322,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .job-detail {
   --color-white: #FFFFFF;
   --color-black: #181C20;
@@ -357,6 +336,8 @@ onMounted(() => {
   --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
   --font-heading: 'Inter', 'PingFang SC', sans-serif;
   --font-alibaba: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
   width: 100%;
   background: #F7F9FE;
 }
@@ -470,7 +451,7 @@ onMounted(() => {
 
 /* ========== Hero Content ========== */
 .job-detail__hero-content {
-  padding-left: 160px;
+  padding:0 160px;
 }
 
 .job-detail__title {
@@ -481,7 +462,10 @@ onMounted(() => {
   letter-spacing: -0.05em;
   color: var(--color-white);
   margin: 0 0 16px 0;
-  max-width: 620px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .job-detail__meta {
@@ -517,11 +501,13 @@ onMounted(() => {
   font-style: normal;
   font-weight: 600;
   line-height: 28px;
-  /* 155.556% */
+  cursor: pointer;
+  transition: var(--transition-smooth);
 }
 
 .job-detail__apply-btn:hover {
   opacity: 0.9;
+  transform: scale(1.03)
 }
 
 /* ========== Content Grid ========== */
@@ -577,35 +563,6 @@ onMounted(() => {
   line-height: 26px;
   color: var(--color-text-body);
   margin-bottom: 24px;
-}
-
-.job-detail__list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.job-detail__list-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.job-detail__list-bullet {
-  width: 8px;
-  height: 8px;
-  background: var(--color-brand);
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 9px;
-}
-
-.job-detail__list-text {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 26px;
-  color: var(--color-text-body);
 }
 
 /* ========== Process Section ========== */
@@ -688,7 +645,7 @@ onMounted(() => {
   height: 1px;
   background: var(--color-border-light);
   flex-shrink: 0;
-  margin-bottom: 7.5ßpx;
+  margin-bottom: 7.5px;
 }
 
 /* ========== Right Sidebar ========== */
@@ -776,10 +733,12 @@ onMounted(() => {
   padding: 12px 0 12px;
   cursor: pointer;
   transition: opacity 0.2s;
+  transition: var(--transition-smooth);
 }
 
 .job-detail__recruiter-btn:hover {
   opacity: 0.9;
+  transform: scale(1.03);
 }
 
 .job-detail__recruiter-btn--primary {
@@ -818,11 +777,25 @@ onMounted(() => {
   flex-direction: column;
   gap: 24px;
 }
-
+.job-detail__similar-no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--color-text-body);
+}
 .job-detail__similar-item {
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  &:hover {
+    h4 , span{
+      color: var(--color-brand);
+    }
+  }
 }
 
 .job-detail__similar-item-title {

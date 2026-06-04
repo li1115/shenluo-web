@@ -153,8 +153,8 @@ const fetchArticle = async (newsNo: string) => {
   } finally {
     loading.value = false
     // 测试用
-    article.value = {...mockArticles}
-    relatedArticles.value = [...mockRelatedArticles]
+    // article.value = {...mockArticles}
+    // relatedArticles.value = [...mockRelatedArticles]
   }
 }
 
@@ -205,7 +205,7 @@ const goToArticle = (newsNo: string) => {
           <div class="news-detail__sidebar-bar" />
           <h3 class="news-detail__sidebar-heading-text">{{ $t('news.detail.relatedNews') }}</h3>
         </div>
-        <div class="news-detail__sidebar-list">
+        <div class="news-detail__sidebar-list" v-show="relatedArticles.length > 0">
           <div
             v-for="item in relatedArticles"
             :key="item.newsNo"
@@ -222,6 +222,9 @@ const goToArticle = (newsNo: string) => {
             </div>
           </div>
         </div>
+        <div v-show="relatedArticles.length === 0" class="news-detail__sidebar-no-data">
+          <span class="news-detail__sidebar-no-data">{{ $t('news.detail.noRelatedNews') }}</span>
+        </div>
       </aside>
     </div>
 
@@ -230,7 +233,7 @@ const goToArticle = (newsNo: string) => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .news-detail {
   --color-white: #FFFFFF;
   --color-black: #000000;
@@ -326,9 +329,8 @@ const goToArticle = (newsNo: string) => {
   font-weight: 600;
   font-size: 48px;
   color: var(--color-text-title);
-  max-width: 704px;
-  margin-left: 132px;
   margin-bottom: 62px;
+  text-align: center;
   white-space: pre-line;
 }
 /* ========== Description ========== */
@@ -419,7 +421,24 @@ const goToArticle = (newsNo: string) => {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  &:hover {
+    .news-detail__sidebar-title {
+      color: var(--color-brand);
+    }
+  }
 }
+.news-detail__sidebar-no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--color-text-muted);
+}
+
+
 
 .news-detail__sidebar-article {
   display: flex;

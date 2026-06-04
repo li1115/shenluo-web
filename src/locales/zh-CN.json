@@ -199,11 +199,20 @@
       "thickness": "厚（mm）",
       "weight": "重量（g）",
       "tempLimit": "发热温度限值",
-      "tempValue": "发热温度不超过39℃",
+      "tempSCSValue": "发热温度不超过39℃",
+      "tempPNSValue": "发热温度不超过39℃",
       "channels": "通道数",
-      "channelsValue": "左：8  右：8",
+      "channelsSCSValue": "左：8  右：8",
+      "channelsPNSValue": "左：8  右：8",
       "volume": "体积（cm³）",
-      "volumeValue": "24.8"
+      "volumeSCSValue": "24.8",
+      "volumePNSValue": "24.8",
+      "chargeType": "充电方式",
+      "chargeTypeSCSValue": "无线充电",
+      "chargeTypePNSValue": "无线充电",
+      "batteryCapacity": "电池容量",
+      "batteryCapacitySCSValue": "220 mAh",
+      "batteryCapacityPNSValue": "220 mAh"
     },
     "features": {
       "card1Title": "时可调，精准护航",
@@ -211,7 +220,8 @@
       "card3Title": "广阔频宽，潜力突破"
     },
     "manualTitle": "脊髓神经刺激系统SCS产品手册",
-    "manualDesc": "了解 SCS，这是一种脊髓刺激系统，有助于治疗某些类型的慢性顽固性疼痛。'"
+    "manualDesc": "了解 SCS，这是一种脊髓刺激系统，有助于治疗某些类型的慢性顽固性疼痛。'",
+    "noData": "开发中，敬请期待..."
   },
   "patientService": {
     "heading": "患者服务",
@@ -230,7 +240,9 @@
     "categoryHealth": "疾病科普",
     "categoryClinical": "临床应用",
     "loadMore": "加载更多",
+    "noData": "暂无数据",
     "detail": {
+      "noRelatedNews": "暂无相关资讯",
       "breadcrumb1": "资讯",
       "breadcrumb2": "文章详情",
       "relatedNews": "相关资讯",
@@ -247,6 +259,8 @@
       "sales": "销售招聘",
       "academic": "博士后招聘站"
     },
+    "noJobs": "暂无职位",
+    "noSimilarJobs": "暂无相似职位",
     "joinSubtitle": "在医疗科技的前沿，我们寻找富有激情的创新者。通过精密工程与关怀技术，重新定义生命品质。",
     "postdoctoral": "博士后工作站",
     "postdoctoralDesc": "Aura MedTech 现已设立省级博士后创新实践基地，诚邀全球神经科学与工程领域顶尖博士人才加入。",
@@ -290,72 +304,6 @@
       "emailCopied": "邮箱已复制",
       "copyEmailTip": "复制邮箱投递简历",
       "scanQrTip": "扫描微信二维码联系"
-    }
-  },
-  "guide": {
-    "heading": "就诊指南",
-    "subtitle": "为您提供详细的就诊信息和指引",
-    "tabs": {
-      "register": "预约挂号",
-      "process": "就诊流程",
-      "time": "就诊时间",
-      "location": "医院位置"
-    },
-    "register": {
-      "heading": "预约挂号方式",
-      "online": "官网预约",
-      "onlineDesc": "登录医院官方网站进行在线预约",
-      "phone": "电话预约",
-      "phoneDesc": "拨打预约热线 400-888-8888",
-      "app": "APP预约",
-      "appDesc": "下载医院官方APP进行预约",
-      "onsite": "现场预约",
-      "onsiteDesc": "前往医院挂号窗口预约"
-    },
-    "process": {
-      "heading": "就诊流程",
-      "step1Title": "预约挂号",
-      "step1Desc": "选择科室和医生，完成预约挂号",
-      "step2Title": "签到候诊",
-      "step2Desc": "凭预约信息或身份证到科室签到等候",
-      "step3Title": "医生诊疗",
-      "step3Desc": "医生问诊、检查，制定治疗方案",
-      "step4Title": "缴费取药",
-      "step4Desc": "凭处方到药房取药或办理检查"
-    },
-    "time": {
-      "heading": "就诊时间",
-      "outpatientTitle": "门诊时间",
-      "outpatientWeekday": "周一至周五：8:00 - 17:30",
-      "outpatientSaturday": "周六：8:00 - 12:00",
-      "outpatientHoliday": "周日及节假日：休息",
-      "emergencyTitle": "急诊时间",
-      "emergency24h": "全年无休，24小时接诊",
-      "emergencyPhone": "急诊热线：400-888-9999"
-    },
-    "location": {
-      "heading": "医院位置",
-      "mapPlaceholder": "地图区域",
-      "address": "地址",
-      "addressValue": "北京市朝阳区神经科学大道100号",
-      "phone": "电话",
-      "phoneValue": "400-888-8888",
-      "transport": "交通路线",
-      "metro": "地铁：10号线神经科站B口出",
-      "bus": "公交：123、456、789路神络医院站",
-      "car": "驾车：导航搜索\"神络医院\""
-    },
-    "faq": {
-      "q1": "如何预约挂号？",
-      "a1": "您可以通过以下方式预约挂号：1. 登录医院官方网站进行在线预约；2. 拨打预约热线400-888-8888；3. 下载医院官方APP进行预约；4. 前往医院挂号窗口现场预约。",
-      "q2": "预约成功后如何取号？",
-      "a2": "预约成功后，请在就诊当天携带患者有效身份证件（身份证、医保卡等）前往医院挂号窗口或自助取号机办理取号手续。建议提前30分钟到达医院。",
-      "q3": "就诊需要携带哪些证件？",
-      "a3": "就诊时请携带患者本人的有效身份证件（身份证、户口本等）、医保卡（如有）、既往病历资料、检查报告、化验结果等相关医疗文件。",
-      "q4": "如何查询检查报告？",
-      "a4": "您可以通过医院官方网站、APP或微信公众号查询检查报告。一般情况下，检查报告在检查完成后的1-3个工作日内可查询。",
-      "q5": "医院提供哪些支付方式？",
-      "a5": "医院支持多种支付方式：现金、银行卡、医保卡、微信支付、支付宝支付等。"
     }
   },
   "common": {

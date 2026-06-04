@@ -34,7 +34,7 @@ const router = createRouter({
       component: () => import('@/views/Contact.vue'),
     },
     {
-      path: '/product/:productCode',
+      path: '/products/product/:productCode',
       name: 'ProductDetail',
       component: () => import('@/views/ProductDetail.vue'),
     },
@@ -44,12 +44,12 @@ const router = createRouter({
       component: () => import('@/views/NewsDetail.vue'),
     },
     {
-      path: '/careers',
+      path: '/about/careers',
       name: 'Careers',
       component: () => import('@/views/Careers.vue'),
     },
     {
-      path: '/careers/:recruitNo',
+      path: '/about/careers/:recruitNo',
       name: 'JobDetail',
       component: () => import('@/views/JobDetail.vue'),
     },

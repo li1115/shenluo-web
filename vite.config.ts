@@ -8,7 +8,6 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, '')
-
   return {
     base: env.VITE_APP_BASE || '/',
     plugins: [vue(), tailwindcss()],
@@ -26,7 +25,7 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         '/api': {
-          target: 'https://pconsole-dev.seeneuro.com',
+          target: env.VITE_API_BASE_URL || 'https://portal-dev-api.seeneuro.com',
           changeOrigin: true,
           secure: false,
         },

@@ -18,13 +18,13 @@ interface NewsDisplayItem {
   category: string
   image: string
 }
-
+import { formatDate } from '@/shared/utils/formatDate'
 /** API 字段 → 页面展示字段映射 */
 function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
   return {
     newsNo: item.newsNo,
     title: item.title,
-    date: item.displayDate,
+    date: formatDate(item.displayDate),
     category: item.categoryName,
     image: item.coverUrl,
   }

@@ -189,7 +189,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const handleClick = (key: string) => {
-  router.push({ path: '/careers', query: { job: key } })
+  router.push({ path: '/about/careers', query: { job: key } })
 }
 </script>
 
@@ -359,45 +359,45 @@ const handleClick = (key: string) => {
       </div>
 
       <div class="about__contact-bar">
-        <div class="about__contact-content"> 
+        <div class="about__contact-content">
           <div class="about__contact-info">
-          <h3 class="about__contact-heading">{{ $t('about.contactBar.heading') }}</h3>
-          <p class="about__contact-text">
-            {{ $t('about.contactBar.text') }}<br />
-            {{ $t('about.contactBar.text2') }}<br />
-            {{ $t('about.contactBar.text3') }}<br />
-            {{ $t('about.contactBar.desc') }}
-          </p>
+            <h3 class="about__contact-heading">{{ $t('about.contactBar.heading') }}</h3>
+            <p class="about__contact-text">
+              {{ $t('about.contactBar.text') }}<br />
+              {{ $t('about.contactBar.text2') }}<br />
+              {{ $t('about.contactBar.text3') }}<br />
+              {{ $t('about.contactBar.desc') }}
+            </p>
+          </div>
+
+          <div class="about__contact-method--phone">
+            <div class="about__contact-icon">
+              <img src="@/assets/about-contact-phone.svg" alt="电话热线" class="about__contact-icon-img" />
+            </div>
+            <div class="about__contact-detail">
+              <span class="about__contact-label">{{ $t('about.contactBar.phone') }}</span>
+              <span class="about__contact-value">400-808-5561</span>
+            </div>
+          </div>
+
+          <div class="about__contact-method--email">
+            <div class="about__contact-icon">
+              <img src="@/assets/about-contact-email.svg" alt="企业邮箱" class="about__contact-icon-img" />
+            </div>
+            <div class="about__contact-detail about__contact-detail--email">
+              <span class="about__contact-label">{{ $t('about.contactBar.email') }}</span>
+              <span class="about__contact-value">support@seeneuro.com</span>
+            </div>
+          </div>
+
+          <div class="about__contact-qr">
+            <div class="about__contact-qr-code">
+              <img src="@/assets/about-qr.png" alt="QR Code" class="about__contact-qr-img" />
+            </div>
+            <span class="about__contact-qr-label">{{ $t('about.contactBar.qrLabel') }}</span>
+          </div>
         </div>
 
-        <div class="about__contact-method--phone">
-          <div class="about__contact-icon">
-            <img src="@/assets/about-contact-phone.svg" alt="电话热线" class="about__contact-icon-img" />
-          </div>
-          <div class="about__contact-detail">
-            <span class="about__contact-label">{{ $t('about.contactBar.phone') }}</span>
-            <span class="about__contact-value">400-808-5561</span>
-          </div>
-        </div>
-
-        <div class="about__contact-method--email">
-          <div class="about__contact-icon">
-            <img src="@/assets/about-contact-email.svg" alt="企业邮箱" class="about__contact-icon-img" />
-          </div>
-          <div class="about__contact-detail about__contact-detail--email">
-            <span class="about__contact-label">{{ $t('about.contactBar.email') }}</span>
-            <span class="about__contact-value">support@seeneuro.com</span>
-          </div>
-        </div>
-
-        <div class="about__contact-qr">
-          <div class="about__contact-qr-code">
-            <img src="@/assets/about-qr.png" alt="QR Code" class="about__contact-qr-img" />
-          </div>
-          <span class="about__contact-qr-label">{{ $t('about.contactBar.qrLabel') }}</span>
-        </div>
-        </div>
-        
       </div>
     </section>
 
@@ -418,7 +418,7 @@ const handleClick = (key: string) => {
           </div>
           <h3 class="about__join-card-title">{{ $t('about.join.card1.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card1.desc') }}</p>
-          <button class="about__join-card-btn" @click="handleClick('doctor')">{{ $t('about.join.card1.btn') }}</button>
+          <button class="about__join-card-btn" @click="handleClick('academic')">{{ $t('about.join.card1.btn') }}</button>
         </div>
 
         <div class="about__join-card">
@@ -430,8 +430,8 @@ const handleClick = (key: string) => {
           </div>
           <h3 class="about__join-card-title">{{ $t('about.join.card2.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card2.desc') }}</p>
-          <button class="about__join-card-btn about__join-card-btn--outline"
-            @click="handleClick('sales')">{{ $t('about.join.card2.btn') }}</button>
+          <button class="about__join-card-btn about__join-card-btn--outline" @click="handleClick('sales')">{{
+            $t('about.join.card2.btn') }}</button>
         </div>
 
         <div class="about__join-card">
@@ -443,15 +443,15 @@ const handleClick = (key: string) => {
           </div>
           <h3 class="about__join-card-title">{{ $t('about.join.card3.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card3.desc') }}</p>
-          <button class="about__join-card-btn about__join-card-btn--outline"
-            @click="handleClick('other')">{{ $t('about.join.card3.btn') }}</button>
+          <button class="about__join-card-btn about__join-card-btn--outline" @click="handleClick('other')">{{
+            $t('about.join.card3.btn') }}</button>
         </div>
       </div>
     </section>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .about {
   --color-white: #FFFFFF;
   --color-black: #000000;
@@ -479,10 +479,13 @@ const handleClick = (key: string) => {
   --color-join-card-border: rgba(255, 255, 255, 0.2);
   --color-join-desc: rgba(255, 255, 255, 0.7);
   --color-join-subtitle: rgba(255, 255, 255, 0.8);
+  --color-unselected-bg-hover: #ffffff;
   --color-unselected-bg: #F6F6F6;
   --color-unselected-bg-alt: #EDEDED;
   --font-heading: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;
   --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
 }
 
 /* ========== Hero Banner ========== */
@@ -567,6 +570,16 @@ const handleClick = (key: string) => {
   border-radius: 30px;
   overflow: hidden;
   background: linear-gradient(135deg, #E8F0FE 0%, #D4E4FD 100%);
+
+  img {
+    transition: var(--transition-smooth);
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.05);
+    }
+  }
 }
 
 .about__hero-img {
@@ -622,6 +635,7 @@ const handleClick = (key: string) => {
   margin: 0;
   text-align: right;
 }
+
 .about__hero-stats-wrap,
 .about__hero-content {
   max-width: 1920px;
@@ -1120,22 +1134,22 @@ const handleClick = (key: string) => {
   object-fit: cover;
 }
 
-.about__value-card:nth-child(1) .about__value-collapsed {
-  background: var(--color-unselected-bg-alt);
-}
 
-.about__value-card:nth-child(2) .about__value-collapsed {
-  background: var(--color-unselected-bg);
-}
-
+.about__value-card:nth-child(1) .about__value-collapsed,
 .about__value-card:nth-child(3) .about__value-collapsed {
   background: var(--color-unselected-bg-alt);
 }
 
+.about__value-card:nth-child(2) .about__value-collapsed,
 .about__value-card:nth-child(4) .about__value-collapsed {
   background: var(--color-unselected-bg);
 }
-
+.about__value-card .about__value-collapsed {
+  transition: background 0.3s ease;
+  &:hover {
+    background: var(--color-unselected-bg-hover);
+  }
+}
 .about__value-small {
   display: flex;
   flex-direction: column;
@@ -1220,6 +1234,15 @@ const handleClick = (key: string) => {
   flex-direction: column;
   padding: 170px 30px 74px;
   box-sizing: border-box;
+  transition: var(--transition-smooth);
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.08);
+    border-color: rgba(0, 102, 255, 0.12);
+    .about__partner-icon {
+      transform: translateY(-4px) rotate(360deg);
+    }
+  }
 }
 
 .about__partner-card-bg {
@@ -1247,6 +1270,7 @@ const handleClick = (key: string) => {
   width: 80px;
   height: 80px;
   flex-shrink: 0;
+  transition: var(--transition-smooth);
 }
 
 .about__partner-icon-bg {
@@ -1318,6 +1342,7 @@ const handleClick = (key: string) => {
   align-items: center;
   gap: 0;
 }
+
 .about__contact-info {
   display: flex;
   flex-direction: column;
@@ -1474,6 +1499,13 @@ const handleClick = (key: string) => {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-sizing: border-box;
+  transition: var(--transition-smooth);
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
 }
 
 .about__join-card-header {
@@ -1549,5 +1581,4 @@ const handleClick = (key: string) => {
   color: var(--color-white);
   box-shadow: none;
 }
-
 </style>

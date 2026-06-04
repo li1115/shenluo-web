@@ -1,31 +1,17 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import product1 from '@/assets/product-1.png'
-import product2 from '@/assets/product-2.png'
-import product3 from '@/assets/product-3.png'
-import productD1 from '@/assets/product-d-1.png'
-import productD2 from '@/assets/product-d-2.png'
-import productD3 from '@/assets/product-d-3.png'
+
 import { getProductDetail } from '@/api/product'
 import type { ProductItem } from '@/api/types'
+import { useRevealOnScroll } from '@/shared/utils/useRevealOnScroll'
+
+const { refresh: refreshReveal } = useRevealOnScroll()
 
 const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
 
-interface SpecRow {
-  label: string
-  value: string
-}
-
-interface FeatureCard {
-  title: string
-  highlight: { label: string; value: string }
-  variant: 'gradient' | 'solid'
-  image: string
-}
 
 interface ProductDetail {
   productCode: string
@@ -35,22 +21,7 @@ interface ProductDetail {
   image: string
 }
 
-interface ProductBaseDetail {
-  specsLeft: SpecRow[]
-  specsRight: SpecRow[]
-  featureCards: FeatureCard[]
-  sectionHeading1: string
-}
 
-/** 根据 productCode 选择对应产品图片 */
-function getProductImage(productCode: string): string {
-  const imageMap: Record<string, string> = {
-    SCS: product1,
-    PNS: product2,
-    TNS: product3,
-  }
-  return imageMap[productCode] || product1
-}
 
 /** API 产品详情 → 页面展示数据映射 */
 function mapProductDetail(detail: ProductItem): Omit<ProductDetail, 'image'> {
@@ -61,67 +32,12 @@ function mapProductDetail(detail: ProductItem): Omit<ProductDetail, 'image'> {
     description: detail.description,
   }
 }
-
-// ====== 模拟数据（已注释，保留备用） ======
-const mockProductDetail: ProductItem[] = [{
-  productCode: 'PNS',
-  id: 1,
-    name: t('products.pnsName'),
-    description: t('products.pnsDesc'),
-},
-  {
-    productCode: 'TNS',
-    id: 2,
-    name: t('products.pnsName'),
-    description: t('products.pnsDesc'),
-  },
-  {
-    productCode: 'SCS',
-    id: 3,
-    name: t('products.tnsName'),
-    description: t('products.tnsDesc'),
-  },
-]
-// ====== 模拟数据结束 ======
-
-const baseData = computed<ProductBaseDetail>(() => ({
-  specsLeft: [
-    { label: t('products.specs.length'), value: '55' },
-    { label: t('products.specs.width'), value: '48' },
-    { label: t('products.specs.thickness'), value: '9.4' },
-    { label: t('products.specs.weight'), value: '37.7' },
-  ],
-  specsRight: [
-    { label: t('products.specs.tempLimit'), value: t('products.specs.tempValue') },
-    { label: t('products.specs.channels'), value: t('products.specs.channelsValue') },
-    { label: t('products.specs.weight'), value: '37.7' },
-    { label: t('products.specs.volume'), value: t('products.specs.volumeValue') },
-  ],
-  featureCards: [
-    {
-      title: t('products.features.card1Title'),
-      highlight: { label: '重', value: '37.7g' },
-      variant: 'gradient',
-      image: productD1,
-    },
-    {
-      title: t('products.features.card2Title'),
-      highlight: { label: '微', value: '2mm' },
-      variant: 'solid',
-      image: productD2,
-    },
-    {
-      title: t('products.features.card3Title'),
-      highlight: { label: '频', value: '10KHz' },
-      variant: 'solid',
-      image: productD3,
-    },
-  ],
-  sectionHeading1: t('products.sectionHeading1'),
-}))
+import { getProductDetailData, PRODUCT_CODES, TNSBase } from '@/shared/products'
+import type { ProductBaseDetail } from '@/shared/products'
 
 const loading = ref(false)
 const product = ref<ProductDetail & ProductBaseDetail>({
+  enName: '',
   productCode: '',
   id: 0,
   name: '',
@@ -130,7 +46,6 @@ const product = ref<ProductDetail & ProductBaseDetail>({
   specsLeft: [],
   specsRight: [],
   featureCards: [],
-  sectionHeading1: '',
 })
 
 async function fetchData() {
@@ -143,11 +58,11 @@ async function fetchData() {
     const mapped = mapProductDetail(detail)
     product.value = {
       ...mapped,
-      image: getProductImage(detail.productCode),
-      ...baseData.value,
+      ...getProductDetailData(PRODUCT_CODES[mapped.productCode as keyof typeof PRODUCT_CODES]),
     }
   } catch {
     product.value = {
+      enName: '',
       productCode: '',
       id: 0,
       name: '',
@@ -156,112 +71,117 @@ async function fetchData() {
       specsLeft: [],
       specsRight: [],
       featureCards: [],
-      sectionHeading1: '',
     }
-    // 模拟数据
-    product.value = {
-      ...mockProductDetail[0],
-      image: getProductImage('PNS'),
-      ...baseData.value,
+    if (productCode === 'TNS') {
+      product.value = {
+        ...TNSBase,
+        ...getProductDetailData(PRODUCT_CODES['TNS']),
+      }
     }
+
   } finally {
     loading.value = false
+    await nextTick()
+    refreshReveal()
   }
-}
-
-const goToProducts = () => {
-  router.push('/products')
 }
 
 onMounted(() => {
   fetchData()
 })
+
+watch(
+  () => route.params.productCode,
+  () => {
+    fetchData()
+  }
+)
 </script>
 
 <template>
   <div class="product-detail">
     <div class="product-detail__breadcrumb">
-      <span class="product-detail__breadcrumb-link" @click="goToProducts">{{ $t('products.breadcrumb1') }}</span>
+      <span class="product-detail__breadcrumb-link">{{ $t('products.breadcrumb1') }}</span>
       <span>/</span>
       <span class="product-detail__breadcrumb-current">{{ $t('products.breadcrumb2') }}</span>
     </div>
 
-    <div class="product-detail__hero">
-      <div class="product-detail__hero-image">
+    <div class="product-detail__hero reveal">
+      <div class="product-detail__hero-image reveal">
         <img :src="product.image" :alt="product.name" class="product-detail__hero-img" />
       </div>
-      <div class="product-detail__hero-info">
-        <p class="product-detail__hero-eng">Spinal Cord Stimulation . SCS</p>
+      <div class="product-detail__hero-info reveal">
+        <p class="product-detail__hero-eng">{{ product.enName }}</p>
         <h1 class="product-detail__hero-name">{{ product.name }}</h1>
         <p class="product-detail__hero-desc">{{ product.description }}</p>
       </div>
     </div>
-
-    <div class="product-detail__section-heading">{{ product.sectionHeading1 }}</div>
-
-    <div class="product-detail__feature-cards">
-      <div v-for="(card, idx) in product.featureCards" :key="idx" class="product-detail__feature-card">
-        <div class="product-detail__feature-cover" :class="card.variant === 'gradient' ? 'product-detail__feature-cover--gradient ' : 'product-detail__feature-cover--solid'
-          ">
-          <div class="product-detail__feature-glow" />
-          <div class="product-detail__feature-highlight">
+    <div class="product-detail__no-data" v-if="product.noDATA">
+      <p class="product-detail__no-data-text">{{ $t('products.noData') }}</p>
+    </div>
+    <template v-else>
+      <div class="product-detail__section-heading reveal">{{ t('products.sectionHeading1') }}</div>
+      <div class="product-detail__feature-cards reveal" v-if="product.featureCards.length">
+        <div v-for="(card, idx) in product.featureCards" :key="idx" class="product-detail__feature-card">
+          <div class="product-detail__feature-highlight-img">
+            <img :src="card.image" :alt="card.title" />
           </div>
-          <div :class="`product-detail__feature-highlight-img img-${idx}`">
-            <img v-if="idx === 0" src="@/assets/product1.svg" alt="product.image" />
-            <img v-else-if="idx === 1" src="@/assets/product2.svg" alt="product.image" />
-            <img v-else src="@/assets/product3.svg" alt="product.image" />
+          <div class="product-detail__feature-text">
+            <p class="product-detail__feature-title">{{ card.title }}</p>
           </div>
-        </div>
-        <div class="product-detail__feature-text">
-          <p class="product-detail__feature-title">{{ card.title }}</p>
         </div>
       </div>
-    </div>
 
-    <div class="product-detail__specs-section">
-      <div class="product-detail__specs-inner">
-        <div class="product-detail__specs-left">
-          <h3 class="product-detail__specs-heading">{{ $t('products.specsHeading') }}</h3>
-          <div class="product-detail__specs-tables">
-            <div class="product-detail__specs-table product-detail__specs-table--left">
-              <div v-for="(row, rIdx) in product.specsLeft" :key="'l' + rIdx" class="product-detail__specs-row"
-                :class="rIdx % 2 === 0 ? 'product-detail__specs-row--alt' : 'product-detail__specs-row--white'">
-                <div class="product-detail__specs-cell product-detail__specs-cell--label" :class="rIdx % 2 === 0 ? 'product-detail__specs-cell--label-even' : 'product-detail__specs-cell--label-odd'">{{ row.label }}</div>
-                <div class="product-detail__specs-cell product-detail__specs-cell--value">{{ row.value }}</div>
+      <div class="product-detail__specs-section reveal" v-if="product.specsLeft.length && product.specsRight.length">
+        <div class="product-detail__specs-inner reveal">
+          <div class="product-detail__specs-left">
+            <h3 class="product-detail__specs-heading">{{ $t('products.specsHeading') }}</h3>
+            <div class="product-detail__specs-tables">
+              <div class="product-detail__specs-table product-detail__specs-table--left">
+                <div v-for="(row, rIdx) in product.specsLeft" :key="'l' + rIdx" class="product-detail__specs-row"
+                  :class="rIdx % 2 === 0 ? 'product-detail__specs-row--alt' : 'product-detail__specs-row--white'">
+                  <div class="product-detail__specs-cell product-detail__specs-cell--label"
+                    :class="rIdx % 2 === 0 ? 'product-detail__specs-cell--label-even' : 'product-detail__specs-cell--label-odd'">
+                    {{ $t(row.label) }}</div>
+                  <div class="product-detail__specs-cell product-detail__specs-cell--value">{{ $t(row.value) }}</div>
+                </div>
+              </div>
+              <div class="product-detail__specs-table product-detail__specs-table--right">
+                <div v-for="(row, rIdx) in product.specsRight" :key="'r' + rIdx" class="product-detail__specs-row"
+                  :class="rIdx % 2 === 0 ? 'product-detail__specs-row--alt' : 'product-detail__specs-row--white'">
+                  <div class="product-detail__specs-cell product-detail__specs-cell--label"
+                    :class="rIdx % 2 === 0 ? 'product-detail__specs-cell--label-even' : 'product-detail__specs-cell--label-odd'">
+                    {{ $t(row.label) }}</div>
+                  <div class="product-detail__specs-cell product-detail__specs-cell--value">{{ $t(row.value) }}</div>
+                </div>
               </div>
             </div>
-            <div class="product-detail__specs-table product-detail__specs-table--right">
-              <div v-for="(row, rIdx) in product.specsRight" :key="'r' + rIdx" class="product-detail__specs-row"
-                :class="rIdx % 2 === 0 ? 'product-detail__specs-row--alt' : 'product-detail__specs-row--white'">
-                <div class="product-detail__specs-cell product-detail__specs-cell--label" :class="rIdx % 2 === 0 ? 'product-detail__specs-cell--label-even' : 'product-detail__specs-cell--label-odd'">{{ row.label }}</div>
-                <div class="product-detail__specs-cell product-detail__specs-cell--value">{{ row.value }}</div>
-              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-detail__section-heading reveal">{{ $t('products.howItWorks') }}</div>
+
+      <div class="product-detail__manual reveal">
+        <div class="product-detail__manual-card">
+          <div class="product-detail__manual-image-box">
+            <div class="product-detail__manual-ellipse" />
+            <img :src="product.pdfImg" :alt="$t('products.manualTitle')" class="product-detail__manual-img" />
+          </div>
+          <div class="product-detail__manual-content">
+            <div class="product-detail__manual-text">
+              <h4 class="product-detail__manual-title">{{ $t('products.manualTitle') }}</h4>
+              <p class="product-detail__manual-desc">{{ $t('products.manualDesc') }}</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
 
-    <div class="product-detail__section-heading">{{ $t('products.howItWorks') }}</div>
-
-    <div class="product-detail__manual">
-      <div class="product-detail__manual-card">
-        <div class="product-detail__manual-image-box">
-          <div class="product-detail__manual-ellipse" />
-          <img src="@/assets/product-pdf.png"  :alt="$t('products.manualTitle')" class="product-detail__manual-img" />
-        </div>
-        <div class="product-detail__manual-content">
-          <div class="product-detail__manual-text">
-            <h4 class="product-detail__manual-title">{{ $t('products.manualTitle') }}</h4>
-            <p class="product-detail__manual-desc">{{ $t('products.manualDesc') }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .product-detail {
   --color-white: #FFFFFF;
   --color-black: #000000;
@@ -285,7 +205,7 @@ onMounted(() => {
   --font-heading: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;
   --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
   --font-display: 'DIN Black', 'DIN', 'PingFang SC', sans-serif;
-
+  --transition-premium: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   background: var(--color-bg-page);
 
   max-width: 1920px;
@@ -305,15 +225,6 @@ onMounted(() => {
   letter-spacing: -0.0536em;
   color: var(--color-text-muted);
   margin-top: 142px;
-}
-
-.product-detail__breadcrumb-link {
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.product-detail__breadcrumb-link:hover {
-  color: var(--color-brand);
 }
 
 .product-detail__breadcrumb-current {
@@ -336,7 +247,16 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+
+  img {
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.05);
+    }
+  }
 }
 
 .product-detail__hero-img {
@@ -379,6 +299,20 @@ onMounted(() => {
   white-space: pre-line;
 }
 
+.product-detail__no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  text-align: center;
+  font-family: "PingFang SC";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 38px;
+  padding: 230px 0;
+}
+
 /* ========== Section Heading ========== */
 .product-detail__section-heading {
   font-family: var(--font-heading);
@@ -407,102 +341,28 @@ onMounted(() => {
   box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   flex-shrink: 0;
+  transition: var(--transition-premium);
+
+  &:hover {
+    transform: translateY(-8px);
+
+    img {
+      transform: scale(1.02);
+    }
+  }
 }
 
-.product-detail__feature-cover {
-  position: relative;
-  width: 440px;
-  height: 424px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product-detail__feature-cover--gradient {
-  background: #0D6AFF;
-}
-
-.product-detail__feature-cover--solid {
-  background: #81B1FF;
-}
-
-.product-detail__feature-glow {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 170px;
-  height: 73px;
-  border-radius: 50%;
-  filter: blur(20px);
-}
-
-.product-detail__feature-cover--gradient .product-detail__feature-glow {
-  background: #0D6AFF;
-}
-
-.product-detail__feature-cover--solid .product-detail__feature-glow {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.product-detail__feature-highlight {
-  position: absolute;
-  top: 10px;
-  right: 40px;
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-}
-
-.product-detail__feature-cover--gradient .product-detail__feature-highlight {
-  color: var(--color-brand);
-}
-
-.product-detail__feature-cover--solid .product-detail__feature-highlight {
-  color: var(--color-white);
-}
 
 .product-detail__feature-highlight-img {
-  position: absolute;
   width: 100%;
-  height: 100%;
-  z-index: 1;
-}
+  height: 420px;
 
-.product-detail__feature-highlight-img img.main-img {
-  position: absolute;
-  bottom: 0;
-}
-
-.product-detail__feature-highlight-img.img-0 {
-  position: absolute;
-}
-
-.product-detail__feature-highlight-img.img-0 .product-detail__child {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.product-detail__feature-highlight-img.img-0 .product-detail__child .svg {
-  position: absolute;
-}
-
-.product-detail__feature-highlight-img.img-0 .product-detail__child .svg1 {
-  top: 36px;
-  right: 56px;
-  transform: rotate(-12deg);
-}
-
-.product-detail__feature-highlight-img.img-0 .product-detail__child .svg2 {
-  bottom: 28px;
-  left: 30px;
-}
-
-.product-detail__feature-highlight-img .img-2-2 {
-  position: absolute;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
 }
 
 .product-detail__feature-highlight-label {
@@ -592,10 +452,12 @@ onMounted(() => {
 .product-detail__specs-row:last-child {
   border-bottom: none;
 }
-.product-detail__specs-table--right .product-detail__specs-row::not(:last-child) ,
+
+.product-detail__specs-table--right .product-detail__specs-row::not(:last-child),
 .product-detail__specs-table--left .product-detail__specs-row::not(:last-child) {
- border-bottom: 1px solid #F1F5F9;
+  border-bottom: 1px solid #F1F5F9;
 }
+
 .product-detail__specs-row--alt {
   background: var(--color-bg-table-alt);
 }
@@ -637,13 +499,25 @@ onMounted(() => {
 
 /* ========== Product Manual ========== */
 .product-detail__manual {
-  padding: 100px 230px 150px;
+  padding: 76px 230px 126px;
 }
 
 .product-detail__manual-card {
   display: flex;
   align-items: center;
   gap: 30px;
+  width: fit-content;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid transparent;
+  transition: var(--transition-premium);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-brand);
+    box-shadow: 0 8px 24px rgba(0, 82, 217, 0.04);
+    transform: translateY(-4px);
+  }
 }
 
 .product-detail__manual-image-box {
@@ -705,5 +579,17 @@ onMounted(() => {
   line-height: 24px;
   color: var(--color-text-manual-desc);
   max-width: 567px;
+}
+
+/* ========== 视差滚动入场动画 ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

@@ -17,7 +17,14 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 30
 }
 
-onMounted(() => {
+const productItems = ref<ProductItem[]>([])
+onMounted(async () => {
+  try {
+    const res = await getProducts()
+    productItems.value = res.data || []
+  } catch {
+    productItems.value = []
+  }
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
@@ -26,7 +33,6 @@ onUnmounted(() => {
   if (hideTimer) clearTimeout(hideTimer)
 })
 
-const productItems = ref<ProductItem[]>([])
 const productsFetched = ref(false)
 
 const productDropdownItems = computed(() => {
@@ -48,16 +54,20 @@ const navItems = computed(() => [
 
 const isActive = (path: string) => {
   if (path === '/') return route.path === '/'
+
   return route.path.startsWith(path)
 }
 
 const navigate = (path: string) => {
+  if (path === '/patient-service') return
   router.push(path)
 }
 
 const goToProduct = (productCode: string) => {
   showDropdown.value = false
-  router.push(`/product/${productCode}`)
+  router.push({
+    path: `/products/product/${productCode}`
+  })
 }
 
 const onProductMouseEnter = async () => {
@@ -65,12 +75,6 @@ const onProductMouseEnter = async () => {
   showDropdown.value = true
   if (!productsFetched.value) {
     productsFetched.value = true
-    try {
-      const res = await getProducts()
-      productItems.value = res.data || []
-    } catch {
-      productItems.value = []
-    }
   }
 }
 
@@ -87,6 +91,7 @@ const onDropdownMouseEnter = () => {
 const onDropdownMouseLeave = () => {
   showDropdown.value = false
 }
+
 </script>
 
 <template>
@@ -96,7 +101,7 @@ const onDropdownMouseLeave = () => {
       ? 'top-0 w-full rounded-none shadow-[0px_4px_20px_0px_rgba(0,0,0,0.08)]'
       : 'top-[20px]  max-w-[1732px] w-[91%] rounded-[60px]'
   ]">
-    <div class="bg-white h-[86px] flex items-center justify-between px-[100px] header-container"
+    <div class="bg-white h-[86px] flex items-center justify-between px-[100px] header-container "
       :class="isScrolled ? '' : 'rounded-[60px] shadow-[0px_4px_29px_0px_rgba(0,0,0,0.04)]'">
       <div class="flex flex-1 items-center justify-between mr-[155px] header-left">
         <div class="w-[149px] h-[50px] flex items-center header-logo">
@@ -105,11 +110,8 @@ const onDropdownMouseLeave = () => {
         <nav class="flex items-center gap-[52px] header-nav">
           <template v-for="item in navItems" :key="item.path">
             <!-- 产品展示：带下拉 -->
-            <div v-if="item.hasDropdown"
-              class="relative"
-              @mouseenter="onProductMouseEnter"
-              @mouseleave="onProductMouseLeave"
-              >
+            <div v-if="item.hasDropdown" class="relative" @mouseenter="onProductMouseEnter"
+              @mouseleave="onProductMouseLeave">
               <button :class="[
                 'text-lg font-bold transition-all duration-200 rounded-[63px] px-9 py-3',
                 isActive(item.path)
@@ -120,17 +122,14 @@ const onDropdownMouseLeave = () => {
               </button>
 
               <Transition name="dropdown">
-                <div v-if="showDropdown"
-                  class="absolute top-full left-1/2 -translate-x-1/2 pt-1 z-50"
-                  @mouseenter="onDropdownMouseEnter"
-                  @mouseleave="onDropdownMouseLeave">
-                  <div class="flex flex-col bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)] border-t-[2px] border-[#0163FF]">
-                    <div
-                      v-for="prod in productDropdownItems"
-                      :key="prod.productCode"
-                      class="flex items-center justify-center px-[30px] py-[16px] border-b border-[#F6F6F6] cursor-pointer transition-colors hover:bg-[#F6F8FF]"
+                <div v-show="showDropdown" class="absolute top-full left-1/2 -translate-x-1/2 mt-[35px] z-50"
+                  @mouseenter="onDropdownMouseEnter" @mouseleave="onDropdownMouseLeave">
+                  <div class="flex flex-col w-[205px] bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)]">
+                    <div v-for="prod in productDropdownItems" :key="prod.productCode"
+                      class="flex items-center justify-center px-[30px] py-[16px] border-b border-[#F6F6F6] cursor-pointer transition-colors hover:bg-[#F6F8FF] group"
                       @click="goToProduct(prod.productCode)">
-                      <span class="text-[18px] leading-[24px] text-[#666666] font-normal whitespace-nowrap" style="font-family: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;">
+                      <span class="text-[18px] leading-[24px] text-[#666666] font-normal group-hover:text-[#0163FF]"
+                        style="font-family: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;">
                         {{ prod.name }}
                       </span>
                     </div>
@@ -152,7 +151,7 @@ const onDropdownMouseLeave = () => {
         </nav>
       </div>
       <button @click="navigate('/contact')"
-        class="bg-[#0163FF] text-white font-bold text-lg px-6 py-3 rounded-[63px] shadow-[0px_9px_10px_0px_rgba(1,94,255,0.14)] hover:bg-blue-700 transition-colors">
+        class="bg-[#0163FF] text-white font-bold text-lg px-6 py-3 rounded-[63px] shadow-[0px_9px_10px_0px_rgba(1,94,255,0.14)] hover:bg-blue-700 transition-colors transition-transform duration-200 hover:scale-105">
         {{ $t('header.contact') }}
       </button>
     </div>
@@ -163,39 +162,95 @@ const onDropdownMouseLeave = () => {
 .dropdown-enter-active {
   transition: opacity 0.15s ease-out, transform 0.15s ease-out;
 }
+
 .dropdown-leave-active {
   transition: opacity 0.1s ease-in, transform 0.1s ease-in;
 }
+
 .dropdown-enter-from {
   opacity: 0;
   transform: translateY(-4px);
 }
+
 .dropdown-leave-to {
   opacity: 0;
   transform: translateY(-4px);
 }
 
-@media (max-width: 1400px) {
-  .header-nav { gap: 28px; }
-  .header-nav :deep(button) { padding-left: 20px; padding-right: 20px; }
-  .header-left { margin-right: 80px; }
+@media (max-width: 1580px) {
+  .header-nav {
+    gap: 28px;
+  }
+
+  .header-nav :deep(button) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .header-left {
+    margin-right: 80px;
+  }
 }
+
 @media (max-width: 1200px) {
-  .header-nav { gap: 18px; }
-  .header-nav :deep(button) { padding-left: 14px; padding-right: 14px; font-size: 15px; }
-  .header-left { margin-right: 40px; }
+  .header-nav {
+    gap: 18px;
+  }
+
+  .header-nav :deep(button) {
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 15px;
+  }
+
+  .header-left {
+    margin-right: 40px;
+  }
 }
+
 @media (max-width: 1024px) {
-  .header-container { padding-left: 24px; padding-right: 24px; }
-  .header-nav { gap: 10px; }
-  .header-nav :deep(button) { padding-left: 10px; padding-right: 10px; font-size: 14px; }
-  .header-left { margin-right: 20px; }
+  .header-container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .header-nav {
+    gap: 10px;
+  }
+
+  .header-nav :deep(button) {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+  }
+
+  .header-left {
+    margin-right: 20px;
+  }
 }
+
 @media (max-width: 768px) {
-  .header-container { padding-left: 16px; padding-right: 16px; }
-  .header-nav { gap: 6px; }
-  .header-nav :deep(button) { padding-left: 8px; padding-right: 8px; font-size: 13px; }
-  .header-left { margin-right: 12px; }
-  .header-logo { width: 110px; }
+  .header-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .header-nav {
+    gap: 6px;
+  }
+
+  .header-nav :deep(button) {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 13px;
+  }
+
+  .header-left {
+    margin-right: 12px;
+  }
+
+  .header-logo {
+    width: 110px;
+  }
 }
 </style>

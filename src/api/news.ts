@@ -19,7 +19,7 @@ export function getNewsCategoriesTop(limit = 20): Promise<ApiResult<PublicNewsIt
 }
 
 /** 获取单分类 Top N */
-export function getNewsCategoryTop(categoryCode: string, limit = 5): Promise<ApiResult<NewsCategory[]>> {
+export function getNewsCategoryTop(categoryCode: string, limit = 5): Promise<ApiResult<PublicNewsItem[]>> {
   return request.get(`/api/news/categories/${categoryCode}/top`, { params: { limit } }).then((res) => res.data)
 }
 

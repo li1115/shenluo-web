@@ -5,15 +5,18 @@ import News from '@/components/News.vue'
 import Recruitment from '@/components/Recruitment.vue'
 import Products from '@/components/Products.vue'
 import DiseaseService from '@/components/DiseaseService.vue'
+import { useRevealOnScroll } from '@/shared/utils/useRevealOnScroll'
+
+useRevealOnScroll()
 </script>
 
 <template>
   <div>
-    <Hero />
-    <Products />
-    <DiseaseService />
-    <News />
-    <Stats />
-    <Recruitment />
+    <Hero class="reveal" />
+    <Products class="reveal" />
+    <DiseaseService class="reveal" />
+    <News class="reveal" />
+    <Stats class="reveal" />
+    <Recruitment class="reveal" />
   </div>
 </template>

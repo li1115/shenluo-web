@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { getRecruitCategories, getRecruitPage } from '@/api/recruit'
 import type { RecruitCategory, PublicRecruitItem } from '@/api/types'
+import { useRevealOnScroll } from '@/shared/utils/useRevealOnScroll'
+
+useRevealOnScroll()
 
 const { t } = useI18n()
 const router = useRouter()
-const activeCareer = ref<string>(router.currentRoute.value.query.job as string || 'academic')
+const activeCareer = computed(() => router.currentRoute.value.query.job as string || 'other')
 
 interface Hero {
   id: string
@@ -84,6 +87,7 @@ function mapRecruitItem(item: PublicRecruitItem): JobDisplay {
 
 const apiCategories = ref<RecruitCategory[]>([])
 const categoryTabs = computed<CategoryTab[]>(() => {
+  if (!apiCategories.value.length) return []
   const seen = new Set<string>()
   const tabs: CategoryTab[] = []
   const add = (code: string, name: string) => {
@@ -99,7 +103,24 @@ const categoryTabs = computed<CategoryTab[]>(() => {
   return tabs
 })
 
-const activeCategoryCode = ref<string>('ALL')
+
+type baseJobType = 'POSTDOC' | 'SALES' | 'ALL' | 'LATEST'
+const job = (): baseJobType => {
+  const JobMap: Record<string, baseJobType> = {
+    academic: 'POSTDOC',
+    sales: 'SALES',
+    other: 'ALL',
+  }
+  const jobData = activeCareer.value
+  return jobData && jobData in JobMap ? JobMap[jobData] : 'ALL'
+}
+watch(() => router.currentRoute.value.query.job,
+  () => {
+    activeCategoryCode.value = job()
+    fetchCategories()
+    fetchJobList()
+  })
+const activeCategoryCode = ref<string>(job() || 'ALL')
 
 const jobs = ref<JobDisplay[]>([])
 const totalJobs = ref(0)
@@ -192,6 +213,18 @@ async function fetchJobList() {
   }
 }
 
+async function fetchCategories() {
+  if (activeCareer.value !== 'other') {
+    apiCategories.value = []
+    return
+  }
+  try {
+    const catRes = await getRecruitCategories()
+    apiCategories.value = catRes.data || []
+  } catch {
+    apiCategories.value = []
+  }
+}
 const selectCategory = (code: string) => {
   activeCategoryCode.value = code
   currentPage.value = 1
@@ -199,7 +232,7 @@ const selectCategory = (code: string) => {
 }
 
 const viewJobDetail = (recruitNo: string) => {
-  router.push(`/careers/${recruitNo}`)
+  router.push(`/about/careers/${recruitNo}`)
 }
 
 const goToPage = (page: number) => {
@@ -212,26 +245,19 @@ const goToPage = (page: number) => {
 const toOtherCareer = (id: string) => {
   router.push({ query: { job: id } })
 }
+const goToAbout = () => {
+  router.push('/about')
+}
 
-onMounted(async () => {
-  try {
-    const catRes = await getRecruitCategories()
-    apiCategories.value = catRes.data || []
-  } catch {
-    apiCategories.value = [
-      { code: 'ALL', name: t('careers.categories.all'), sortOrder: 0 },
-      { code: 'ACADEMIC', name: t('careers.categories.academic'), sortOrder: 1 },
-      { code: 'SALES', name: t('careers.categories.sales'), sortOrder: 2 },
-      { code: 'LATEST', name: t('careers.categories.latest'), sortOrder: 3 },
-    ]
-  }
+onMounted(() => {
+  fetchCategories()
   fetchJobList()
 })
 </script>
 
 <template>
   <div class="careers">
-    <section class="careers__hero">
+    <section class="careers__hero reveal">
       <div class="careers__hero-bg-img">
         <img class="careers__hero-img" src="@/assets/carceers-hero.png" alt="加入我们" />
       </div>
@@ -239,7 +265,7 @@ onMounted(async () => {
 
       <div class="careers__hero-content">
         <div class="careers__breadcrumb">
-          <span class="careers__breadcrumb-item">{{ $t('careers.breadcrumb1') }}</span>
+          <span class="careers__breadcrumb-item careers__breadcrumb-item--link" @click="goToAbout">{{ $t('careers.breadcrumb1') }}</span>
           <span class="careers__breadcrumb-sep">/</span>
           <span class="careers__breadcrumb-item">{{ $t('careers.breadcrumb2') }}</span>
         </div>
@@ -255,14 +281,14 @@ onMounted(async () => {
 
     <section class="careers__content">
       <div class="careers__main">
-        <div class="careers__heading">
+        <div class="careers__heading reveal">
           <div class="careers__heading-title-wrap">
             <h2 class="careers__heading-title">{{ $t('careers.jobHeading') }}</h2>
             <span class="careers__heading-count">{{ totalJobs }}</span>
           </div>
         </div>
 
-        <div class="careers__tabs">
+        <div class="careers__tabs reveal" v-show="categoryTabs.length">
           <button v-for="cat in categoryTabs" :key="cat.code"
             :class="['careers__tab', { 'careers__tab--active': activeCategoryCode === cat.code }]"
             @click="selectCategory(cat.code)">
@@ -270,7 +296,7 @@ onMounted(async () => {
           </button>
         </div>
 
-        <div class="careers__job-list">
+        <div class="careers__job-list reveal" v-show="totalJobs > 0">
           <div v-for="job in paginatedJobs" :key="job.recruitNo" class="careers__job-card">
             <div class="careers__job-top">
               <div class="careers__job-info">
@@ -327,8 +353,11 @@ onMounted(async () => {
             </div>
           </div>
         </div>
+        <div v-show="totalJobs === 0" class="careers__no-jobs">
+          {{ $t('careers.noJobs') }}
+        </div>
 
-        <div class="careers__pagination">
+        <div class="careers__pagination reveal" v-show="totalJobs > 0">
           <button class="careers__page-btn careers__page-btn--nav" @click="goToPage(currentPage - 1)"
             :disabled="currentPage === 1">
             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
@@ -381,7 +410,7 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .careers {
   --color-white: #FFFFFF;
   --color-black: #000000;
@@ -390,8 +419,12 @@ onMounted(async () => {
   --color-text-meta: #64748B;
   --color-tag-bg: #EBEEF3;
   --color-tag-text: #475569;
+  --color-tag-active-border: rgba(0, 82, 217, 0.1);
+  --color-tag-active-bg: rgba(0, 82, 217, 0.04);
   --color-border: #F8FAFC;
   --color-border-light: #F1F5F9;
+  --border-light: rgba(0, 82, 217, 0.2);
+  --shadow-card: 0 10px 30px rgba(0, 82, 217, 0.04);
   --color-urgent-bg: #FFDBD1;
   --color-urgent-text: #862300;
   --color-hero-start: rgba(0, 67, 203, 1);
@@ -400,6 +433,8 @@ onMounted(async () => {
   --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
   --font-heading: 'Inter', 'PingFang SC', sans-serif;
   --content-bg: #F7F9FE;
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-premium: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .careers {
@@ -436,9 +471,11 @@ onMounted(async () => {
   flex-direction: column;
   margin: 0 auto;
 }
+
 .careers__hero-img {
   width: 100%;
 }
+
 /* ========== Breadcrumb ========== */
 .careers__breadcrumb {
   display: flex;
@@ -455,6 +492,20 @@ onMounted(async () => {
   letter-spacing: -0.0536em;
   color: var(--color-white);
 }
+
+.careers__breadcrumb-item--link {
+  cursor: pointer;
+  transition: color 0.2s;
+  &:hover {
+    color: var(--color-brand);
+  }
+}
+
+.careers__breadcrumb-item--link:hover {
+  color: var(--color-brand);
+}
+
+
 
 .careers__breadcrumb-sep {
   color: var(--color-white);
@@ -579,6 +630,18 @@ onMounted(async () => {
   gap: 32px;
 }
 
+.careers__no-jobs {
+  padding: 100px 36px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32.5px;
+  color: rgba(219, 234, 254, 0.8);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
 .careers__job-card {
   background: var(--color-white);
   border: 1px solid transparent;
@@ -587,6 +650,22 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  transition: var(--transition-premium);
+
+  &:hover {
+    border-color: var(--border-light);
+    box-shadow: var(--shadow-card);
+
+    .careers__job-title {
+      color: var(--color-brand);
+    }
+
+    .careers__job-tag {
+      color: var(--color-brand);
+      background: var(--color-tag-active-bg);
+      border-color: var(--color-tag-active-border);
+    }
+  }
 }
 
 .careers__job-top {
@@ -661,6 +740,8 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 8px;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .careers__job-tag {
@@ -672,9 +753,12 @@ onMounted(async () => {
   font-size: 12px;
   line-height: 16px;
   color: var(--color-tag-text);
+  border: 1px solid transparent;
+  transition: all 0.2s;
 }
 
 .careers__job-apply {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -688,6 +772,7 @@ onMounted(async () => {
   color: var(--color-brand);
   cursor: pointer;
   transition: opacity 0.2s;
+  cursor: pointer;
 }
 
 .careers__job-apply:hover {
@@ -770,6 +855,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 14.8px;
+  transition: var(--transition-smooth);
 }
 
 .careers__sidebar-card--secondary {
@@ -781,6 +867,14 @@ onMounted(async () => {
   flex-direction: column;
   gap: 24px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-smooth);
+}
+
+.careers__sidebar-card--secondary,
+.careers__sidebar-card--primary {
+  &:hover {
+    transform: translateY(-8px);
+  }
 }
 
 .careers__sidebar-blur {
@@ -841,6 +935,11 @@ onMounted(async () => {
   cursor: pointer;
   transition: opacity 0.2s;
   width: fit-content;
+  transition: var(--transition-smooth);
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 
 .careers__sidebar-link--white {
