@@ -78,9 +78,9 @@ async function fetchNews() {
     const res = await getNewsCategoryTop('ALL')
     apiNewsItems.value = (res.data || []).map(mapNewsItem)
   } catch {
-    // apiNewsItems.value = []
+    apiNewsItems.value = []
     // 模拟数据
-    apiNewsItems.value = mockNewsItems
+    // apiNewsItems.value = mockNewsItems
   }
   if (apiNewsItems.value.length > 3) {
     animId = requestAnimationFrame(animate)

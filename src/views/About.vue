@@ -16,12 +16,16 @@ import responsibleIcon from '@/assets/responsible.svg'
 import highQualityIcon from '@/assets/high-quality.svg'
 import missionIcon from '@/assets/mission.svg'
 import efficientIcon from '@/assets/efficient.svg'
+import timelineRight from '@/assets/timeline-right.png'
+import timelineRight1 from '@/assets/timeline-right-1.png'
+import timelineRight2 from '@/assets/timeline-right-2.png'
+import timelineRight3 from '@/assets/timeline-right-3.png'
+import timelineRight4 from '@/assets/timeline-right-4.png'
 
 const { t } = useI18n()
 
 interface Milestone {
   id: number
-  month: string
   content: string
 }
 
@@ -32,59 +36,87 @@ const stats = computed(() => [
   { id: 4, value: 8, suffix: '+', label: t('about.stats.rdYears'), animated: ref(0) },
 ])
 
-const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020']
+const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018']
 const activeYear = ref('2026')
-const tickCount = 23
+const timelineRef = ref<HTMLElement | null>(null)
+const yearRefs = ref<Record<string, HTMLElement | null>>({})
+
+const setYearRef = (year: string, el: any) => {
+  yearRefs.value[year] = el as HTMLElement | null
+}
+
+const selectYear = (year: string) => {
+  activeYear.value = year
+  // Scroll the timeline to show the selected year
+  const yearEl = yearRefs.value[year]
+  const container = timelineRef.value
+  if (yearEl && container) {
+    const containerWidth = container.clientWidth
+    const yearLeft = yearEl.offsetLeft
+    const yearWidth = yearEl.offsetWidth
+    // Center the year in the container
+    const scrollTarget = yearLeft - containerWidth / 2 + yearWidth / 2
+    container.scrollTo({ left: Math.max(0, scrollTarget), behavior: 'smooth' })
+  }
+}
 
 const nextYear = () => {
-  if (years.indexOf(activeYear.value) >= years.length - 1) {
-    return
-  }
-  activeYear.value = years[years.indexOf(activeYear.value) + 1]
+  const idx = years.indexOf(activeYear.value)
+  if (idx >= years.length - 1) return
+  selectYear(years[idx + 1])
 }
 
 const prevYear = () => {
-  if (years.indexOf(activeYear.value) <= 0) {
-    return
-  }
-  activeYear.value = years[years.indexOf(activeYear.value) - 1]
+  const idx = years.indexOf(activeYear.value)
+  if (idx <= 0) return
+  selectYear(years[idx - 1])
 }
 
 const milestonesByYear: Record<string, Milestone[]> = {
   '2026': [
-    { id: 1, month: '2月', content: '被认定为创新型中小企业、国家级科技型中小企业、国家高新技术企业被认定为创新型中小企业、国家级科技型中小企业、国家高新技术企业' },
-    { id: 2, month: '4月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
-    { id: 3, month: '6月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
-    { id: 4, month: '8月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
-    { id: 5, month: '12月', content: '被认定为创新型中小企业、国家级科技型中小企业' },
+    { id: 1, content: '完成C轮近3亿元融资，植入式可充电脊髓神经刺激系统(SCS)、周围神经刺激系统(PNS)获批上市' },
   ],
   '2025': [
-    { id: 1, month: '3月', content: '完成C轮融资，融资金额数亿元' },
-    { id: 2, month: '6月', content: '获得医疗器械注册证' },
-    { id: 3, month: '9月', content: '产品进入临床试验阶段' },
+    { id: 1, content: '杭州市准独角兽企业、浙江省企业研究院、博士后科研工作站设立' },
   ],
   '2024': [
-    { id: 1, month: '1月', content: '获得B轮融资' },
-    { id: 2, month: '5月', content: '研发中心扩建' },
-    { id: 3, month: '10月', content: '专利申请突破50项' },
+    { id: 1, content: '完成B+轮融资，浙江省科技厅尖兵、领雁攻关项目' },
   ],
   '2023': [
-    { id: 1, month: '4月', content: '获得A轮融资' },
-    { id: 2, month: '8月', content: 'GMP厂房投入使用' },
+    { id: 1, content: '浙江省专精特新中小企业' },
   ],
   '2022': [
-    { id: 1, month: '3月', content: '研发团队组建完成' },
-    { id: 2, month: '7月', content: '首个产品原型开发完成' },
-    { id: 3, month: '11月', content: '天使轮融资' },
+    { id: 1, content: '完成B轮融资，国家高新技术企业' },
   ],
   '2021': [
-    { id: 1, month: '6月', content: '公司注册成立' },
-    { id: 2, month: '9月', content: '核心团队组建' },
+    { id: 1, content: '完成Pre-A、A轮融资，浙江省科技厅尖兵、领雁攻关项目' },
   ],
   '2020': [
-    { id: 1, month: '8月', content: '项目立项启动' },
+    { id: 1, content: '浙江省科技型中小企业' },
+  ],
+  '2019': [
+    { id: 1, content: '完成天使轮投资' },
+  ],
+  '2018': [
+    { id: 1, content: '公司成立' },
   ],
 }
+const currentImage = computed(() => {
+  switch (activeYear.value) {
+    case '2026':
+      return timelineRight
+    case '2025':
+      return timelineRight1
+    case '2024':
+      return timelineRight2
+    case '2023':
+      return timelineRight3
+    case '2022':
+      return timelineRight4
+    default:
+      return timelineRight
+  }
+})
 
 const currentMilestones = computed(() => milestonesByYear[activeYear.value] || [])
 
@@ -246,17 +278,14 @@ const handleClick = (key: string) => {
                 stroke="white" stroke-width="2" stroke-linecap="round" />
             </svg>
           </button>
-          <div class="about__timeline-line-area">
+          <div class="about__timeline-line-area" ref="timelineRef">
             <div class="about__timeline-line-area-line">
-              <div class="about__timeline-ticks">
-                <span v-for="i in tickCount" :key="'tick-' + i" class="about__timeline-tick"></span>
-              </div>
               <div class="about__timeline-line"></div>
             </div>
             <div class="about__timeline-years">
-              <button v-for="year in years" :key="year"
+              <button v-for="year in years" :key="year" :ref="(el) => setYearRef(year, el)"
                 :class="['about__timeline-year', { 'about__timeline-year--active': activeYear === year }]"
-                @click="activeYear = year">
+                @click="selectYear(year)">
                 <span class="about__timeline-dot"></span>
                 <span class="about__timeline-year-text">{{ year }}</span>
               </button>
@@ -279,11 +308,11 @@ const handleClick = (key: string) => {
           </div>
           <div v-for="milestone in currentMilestones" :key="milestone.id" class="about__milestone-item">
             <span class="about__milestone-number">{{ String(milestone.id).padStart(2, '0') }}</span>
-            <span class="about__milestone-text">{{ milestone.month }}：{{ milestone.content }}</span>
+            <span class="about__milestone-text">{{ milestone.content }}</span>
           </div>
         </div>
         <div class="about__milestones-image">
-          <img src="@/assets/timeline-right.png" alt="神络里程碑" class="about__milestones-img" />
+          <img :src="currentImage" alt="神络里程碑" class="about__milestones-img" />
         </div>
       </div>
 
@@ -418,7 +447,8 @@ const handleClick = (key: string) => {
           </div>
           <h3 class="about__join-card-title">{{ $t('about.join.card1.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card1.desc') }}</p>
-          <button class="about__join-card-btn" @click="handleClick('academic')">{{ $t('about.join.card1.btn') }}</button>
+          <button class="about__join-card-btn" @click="handleClick('academic')">{{ $t('about.join.card1.btn')
+            }}</button>
         </div>
 
         <div class="about__join-card">
@@ -558,6 +588,7 @@ const handleClick = (key: string) => {
   margin: 0 auto;
   z-index: 2;
   flex-shrink: 0;
+  gap: 147px;
 }
 
 .about__hero-left {
@@ -791,42 +822,48 @@ const handleClick = (key: string) => {
 
 .about__timeline-line-area {
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  display: grid;
+  grid-template-columns: max-content;
   padding-top: 27px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.about__timeline-line-area-line,
-.about__timeline-years {
-  flex: 1;
+.about__timeline-line-area::-webkit-scrollbar {
+  display: none;
 }
 
 .about__timeline-line-area-line {
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
   position: relative;
+  height: 18px;
   margin-bottom: 12px;
-  overflow: hidden;
+}
+
+/* Tick marks via repeating CSS gradient — spans full grid column width */
+.about__timeline-line-area-line::before {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background-image: repeating-linear-gradient(to right,
+      #CCCCCC 0px,
+      #CCCCCC 1px,
+      transparent 1px,
+      transparent 71px);
 }
 
 .about__timeline-line {
-  width: 100%;
-  border-top: 3px dashed var(--color-timeline-line);
-}
-
-.about__timeline-ticks {
-  display: flex;
-  gap: 70px;
   position: absolute;
-}
-
-.about__timeline-tick {
-  width: 1px;
-  height: 15px;
-  background: #CCCCCC;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 3px dashed var(--color-timeline-line);
 }
 
 .about__timeline-big-year {
@@ -875,10 +912,10 @@ const handleClick = (key: string) => {
 
 .about__timeline-years {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 213px;
-  margin-left: 21px;
+  margin-left: 142px;
+  padding-right: 21px;
 }
 
 .about__timeline-year {
@@ -891,6 +928,16 @@ const handleClick = (key: string) => {
   cursor: pointer;
   padding: 0;
   width: 0;
+  transition: var(--transition-smooth);
+  &:hover {
+    transform: scale(1.03);
+    .about__timeline-dot {
+      background: var(--color-brand);
+    }
+    span {
+      color: var(--color-brand);
+    }
+  }
 }
 
 .about__timeline-dot {
@@ -924,6 +971,11 @@ const handleClick = (key: string) => {
   width: 666px;
   height: 380px;
   margin-top: 30px;
+  transition: var(--transition-smooth);
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .about__milestones-img {
@@ -958,6 +1010,7 @@ const handleClick = (key: string) => {
   color: var(--color-milestone-number);
   padding-top: 6px;
   flex-shrink: 0;
+  padding-left: 67px;
 }
 
 .about__milestone-text {
@@ -1144,12 +1197,15 @@ const handleClick = (key: string) => {
 .about__value-card:nth-child(4) .about__value-collapsed {
   background: var(--color-unselected-bg);
 }
+
 .about__value-card .about__value-collapsed {
   transition: background 0.3s ease;
+
   &:hover {
     background: var(--color-unselected-bg-hover);
   }
 }
+
 .about__value-small {
   display: flex;
   flex-direction: column;
@@ -1235,10 +1291,12 @@ const handleClick = (key: string) => {
   padding: 170px 30px 74px;
   box-sizing: border-box;
   transition: var(--transition-smooth);
+
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 20px 40px rgba(0, 102, 255, 0.08);
     border-color: rgba(0, 102, 255, 0.12);
+
     .about__partner-icon {
       transform: translateY(-4px) rotate(360deg);
     }
@@ -1500,6 +1558,7 @@ const handleClick = (key: string) => {
   -webkit-backdrop-filter: blur(12px);
   box-sizing: border-box;
   transition: var(--transition-smooth);
+
   &:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: translateY(-8px);

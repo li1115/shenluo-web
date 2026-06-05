@@ -32,8 +32,37 @@ function mapProductDetail(detail: ProductItem): Omit<ProductDetail, 'image'> {
     description: detail.description,
   }
 }
-import { getProductDetailData, PRODUCT_CODES, TNSBase } from '@/shared/products'
-import type { ProductBaseDetail } from '@/shared/products'
+import { getProductDetailData, PRODUCT_CODES } from '@/shared/products'
+import type { ProductBaseDetail, SpecRow } from '@/shared/products'
+
+/** Calculate rowspan for table-mode cells. A cell spans rows if it has content
+ *  and subsequent rows in the same column are empty. */
+function getRowSpan(rows: SpecRow[][], rowIdx: number, colIdx: number): number {
+  const cell = rows[rowIdx]?.[colIdx]
+  const hasContent = Boolean(cell?.label || cell?.value)
+  if (!hasContent) return 1
+  let span = 1
+  for (let r = rowIdx + 1; r < rows.length; r++) {
+    const nextCell = rows[r]?.[colIdx]
+    if (!nextCell?.label && !nextCell?.value) {
+      span++
+    } else {
+      break
+    }
+  }
+  return span
+}
+
+/** Check if a column at a given row is covered by a rowspan from a previous row. */
+function isCellCovered(rows: SpecRow[][], rowIdx: number, colIdx: number): boolean {
+  for (let r = rowIdx - 1; r >= 0; r--) {
+    const span = getRowSpan(rows, r, colIdx)
+    if (span > 1 && r + span > rowIdx) {
+      return true
+    }
+  }
+  return false
+}
 
 const loading = ref(false)
 const product = ref<ProductDetail & ProductBaseDetail>({
@@ -43,8 +72,7 @@ const product = ref<ProductDetail & ProductBaseDetail>({
   name: '',
   description: '',
   image: '',
-  specsLeft: [],
-  specsRight: [],
+  specGroups: [],
   featureCards: [],
 })
 
@@ -68,17 +96,9 @@ async function fetchData() {
       name: '',
       description: '',
       image: '',
-      specsLeft: [],
-      specsRight: [],
+      specGroups: [],
       featureCards: [],
     }
-    if (productCode === 'TNS') {
-      product.value = {
-        ...TNSBase,
-        ...getProductDetailData(PRODUCT_CODES['TNS']),
-      }
-    }
-
   } finally {
     loading.value = false
     await nextTick()
@@ -132,29 +152,53 @@ watch(
         </div>
       </div>
 
-      <div class="product-detail__specs-section reveal" v-if="product.specsLeft.length && product.specsRight.length">
-        <div class="product-detail__specs-inner reveal">
-          <div class="product-detail__specs-left">
-            <h3 class="product-detail__specs-heading">{{ $t('products.specsHeading') }}</h3>
-            <div class="product-detail__specs-tables">
-              <div class="product-detail__specs-table product-detail__specs-table--left">
-                <div v-for="(row, rIdx) in product.specsLeft" :key="'l' + rIdx" class="product-detail__specs-row"
-                  :class="rIdx % 2 === 0 ? 'product-detail__specs-row--alt' : 'product-detail__specs-row--white'">
-                  <div class="product-detail__specs-cell product-detail__specs-cell--label"
-                    :class="rIdx % 2 === 0 ? 'product-detail__specs-cell--label-even' : 'product-detail__specs-cell--label-odd'">
-                    {{ $t(row.label) }}</div>
-                  <div class="product-detail__specs-cell product-detail__specs-cell--value">{{ $t(row.value) }}</div>
-                </div>
+      <div class="product-detail__specs-section reveal" v-if="product.specGroups.length">
+        <div class="product-detail__specs-container">
+          <h3 class="product-detail__specs-heading">{{ $t('products.specsHeading') }}</h3>
+          <div class="product-detail__specs-tables">
+            <div v-for="(group, gIdx) in product.specGroups" :key="gIdx" class="product-detail__specs-table">
+              <div class="product-detail__specs-table-header">{{ $t(group.groupName) }}</div>
+
+              <!-- LR / TB mode: flat label-value grid -->
+              <div v-if="group.type === 'lr' || group.type === 'tb'" class="product-detail__specs-table-body" :class="{
+                'product-detail__specs-table-body--lr': group.type === 'lr',
+                'product-detail__specs-table-body--tb': group.type === 'tb',
+              }" :style="group.type === 'tb' ? { gridTemplateColumns: `repeat(${group.specs.length}, 1fr)` } : {}">
+                <template v-if="group.type === 'lr'">
+                  <template v-for="(item, iIdx) in group.specs" :key="iIdx">
+                    <div class="product-detail__specs-cell product-detail__specs-label"
+                      :style="{ minHeight: group.minHeight || '56px' }">{{ $t(item.label) }}</div>
+                    <div class="product-detail__specs-cell product-detail__specs-value"
+                      :style="{ minHeight: group.minHeight || '56px' }">{{ $t(item.value) }}</div>
+                  </template>
+                </template>
+                <template v-if="group.type === 'tb'">
+                  <div v-for="(item, iIdx) in group.specs" :key="iIdx" class="product-detail__specs-col-tb">
+                    <div class="product-detail__specs-cell product-detail__specs-label"
+                      :style="{ minHeight: group.minHeight || '56px' }">{{ $t(item.label) }}</div>
+                    <div class="product-detail__specs-cell product-detail__specs-value"
+                      :style="{ minHeight: group.minHeight || '56px' }">{{ $t(item.value) }}</div>
+                  </div>
+                </template>
               </div>
-              <div class="product-detail__specs-table product-detail__specs-table--right">
-                <div v-for="(row, rIdx) in product.specsRight" :key="'r' + rIdx" class="product-detail__specs-row"
-                  :class="rIdx % 2 === 0 ? 'product-detail__specs-row--alt' : 'product-detail__specs-row--white'">
-                  <div class="product-detail__specs-cell product-detail__specs-cell--label"
-                    :class="rIdx % 2 === 0 ? 'product-detail__specs-cell--label-even' : 'product-detail__specs-cell--label-odd'">
-                    {{ $t(row.label) }}</div>
-                  <div class="product-detail__specs-cell product-detail__specs-cell--value">{{ $t(row.value) }}</div>
-                </div>
-              </div>
+
+              <!-- Table mode: row-based with merged cells support -->
+              <table v-if="group.type === 'table' && group.rows" class="product-detail__specs-table-elem">
+                <tbody>
+                  <tr v-for="(row, rIdx) in group.rows" :key="rIdx"
+                    :class="{ 'product-detail__specs-header-row': rIdx === 0 }">
+                    <td v-for="(cell, cIdx) in row" :key="cIdx" v-show="!isCellCovered(group.rows!, rIdx, cIdx)"
+                      class="product-detail__specs-td" :class="{
+                        'product-detail__specs-td--label': rIdx === 0,
+                        'product-detail__specs-td--value': rIdx > 0,
+                        'product-detail__specs-td--empty': !cell.value && !cell.label,
+                      }" :rowspan="getRowSpan(group.rows!, rIdx, cIdx)">
+                      <template v-if="cell.label">{{ $t(cell.label) }}</template>
+                      <template v-else-if="cell.value">{{ $t(cell.value) }}</template>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -170,7 +214,7 @@ watch(
           </div>
           <div class="product-detail__manual-content">
             <div class="product-detail__manual-text">
-              <h4 class="product-detail__manual-title">{{ $t('products.manualTitle') }}</h4>
+              <h4 class="product-detail__manual-title">{{ product.name  }}产品手册</h4>
               <p class="product-detail__manual-desc">{{ $t('products.manualDesc') }}</p>
             </div>
           </div>
@@ -403,14 +447,13 @@ watch(
 
 /* ========== Specs Section ========== */
 .product-detail__specs-section {
-  background: var(--color-bg-section);
+  background: #F6F6F6;
   margin-top: 150px;
   padding: 80px 0;
 }
-
-.product-detail__specs-inner {
-  margin: auto;
-  width: fit-content
+.product-detail__specs-container {
+  max-width: 1460px;
+  margin: 0 auto;
 }
 
 .product-detail__specs-heading {
@@ -425,76 +468,103 @@ watch(
 
 .product-detail__specs-tables {
   display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .product-detail__specs-table {
-  width: 730px;
-  flex-shrink: 0;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #EEEEEE;
 }
 
-.product-detail__specs-table--left {
-  border-radius: 8px 0 0 8px;
-}
-
-.product-detail__specs-table--right {
-  border-radius: 0 8px 8px 0;
-}
-
-.product-detail__specs-row {
+.product-detail__specs-table-header {
   display: flex;
+  align-items: center;
+  justify-content: center;
   height: 58px;
-  border-bottom: 1px solid var(--color-border-table);
+  background: var(--color-white);
+  padding: 17px 16px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 34px;
+  color: var(--color-black);
+  border-bottom: 1px solid #EEEEEE;
 }
 
-.product-detail__specs-row:last-child {
-  border-bottom: none;
+.product-detail__specs-table-body {
+  display: grid;
 }
 
-.product-detail__specs-table--right .product-detail__specs-row::not(:last-child),
-.product-detail__specs-table--left .product-detail__specs-row::not(:last-child) {
-  border-bottom: 1px solid #F1F5F9;
+.product-detail__specs-table-body--lr {
+  grid-template-columns: repeat(4, 1fr);
 }
 
-.product-detail__specs-row--alt {
-  background: var(--color-bg-table-alt);
-}
-
-.product-detail__specs-row--white {
-  background: var(--color-bg-table-cell);
+.product-detail__specs-col-tb {
+  display: flex;
+  flex-direction: column;
 }
 
 .product-detail__specs-cell {
   display: flex;
   align-items: center;
+  padding: 16px 20px;
+  min-height: 56px;
+  background: var(--color-white);
+  border-right: 1px solid #EEEEEE;
+  border-bottom: 1px solid #EEEEEE;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 24px;
   line-height: 34px;
-  height: 58px;
-  padding: 0 16px;
-}
-
-.product-detail__specs-cell--label {
-  width: 260px;
-  flex-shrink: 0;
-  color: var(--color-text-body);
-}
-
-.product-detail__specs-cell--label-odd {
-  background: #D5D5D5;
-}
-
-.product-detail__specs-cell--label-even {
-  background: #EBEBEB;
-}
-
-.product-detail__specs-cell--value {
-  flex: 1;
-  padding: 0 16px;
   color: var(--color-black);
+}
+
+.product-detail__specs-label {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: normal;
+  color: #000;
+}
+
+/* ========== Table Mode (SCS Electrode) ========== */
+.product-detail__specs-table-elem {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.product-detail__specs-td {
+  padding: 16px 20px;
+  min-height: 56px;
+  background: var(--color-white);
+  border-right: 1px solid #EEEEEE;
+  border-bottom: 1px solid #EEEEEE;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 34px;
+  color: var(--color-black);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.product-detail__specs-td--label {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 34px;
+  color: var(--color-black);
+  text-align: left;
+  background: var(--color-white);
+}
+
+.product-detail__specs-td:last-child {
+  border-right: none;
+}
+
+.product-detail__specs-header-row .product-detail__specs-td {
+  border-bottom: 1px solid #EEEEEE;
 }
 
 /* ========== Product Manual ========== */

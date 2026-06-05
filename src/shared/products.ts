@@ -20,15 +20,24 @@ import productPNS3 from '@/assets/product-PNS-3.png'
 export const PRODUCT_CODES = {
     'BCI-PLATFORM': 'SCS',
     'NEURO-STIM': 'PNS',
-    TNS: 'TNS',
+    'NEURO-PNS': 'TNS',
 } as const
 
 export type RouteCode = keyof typeof PRODUCT_CODES
 export type ProductCode = (typeof PRODUCT_CODES)[RouteCode]
 
-interface SpecRow {
+export interface SpecRow {
     label: string
     value: string
+}
+
+interface SpecGroup {
+    groupName: string
+    type: 'lr' | 'tb' | 'table'
+    minHeight?: string
+    specs: SpecRow[]
+    /** Row-based layout for complex tables (e.g. SCS electrode) */
+    rows?: SpecRow[][]
 }
 
 interface FeatureCard {
@@ -41,35 +50,74 @@ export interface ProductBaseDetail {
     enName: string
     image: string
     pdfImg?: string
-    specsLeft: SpecRow[]
-    specsRight: SpecRow[]
+    specGroups: SpecGroup[]
     featureCards: FeatureCard[]
     noDATA?: boolean
 }
 
- export const TNSBase = {
-    productCode: PRODUCT_CODES['TNS'],
-    id: 3,
-    name: '植入式胫神经刺激系统TNS',
-    description: '脊髓神经刺激系统(Spinal Cord Stimulation，SCS)，是一种成熟的疼痛治疗方法，已被医生使用了50多年。作为微创可逆的先进医疗技术，旨在缓解疼痛，提高患者生活能力和生活质量。主要用于治疗躯干、四肢的慢性顽固性疼痛（如腰椎术后疼痛综合征、复杂性区域疼痛综合征等）。通过微创植入电极至脊髓硬膜外腔',
-}
 /** 产品码 → 产品详情数据（供 ProductDetail 等页面使用） */
 const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
     SCS: {
-        enName: 'Spinal Cord Stimulation . SCS',
+        enName: 'Implantable Rechargeable Spinal Cord Stimulation . SCS',
         image: productHero1,
         pdfImg: productPdf1,
-        specsLeft: [
-            { label: 'products.specs.length', value: '55' },
-            { label: 'products.specs.width', value: '48' },
-            { label: 'products.specs.thickness', value: '9.4' },
-            { label: 'products.specs.weight', value: '37.7' },
-        ],
-        specsRight: [
-            { label: 'products.specs.tempLimit', value: 'products.specs.tempSCSValue' },
-            { label: 'products.specs.channels', value: 'products.specs.channelsSCSValue' },
-            { label: 'products.specs.chargeType', value: 'products.specs.chargeTypeSCSValue' },
-            { label: 'products.specs.batteryCapacity', value: 'products.specs.batteryCapacitySCSValue' },
+        specGroups: [
+            {
+                groupName: 'products.specs.scsHeader',
+                type: 'lr',
+                specs: [
+                    { label: 'products.specs.length', value: '55' },
+                    { label: 'products.specs.tempLimit', value: 'products.specs.tempSCSValue' },
+                    { label: 'products.specs.width', value: '48' },
+                    { label: 'products.specs.channels', value: 'products.specs.channelsSCSValue' },
+                    { label: 'products.specs.thickness', value: '9.4' },
+                    { label: 'products.specs.chargeType', value: 'products.specs.chargeTypeSCSValue' },
+                    { label: 'products.specs.weight', value: '37.7' },
+                    { label: 'products.specs.batteryCapacity', value: 'products.specs.batteryCapacitySCSValue' },
+                ],
+            },
+            {
+                groupName: 'products.specs.electrodeHeader',
+                type: 'table',
+                specs: [],
+                rows: [
+                    [
+                        { label: 'products.specs.electrodeType', value: '' },
+                        { label: 'products.specs.contactCount', value: '' },
+                        { label: 'products.specs.contactLayout', value: '' },
+                        { label: 'products.specs.electrodeDiameter', value: '' },
+                        { label: 'products.specs.electrodeLength', value: '' },
+                    ],
+                    [
+                        { label: '', value: 'products.specs.punctureElectrode' },
+                        { label: '', value: '8' },
+                        { label: '', value: '8×1' },
+                        { label: '', value: '1.35' },
+                        { label: '', value: '2/16' },
+                    ],
+                    [
+                        { label: '', value: 'products.specs.surgicalElectrode' },
+                        { label: '', value: '8' },
+                        { label: '', value: '2×4' },
+                        { label: '', value: '' },
+                        { label: '', value: 'products.specs.wirelessCharge' },
+                    ],
+                    [
+                        { label: '', value: '' },
+                        { label: '', value: '16' },
+                        { label: '', value: '2×8' },
+                        { label: '', value: '' },
+                        { label: '', value: '' },
+                    ],
+                    [
+                        { label: '', value: '' },
+                        { label: '', value: '16' },
+                        { label: '', value: '5-6-5' },
+                        { label: '', value: '' },
+                        { label: '', value: '' },
+                    ],
+                ],
+            },
         ],
         featureCards: [
             {
@@ -87,20 +135,34 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
         ]
     },
     PNS: {
-        enName: 'Peripheral Nervous System . PNS',
+        enName: 'Peripheral Nerve Stimulation . PNS',
         image: productHero2,
         pdfImg: productPdf2,
-        specsLeft: [
-            { label: 'products.specs.length', value: '55' },
-            { label: 'products.specs.width', value: '48' },
-            { label: 'products.specs.thickness', value: '9.4' },
-            { label: 'products.specs.weight', value: '28' },
-        ],
-        specsRight: [
-            { label: 'products.specs.tempLimit', value: 'products.specs.tempPNSValue' },
-            { label: 'products.specs.channels', value: 'products.specs.channelsPNSValue' },
-            { label: 'products.specs.chargeType', value: 'products.specs.chargeTypePNSValue' },
-            { label: 'products.specs.batteryCapacity', value: 'products.specs.batteryCapacityPNSValue' },
+        specGroups: [
+            {
+                groupName: 'products.specs.scsHeader',
+                type: 'lr',
+                specs: [
+                    { label: 'products.specs.length', value: '64.5' },
+                    { label: 'products.specs.weight', value: '28' },
+                    { label: 'products.specs.width', value: '37' },
+                    { label: 'products.specs.channels', value: 'products.specs.channelsPNSValue' },
+                    { label: 'products.specs.thickness', value: '13' },
+                    { label: 'products.specs.chargeType', value: 'products.specs.chargeTypePNSValue' },
+                ],
+            },
+            {
+                groupName: 'products.specs.electrodeHeader',
+                type: 'tb',
+                minHeight: '112px',
+                specs: [
+                    { label: 'products.specs.electrodeDiameter', value: '0.7' },
+                    { label: 'products.specs.contactCount', value: '4' },
+                    { label: 'products.specs.stabilityDesign', value: 'products.specs.stabilityDesignValue' },
+                    { label: 'products.specs.antiBreakDesign', value: 'products.specs.antiBreakDesignValue' },
+                    { label: 'products.specs.electrodeLength', value: '15/20' },
+                ],
+            },
         ],
         featureCards: [
             {
@@ -118,10 +180,9 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
         ]
     },
     TNS: {
-        enName: 'Implantable Tibial Nerve Stimulation System . TNS',
+        enName: 'Implantable Tibial Nerve Stimulation . TNS',
         image: productHero3,
-        specsLeft: [],
-        specsRight: [],
+        specGroups: [],
         featureCards: [],
         noDATA: true,
     }
@@ -147,7 +208,7 @@ export const productsData = [
         image: product2,
     },
     {
-        productCode: 'TNS' as RouteCode,
+        productCode: 'NEURO-PNS' as RouteCode,
         nameKey: 'home.products.tnsName',
         descKey: 'home.products.tnsDesc',
         image: product3,
