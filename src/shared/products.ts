@@ -129,7 +129,7 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
                 image: productSCS2,
             },
             {
-                title: '远程调控',
+                title: '程控无界，关怀在线',
                 image: productSCS3,
             },
         ]
