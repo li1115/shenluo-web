@@ -13,8 +13,8 @@ useRevealOnScroll()
 <template>
   <div>
     <Hero class="reveal" />
-    <Products class="reveal" />
-    <DiseaseService class="reveal" />
+    <Products id="home-products" class="reveal" />
+    <DiseaseService id="home-patient-service" class="reveal" />
     <News class="reveal" />
     <Stats class="reveal" />
     <Recruitment class="reveal" />

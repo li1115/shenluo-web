@@ -173,7 +173,7 @@
     "address": "Address: 4th Building, 3-5F, No. 8-5 Keji Avenue, Yuhang Street, Yuhang District, Hangzhou, Zhejiang",
     "phone": "Phone: ",
     "phoneNumber": "0571-88560292",
-    "email": "Email: service@seeneuro.com",
+    "email": "Email: service{'@'}seeneuro.com",
     "website": "Website: http://www.seeneuro.com/",
     "zipcode": "Zip Code: 310000",
     "mapAlt": "Map"

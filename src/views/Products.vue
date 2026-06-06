@@ -3,7 +3,7 @@ import Products from '@/components/Products.vue'
 </script>
 
 <template>
-  <div class="pt-[120px]">
+  <div class="pt-[7.5rem]">
     <Products />
   </div>
 </template>

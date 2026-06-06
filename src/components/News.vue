@@ -93,37 +93,37 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="pt-[100px] bg-white">
-    <div class="max-w-[1920px] mx-auto">
+  <section class="pt-[6.25rem] bg-white">
+    <div class="max-w-[120rem] mx-auto">
       <div class="text-center">
         <span class="block text-[#0163FF] font-black text-lg mb-5 font-alibabapuhuiti">
           {{ $t('home.news.label') }}
         </span>
-        <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
+        <h2 class="text-[4.125rem] font-black text-black leading-tight font-alibabapuhuiti">
           {{ $t('home.news.heading') }}
         </h2>
       </div>
 
-      <div class="overflow-hidden pb-[100px] pt-[80px]">
+      <div class="overflow-hidden pb-[6.25rem] pt-[5rem]">
         <div @mouseenter="isPaused = true" @mouseleave="isPaused = false" @wheel="handleWheel">
           <div class="flex gap-10 will-change-transform justify-center"
             :style="{ transform: `translateX(-${scrollOffset}px)` }">
             <div v-for="(item, idx) in newsItems" :key="idx"
-              class="w-[492px] h-[612px] bg-white rounded-[30px] overflow-hidden border border-[#E5E5E5] shadow-[0px_0px_29px_0px_rgba(148,148,148,0.22)] transition-all duration-300 cursor-pointer group flex-shrink-0 transform hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border-[#CDEAF5] hover:-translate-y-2"
+              class="w-[30.75rem] h-[38.25rem] bg-white rounded-[1.875rem] overflow-hidden border border-[#E5E5E5] shadow-[0_0_1.8125rem_0_rgba(148,148,148,0.22)] transition-all duration-300 cursor-pointer group flex-shrink-0 transform hover:shadow-[0_1.375rem_2.125rem_0_#F3F3F3] hover:border-[#CDEAF5] hover:-translate-y-2"
               @click="goToNewsDetail(item.newsNo)">
-              <div class="h-[360px] relative overflow-hidden">
+              <div class="h-[22.5rem] relative overflow-hidden">
                 <img :src="item.image" :alt="item.title" class="w-full h-full transition-transform duration-300 group-hover:scale-103" />
               </div>
-              <div class="p-[50px] flex flex-col gap-6">
+              <div class="p-[3.125rem] flex flex-col gap-6">
                 <div class="flex items-center justify-between">
                   <span
-                    class="bg-[#E5F0FF] text-[#0163FF] text-base font-semibold px-3 py-2 rounded-[50px] font-pingfang">
+                    class="bg-[#E5F0FF] text-[#0163FF] text-base font-semibold px-3 py-2 rounded-[3.125rem] font-pingfang">
                     {{ item.category }}
                   </span>
                   <span class="text-black text-base font-semibold font-pingfang">{{ item.date }}</span>
                 </div>
                 <h3
-                  class="text-[26px] font-semibold text-black group-hover:text-[#0163FF] transition-colors line-clamp-2 leading-[44px] font-pingfang"
+                  class="text-[1.625rem] font-semibold text-black group-hover:text-[#0163FF] transition-colors line-clamp-2 leading-[2.75rem] font-pingfang"
                   :title="item.title">
                   {{ item.title }}
                 </h3>

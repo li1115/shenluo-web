@@ -109,7 +109,7 @@
 
 .contact-page__banner {
   width: 100%;
-  height: 959px;
+  height: 59.9375rem;
   background: #696969;
   position: relative;
   box-sizing: border-box;
@@ -125,7 +125,7 @@
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  padding: 135px 160px 0;
+  padding: 8.4375rem 10rem 0;
   display: flex;
   flex-direction: column;
 }
@@ -134,15 +134,15 @@
 .contact-page__breadcrumb {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 27px;
+  gap: 0.375rem;
+  margin-bottom: 1.6875rem;
 }
 
 .contact-page__breadcrumb-item {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   letter-spacing: -0.0536em;
   color: var(--color-white);
 }
@@ -154,21 +154,21 @@
 .contact-page__heading {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 86px;
+  font-size: 5.375rem;
   color: #FFFFFF;
   margin: 0;
   line-height: 1;
-  margin-top: 200px;
+  margin-top: 12.5rem;
 }
 
 .contact-page__subheading {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 78px;
+  font-size: 4.875rem;
   color: #FFFFFF;
   margin: 0;
   line-height: 1;
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 
 .contact-page__content {
@@ -181,18 +181,18 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  width: 1568px;
+  width: 98rem;
   margin: 0 auto;
-  padding: 196px 0 200px 0;
+  padding: 12.25rem 0 12.5rem 0;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
 .contact-page__map {
-  width: 800px;
-  height: 563px;
+  width: 50rem;
+  height: 35.1875rem;
   background: #BDBDBD;
-  border-radius: 18px 0 0 18px;
+  border-radius: 1.125rem 0 0 1.125rem;
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
@@ -208,28 +208,28 @@
 }
 
 .contact-page__panel {
-  width: 659px;
-  height: 563px;
+  width: 41.1875rem;
+  height: 35.1875rem;
   background: #F6F6F6;
-  border-radius: 0 18px 18px 0;
-  padding: 130px 60px 100px;
+  border-radius: 0 1.125rem 1.125rem 0;
+  padding: 8.125rem 3.75rem 6.25rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 38px;
+  gap: 2.375rem;
   flex-shrink: 0;
 }
 
 .contact-page__panel-header {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 1.625rem;
 }
 
 .contact-page__company-name {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 34px;
+  font-size: 2.125rem;
   color: #000000;
   margin: 0;
   line-height: 1;
@@ -237,7 +237,7 @@
 
 .contact-page__divider {
   width: 100%;
-  height: 1px;
+  height: 0.0625rem;
   background: #EEEEEE;
   flex-shrink: 0;
 }
@@ -245,19 +245,19 @@
 .contact-page__info-list {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
   width: 100%;
 }
 
 .contact-page__info-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
 }
 
 .contact-page__info-icon {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,7 +267,7 @@
 .contact-page__info-text {
   font-family: var(--font-heading);
   font-weight: 400;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #666666;
   line-height: 1.4;
 }
@@ -275,8 +275,8 @@
 .contact-page__info-number {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
   color: #0163FF;
 }
 

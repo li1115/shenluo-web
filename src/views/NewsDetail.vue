@@ -174,11 +174,11 @@ const goToArticle = (newsNo: string) => {
   --color-image-card-bg: rgba(255, 255, 255, 0);
   --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
   --font-sidebar-heading: 'Manrope', 'PingFang SC', sans-serif;
-  --content-left: 180px;
-  --content-width: 968px;
-  --sidebar-width: 384px;
-  --sidebar-x: 1356px;
-  --page-width: 1920px;
+  --content-left: 11.25rem;
+  --content-width: 60.5rem;
+  --sidebar-width: 24rem;
+  --sidebar-x: 84.75rem;
+  --page-width: 120rem;
 
   background: var(--color-white);
 }
@@ -187,7 +187,7 @@ const goToArticle = (newsNo: string) => {
 .news-detail__banner {
   position: relative;
   width: 100%;
-  height: 560px;
+  height: 35rem;
   overflow: hidden;
 }
 .news-detail__banner-gradient {
@@ -210,16 +210,16 @@ const goToArticle = (newsNo: string) => {
 /* ========== Breadcrumb ========== */
 .news-detail__breadcrumb {
   position: absolute;
-  top: 142px;
-  left: 160px;
+  top: 8.875rem;
+  left: 10rem;
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   letter-spacing: -0.0536em;
   color: #FFFFFF;
 }
@@ -238,7 +238,7 @@ const goToArticle = (newsNo: string) => {
 .news-detail__body {
   display: flex;
   padding: 0 var(--content-left);
-  gap: 208px;
+  gap: 13rem;
 }
 
 /* ========== Main Content Area ========== */
@@ -249,15 +249,15 @@ const goToArticle = (newsNo: string) => {
 
 /* ========== Header ========== */
 .news-detail__header {
-  padding-top: 80px;
+  padding-top: 5rem;
 }
 
 .news-detail__title {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 48px;
+  font-size: 3rem;
   color: var(--color-text-title);
-  margin-bottom: 62px;
+  margin-bottom: 3.875rem;
   text-align: center;
   white-space: pre-line;
 }
@@ -265,55 +265,55 @@ const goToArticle = (newsNo: string) => {
 /* .news-detail__desc {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
-  line-height: 32px;
+  font-size: 1rem;
+  line-height: 2rem;
   color: var(--color-text-body);
   white-space: pre-line;
-  margin-bottom: 42px;
+  margin-bottom: 2.625rem;
 } */
 
 /* ========== Rich Text Content ========== */
 .news-detail__content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  padding-bottom: 100px;
+  gap: 2rem;
+  padding-bottom: 6.25rem;
 }
 .news-detail__content :deep(h2) {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 30px;
-  line-height: 36px;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
   color: var(--color-black);
   margin: 0;
 }
 .news-detail__content :deep(p) {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
-  line-height: 32px;
+  font-size: 1rem;
+  line-height: 2rem;
   color: var(--color-text-body);
   margin: 0;
 }
 .news-detail__content :deep(figure) {
-  width: 768px;
+  width: 48rem;
   margin: 0;
-  border-radius: 8px;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 .news-detail__content :deep(figure img) {
   display: block;
   width: 100%;
-  height: 400px;
+  height: 25rem;
   object-fit: cover;
 }
 .news-detail__content :deep(figcaption) {
-  padding: 16px;
+  padding: 1rem;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 0.75rem;
+  line-height: 1rem;
   color: var(--color-text-heading);
   background: var(--color-white);
 }
@@ -322,33 +322,33 @@ const goToArticle = (newsNo: string) => {
 .news-detail__sidebar {
   width: var(--sidebar-width);
   flex-shrink: 0;
-  padding-top: 98px;
+  padding-top: 6.125rem;
 }
 
 .news-detail__sidebar-heading {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 32px;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
 }
 .news-detail__sidebar-bar {
-  width: 4px;
-  height: 32px;
+  width: 0.25rem;
+  height: 2rem;
   background: var(--color-brand);
   flex-shrink: 0;
 }
 .news-detail__sidebar-heading-text {
   font-family: var(--font-sidebar-heading);
   font-weight: 700;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 1.5rem;
+  line-height: 2rem;
   color: var(--color-text-heading);
 }
 
 .news-detail__sidebar-list {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 2rem;
   &:hover {
     .news-detail__sidebar-title {
       color: var(--color-brand);
@@ -359,10 +359,10 @@ const goToArticle = (newsNo: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 25rem;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-text-muted);
 }
 
@@ -371,7 +371,7 @@ const goToArticle = (newsNo: string) => {
 .news-detail__sidebar-article {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
   cursor: pointer;
   transition: opacity 0.2s;
 }
@@ -380,8 +380,8 @@ const goToArticle = (newsNo: string) => {
 }
 
 .news-detail__sidebar-cover {
-  width: 384px;
-  height: 280px;
+  width: 24rem;
+  height: 17.5rem;
   overflow: hidden;
 }
 .news-detail__sidebar-img {
@@ -393,14 +393,14 @@ const goToArticle = (newsNo: string) => {
 .news-detail__sidebar-text {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 0.4375rem;
 }
 
 .news-detail__sidebar-tag {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 0.75rem;
+  line-height: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-brand);
@@ -409,8 +409,8 @@ const goToArticle = (newsNo: string) => {
 .news-detail__sidebar-title {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 18px;
-  line-height: 24.75px;
+  font-size: 1.125rem;
+  line-height: 1.5469rem;
   color: var(--color-text-heading);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -422,8 +422,8 @@ const goToArticle = (newsNo: string) => {
 .news-detail__sidebar-date {
   font-family: 'Inter', 'PingFang SC', sans-serif;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   color: var(--color-text-heading);
 }
 
@@ -433,10 +433,10 @@ const goToArticle = (newsNo: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 25rem;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-text-muted);
 }
 </style>

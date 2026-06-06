@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import investment from '@/assets/investment.png'
 import promotion from '@/assets/promotion.png'
@@ -38,6 +38,8 @@ const stats = computed(() => [
 
 const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018']
 const activeYear = ref('2026')
+const isTransitioning = ref(false)
+const timelineTimer = ref<number>()
 const timelineRef = ref<HTMLElement | null>(null)
 const yearRefs = ref<Record<string, HTMLElement | null>>({})
 
@@ -46,7 +48,13 @@ const setYearRef = (year: string, el: any) => {
 }
 
 const selectYear = (year: string) => {
+  if (year === activeYear.value) return
   activeYear.value = year
+  // 触发切换动画：线变长 + 字号变大
+  isTransitioning.value = true
+  setTimeout(() => {
+    isTransitioning.value = false
+  }, 500)
   // Scroll the timeline to show the selected year
   const yearEl = yearRefs.value[year]
   const container = timelineRef.value
@@ -54,7 +62,6 @@ const selectYear = (year: string) => {
     const containerWidth = container.clientWidth
     const yearLeft = yearEl.offsetLeft
     const yearWidth = yearEl.offsetWidth
-    // Center the year in the container
     const scrollTarget = yearLeft - containerWidth / 2 + yearWidth / 2
     container.scrollTo({ left: Math.max(0, scrollTarget), behavior: 'smooth' })
   }
@@ -70,6 +77,26 @@ const prevYear = () => {
   const idx = years.indexOf(activeYear.value)
   if (idx <= 0) return
   selectYear(years[idx - 1])
+}
+
+// 自动轮播：每 6 秒跳转到下一个年份，到最后一个后回到第一个
+const startTimelineAutoplay = () => {
+  stopTimelineAutoplay()
+  timelineTimer.value = window.setInterval(() => {
+    const idx = years.indexOf(activeYear.value)
+    if (idx > 0) {
+      selectYear(years[idx - 1])
+    } else {
+      selectYear(years[years.length - 1])
+    }
+  }, 6000)
+}
+
+const stopTimelineAutoplay = () => {
+  if (timelineTimer.value) {
+    clearInterval(timelineTimer.value)
+    timelineTimer.value = undefined
+  }
 }
 
 const milestonesByYear: Record<string, Milestone[]> = {
@@ -200,6 +227,7 @@ const animateValue = (stat: { value: number; animated: { value: number } }, dura
 }
 
 onMounted(() => {
+  // 数字滚动动画
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -214,6 +242,13 @@ onMounted(() => {
   })
   const el = document.querySelector('.about__hero-stats-wrap')
   if (el) observer.observe(el)
+
+  // 时间轴自动轮播
+  startTimelineAutoplay()
+})
+
+onBeforeUnmount(() => {
+  stopTimelineAutoplay()
 })
 
 import { useRouter } from 'vue-router'
@@ -283,11 +318,15 @@ const handleClick = (key: string) => {
               <div class="about__timeline-line"></div>
             </div>
             <div class="about__timeline-years">
-              <button v-for="year in years" :key="year" :ref="(el) => setYearRef(year, el)"
-                :class="['about__timeline-year', { 'about__timeline-year--active': activeYear === year }]"
-                @click="selectYear(year)">
-                <span class="about__timeline-dot"></span>
-                <span class="about__timeline-year-text">{{ year }}</span>
+              <button v-for="year in years" :key="year" :ref="(el) => setYearRef(year, el)" :class="['about__timeline-year', {
+                'about__timeline-year--active': activeYear === year,
+                'about__timeline-year--transitioning': isTransitioning && activeYear === year
+              }]" @click="selectYear(year)">
+                <span
+                  :class="['about__timeline-dot', { 'about__timeline-dot--line': isTransitioning && activeYear === year }]"></span>
+                <span
+                  :class="['about__timeline-year-text', { 'about__timeline-year-text--large': isTransitioning && activeYear === year }]">{{
+                    year }}</span>
               </button>
             </div>
           </div>
@@ -522,14 +561,14 @@ const handleClick = (key: string) => {
 .about__hero {
   position: relative;
   width: 100%;
-  height: 1000px;
+  height: 62.5rem;
   margin: 0 auto;
   background: linear-gradient(180deg, rgba(187, 212, 243, 1) 0%, rgba(239, 246, 255, 1) 100%);
   overflow: hidden;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding-top: 239px;
+  padding-top: 14.9375rem;
 }
 
 .about__hero-bg {
@@ -562,19 +601,19 @@ const handleClick = (key: string) => {
 }
 
 .about__hero-deco-blur--blue {
-  left: -242px;
-  top: 729px;
-  width: 1220px;
-  height: 387px;
+  left: -15.125rem;
+  top: 45.5625rem;
+  width: 76.25rem;
+  height: 24.1875rem;
   background: linear-gradient(90deg, rgba(1, 82, 237, 0.6) 0%, rgba(1, 82, 237, 0) 100%);
   filter: blur(280px);
 }
 
 .about__hero-deco-blur--white {
-  left: 396px;
-  top: 141px;
-  width: 1045px;
-  height: 672px;
+  left: 24.75rem;
+  top: 8.8125rem;
+  width: 65.3125rem;
+  height: 42rem;
   background: rgba(255, 255, 255, 0.5);
   filter: blur(244px);
   border-radius: 50%;
@@ -584,11 +623,11 @@ const handleClick = (key: string) => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  /* padding: 0 170px 0 161px; */
+  /* padding: 0 10.625rem 0 10.0625rem; */
   margin: 0 auto;
   z-index: 2;
   flex-shrink: 0;
-  gap: 147px;
+  gap: 9.1875rem;
 }
 
 .about__hero-left {
@@ -596,9 +635,9 @@ const handleClick = (key: string) => {
 }
 
 .about__hero-image {
-  width: 680px;
-  height: 427px;
-  border-radius: 30px;
+  width: 42.5rem;
+  height: 26.6875rem;
+  border-radius: 1.875rem;
   overflow: hidden;
   background: linear-gradient(135deg, #E8F0FE 0%, #D4E4FD 100%);
 
@@ -621,18 +660,18 @@ const handleClick = (key: string) => {
 }
 
 .about__hero-right {
-  width: 763px;
+  width: 47.6875rem;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 48px;
+  gap: 3rem;
   flex-shrink: 0;
 }
 
 .about__hero-label {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 50px;
+  font-size: 3.125rem;
   color: var(--color-brand);
   margin: 0;
   text-align: right;
@@ -642,14 +681,14 @@ const handleClick = (key: string) => {
 .about__hero-text-group {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
   width: 100%;
 }
 
 .about__hero-slogan {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 30px;
+  font-size: 1.875rem;
   letter-spacing: -0.05em;
   color: var(--color-black);
   margin: 0;
@@ -659,8 +698,8 @@ const handleClick = (key: string) => {
 .about__hero-desc {
   font-family: var(--font-heading);
   font-weight: 400;
-  font-size: 18px;
-  line-height: 30px;
+  font-size: 1.125rem;
+  line-height: 1.875rem;
   letter-spacing: -0.05em;
   color: var(--color-text-subtitle);
   margin: 0;
@@ -669,14 +708,14 @@ const handleClick = (key: string) => {
 
 .about__hero-stats-wrap,
 .about__hero-content {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
 }
 
 .about__hero-stats-wrap {
   margin-top: auto;
-  margin-bottom: 105px;
-  padding-left: 156px;
+  margin-bottom: 6.5625rem;
+  padding-left: 9.75rem;
   z-index: 2;
   flex-shrink: 0;
 }
@@ -684,28 +723,28 @@ const handleClick = (key: string) => {
 .about__hero-stats {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 1.875rem;
 }
 
 .about__hero-stat {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
-  border-radius: 24px;
+  gap: 0.625rem;
+  border-radius: 1.5rem;
 }
 
 .about__hero-stat:nth-child(1),
 .about__hero-stat:nth-child(2),
 .about__hero-stat:nth-child(3) {
-  width: 397px;
+  width: 24.8125rem;
 }
 
 .about__hero-stat-number {
   font-family: 'DIN Black', 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 80px;
-  line-height: 80px;
+  font-size: 5rem;
+  line-height: 5rem;
   text-transform: uppercase;
   color: var(--color-stat-number);
 }
@@ -713,8 +752,8 @@ const handleClick = (key: string) => {
 .about__hero-stat-label {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 22px;
-  line-height: 30px;
+  font-size: 1.375rem;
+  line-height: 1.875rem;
   text-transform: uppercase;
   color: var(--color-stat-label);
 }
@@ -729,15 +768,15 @@ const handleClick = (key: string) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  width: 1216px;
+  gap: 1rem;
+  width: 76rem;
   margin: 0 auto;
 }
 
 .about__section-heading {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 66px;
+  font-size: 4.125rem;
   text-align: center;
   color: var(--color-text-heading);
   margin: 0;
@@ -751,15 +790,15 @@ const handleClick = (key: string) => {
 .about__section-subtitle {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   text-align: center;
   color: var(--color-text-subtitle);
   margin: 0;
 }
 
 .about__section-subtitle--narrow {
-  width: 470px;
+  width: 29.375rem;
 }
 
 .about__section-subtitle--light {
@@ -774,23 +813,23 @@ const handleClick = (key: string) => {
   margin: 0 auto;
   background: var(--color-white);
   box-sizing: border-box;
-  padding: 100px 0;
-  min-height: 967px;
-  max-width: 1920px;
+  padding: 6.25rem 0;
+  min-height: 60.4375rem;
+  max-width: 120rem;
 }
 
 .about__milestones .about__section-header {
-  margin-bottom: 80px;
+  margin-bottom: 5rem;
 }
 
 .about__timeline-wrapper {
-  padding: 0 190px;
-  margin-bottom: 60px;
+  padding: 0 11.875rem;
+  margin-bottom: 3.75rem;
 }
 
 .about__timeline-area {
   width: 100%;
-  max-width: 1540px;
+  max-width: 96.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -798,24 +837,24 @@ const handleClick = (key: string) => {
 }
 
 .about__timeline-decoration {
-  width: 220px;
-  height: 54px;
+  width: 13.75rem;
+  height: 3.375rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0;
   background: url('@/assets/about-timeline-year-bg.svg') no-repeat center center;
   position: relative;
-  margin-bottom: 46px;
+  margin-bottom: 2.875rem;
 }
 
 .about__timeline-decoration-line {
   position: absolute;
-  bottom: -10px;
+  bottom: -0.625rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 39px;
-  height: 8px;
+  width: 2.4375rem;
+  height: 0.5rem;
   background-image: url('@/assets/about-timeline-line.svg');
   background-size: cover;
 }
@@ -824,7 +863,7 @@ const handleClick = (key: string) => {
   width: 100%;
   display: grid;
   grid-template-columns: max-content;
-  padding-top: 27px;
+  padding-top: 1.6875rem;
   overflow-x: auto;
   overflow-y: visible;
   scroll-behavior: smooth;
@@ -839,23 +878,23 @@ const handleClick = (key: string) => {
 
 .about__timeline-line-area-line {
   position: relative;
-  height: 18px;
-  margin-bottom: 12px;
+  height: 1.125rem;
+  margin-bottom: 0.75rem;
 }
 
 /* Tick marks via repeating CSS gradient — spans full grid column width */
 .about__timeline-line-area-line::before {
   content: '';
   position: absolute;
-  bottom: 3px;
+  bottom: 0.1875rem;
   left: 0;
   right: 0;
-  height: 15px;
+  height: 0.9375rem;
   background-image: repeating-linear-gradient(to right,
-      #CCCCCC 0px,
-      #CCCCCC 1px,
-      transparent 1px,
-      transparent 71px);
+      #CCCCCC 0,
+      #CCCCCC 0.0625rem,
+      transparent 0.0625rem,
+      transparent 4.4375rem);
 }
 
 .about__timeline-line {
@@ -863,77 +902,80 @@ const handleClick = (key: string) => {
   bottom: 0;
   left: 0;
   right: 0;
-  border-top: 3px dashed var(--color-timeline-line);
+  border-top: 0.1875rem dashed var(--color-timeline-line);
 }
 
 .about__timeline-big-year {
   font-family: 'DIN Black', 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 50px;
-  line-height: 50px;
+  font-size: 3.125rem;
+  line-height: 3.125rem;
   color: var(--color-brand);
 }
 
 .about__timeline-texture {
-  margin-left: 12px;
-  margin-bottom: 6px;
+  margin-left: 0.75rem;
+  margin-bottom: 0.375rem;
 }
 
 
 .about__timeline-nav {
   position: absolute;
   top: 0;
-  flex: 0 0 58px;
-  width: 58px;
-  height: 58px;
+  flex: 0 0 3.625rem;
+  width: 3.625rem;
+  height: 3.625rem;
   border-radius: 50%;
   background: var(--color-brand);
-  border: 1px solid var(--color-nav-border);
+  border: 0.0625rem solid var(--color-nav-border);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 2;
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0.125rem 0.1875rem 0 rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s;
 }
 
 .about__timeline-nav:hover {
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.1);
 }
 
 .about__timeline-nav--prev {
-  left: -29px;
+  left: -1.8125rem;
 }
 
 .about__timeline-nav--next {
-  right: -29px;
+  right: -1.8125rem;
 }
 
 .about__timeline-years {
   display: flex;
   align-items: center;
-  gap: 213px;
-  margin-left: 142px;
-  padding-right: 21px;
+  gap: 13.3125rem;
+  margin-left: 8.875rem;
+  padding-right: 1.3125rem;
 }
 
 .about__timeline-year {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
   width: 0;
   transition: var(--transition-smooth);
+
   &:hover {
     transform: scale(1.03);
+
     .about__timeline-dot {
       background: var(--color-brand);
     }
+
     span {
       color: var(--color-brand);
     }
@@ -941,36 +983,47 @@ const handleClick = (key: string) => {
 }
 
 .about__timeline-dot {
-  width: 6px;
-  height: 6px;
+  width: 0.375rem;
+  height: 0.375rem;
   border-radius: 50%;
   background: rgba(204, 204, 204, 0.8);
-  transition: background 0.2s;
+  transition: all 0.4s ease;
+}
+
+.about__timeline-dot--line {
+  width: 2rem;
+  height: 0.375rem;
+  border-radius: 0.125rem;
+  background: var(--color-brand);
 }
 
 .about__timeline-year--active .about__timeline-dot {
-  background: #000000;
+  background: var(--color-brand);
 }
 
 .about__timeline-year-text {
   font-family: 'DIN Condensed Bold', 'DIN Black', sans-serif;
   font-weight: 500;
-  font-size: 28px;
-  line-height: 30px;
+  font-size: 1.75rem;
+  line-height: 1.875rem;
   color: rgba(204, 204, 204, 0.8);
-  transition: color 0.2s;
+  transition: all 0.4s ease;
+}
+
+.about__timeline-year-text--large {
+  font-size: 1.8125rem !important;
 }
 
 .about__timeline-year--active .about__timeline-year-text {
-  font-size: 28px;
-  color: #000000;
+  font-size: 1.75rem;
+  color: var(--color-brand);
 }
 
 .about__milestones-image {
-  flex: 0 0 666px;
-  width: 666px;
-  height: 380px;
-  margin-top: 30px;
+  flex: 0 0 41.625rem;
+  width: 41.625rem;
+  height: 23.75rem;
+  margin-top: 1.875rem;
   transition: var(--transition-smooth);
 
   &:hover {
@@ -986,8 +1039,8 @@ const handleClick = (key: string) => {
 
 .about__milestones-content {
   display: flex;
-  gap: 224px;
-  width: 1580px;
+  gap: 14rem;
+  width: 98.75rem;
   margin: 0 auto;
 }
 
@@ -999,25 +1052,25 @@ const handleClick = (key: string) => {
 .about__milestone-item {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .about__milestone-number {
   font-family: 'DIN Black', 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
   color: var(--color-milestone-number);
-  padding-top: 6px;
+  padding-top: 0.375rem;
   flex-shrink: 0;
-  padding-left: 67px;
+  padding-left: 4.1875rem;
 }
 
 .about__milestone-text {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 19px;
-  line-height: 33px;
+  font-size: 1.1875rem;
+  line-height: 2.0625rem;
   color: var(--color-text-milestone);
 }
 
@@ -1030,7 +1083,7 @@ const handleClick = (key: string) => {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 100px 0;
+  padding: 6.25rem 0;
 }
 
 .about__culture-bg {
@@ -1049,29 +1102,30 @@ const handleClick = (key: string) => {
 
 .about__culture .about__section-header {
   z-index: 1;
-  margin-bottom: 112px;
+  margin-bottom: 7rem;
 }
 
 .about__values {
   display: flex;
   align-items: stretch;
-  width: 1580px;
-  height: 580px;
-  border-radius: 30px;
+  width: 98.75rem;
+  height: 36.25rem;
+  border-radius: 1.875rem;
   overflow: hidden;
   margin: 0 auto;
 }
 
 .about__value-card {
   position: relative;
+  display: flex;
   cursor: pointer;
   overflow: hidden;
   transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .about__value-card--inactive {
-  flex: 0 0 230px;
-  width: 230px;
+  flex: 0 0 14.375rem;
+  width: 14.375rem;
 }
 
 .about__value-card--active {
@@ -1083,9 +1137,9 @@ const handleClick = (key: string) => {
   inset: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25rem;
   align-items: flex-start;
-  padding: 90px 30px;
+  padding: 5.625rem 1.875rem;
   box-sizing: border-box;
   z-index: 1;
   transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -1125,59 +1179,59 @@ const handleClick = (key: string) => {
 }
 
 .about__value-left {
-  width: 300px;
-  height: 580px;
+  width: 18.75rem;
+  height: 36.25rem;
   background: var(--color-brand);
   display: flex;
-  padding: 140px 136px 150px 44px;
+  padding: 8.75rem 8.5rem 9.375rem 2.75rem;
   flex-direction: column;
   align-items: flex-start;
-  gap: 154px;
+  gap: 9.625rem;
 }
 
 .about__value-name-group {
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  width: 120px;
+  gap: 0.4375rem;
+  width: 7.5rem;
 }
 
 .about__value-name {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 30px;
-  line-height: 36px;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
   color: var(--color-white);
 }
 
 .about__value-name-en {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 18px;
-  line-height: 20px;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
   color: var(--color-white);
 }
 
 .about__value-subtitles {
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  width: 120px;
+  gap: 0.4375rem;
+  width: 7.5rem;
   margin-top: auto;
 }
 
 .about__value-subtitle {
   font-family: var(--font-heading);
   font-weight: 400;
-  font-size: 18px;
-  line-height: 33px;
+  font-size: 1.125rem;
+  line-height: 2.0625rem;
   color: var(--color-white);
 }
 
 .about__value-image {
   flex: 1;
   min-width: 0;
-  height: 580px;
+  height: 36.25rem;
   background: linear-gradient(135deg, #0144CB 0%, #0163FF 50%, #3B82F6 100%);
 }
 
@@ -1209,7 +1263,7 @@ const handleClick = (key: string) => {
 .about__value-small {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25rem;
   align-items: flex-start;
   width: 100%;
 }
@@ -1217,7 +1271,7 @@ const handleClick = (key: string) => {
 .about__value-small-content {
   display: flex;
   flex-direction: column;
-  gap: 139px;
+  gap: 8.6875rem;
   width: 100%;
 }
 
@@ -1230,14 +1284,14 @@ const handleClick = (key: string) => {
 .about__value-small-name {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 26px;
+  font-size: 1.625rem;
   color: var(--color-black);
 }
 
 .about__value-small-en {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-text-milestone);
 }
 
@@ -1245,13 +1299,13 @@ const handleClick = (key: string) => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .about__value-small-sub {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-text-milestone);
 }
 
@@ -1264,60 +1318,63 @@ const handleClick = (key: string) => {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 100px 0 0;
+  padding: 6.25rem 0 0;
 }
 
 .about__partners .about__section-header {
-  margin-bottom: 80px;
+  margin-bottom: 5rem;
 }
 
 .about__partner-cards {
   display: flex;
   align-items: center;
-  gap: 40px;
-  width: 1580px;
+  gap: 2.5rem;
+  width: 98.75rem;
   margin: 0 auto;
 }
 
 .about__partner-card {
   position: relative;
-  width: 500px;
-  height: 424px;
-  border-radius: 30px;
+  width: 31.25rem;
+  height: 26.5rem;
+  border-radius: 1.875rem;
   overflow: hidden;
   background: linear-gradient(180deg, #EEF2FF 0%, #FFFFFF 100%);
   display: flex;
   flex-direction: column;
-  padding: 170px 30px 74px;
+  padding: 10.625rem 1.875rem 4.625rem;
   box-sizing: border-box;
   transition: var(--transition-smooth);
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.08);
+    transform: translateY(-0.5rem);
+    box-shadow: 0 1.25rem 2.5rem rgba(0, 102, 255, 0.08);
     border-color: rgba(0, 102, 255, 0.12);
 
     .about__partner-icon {
-      transform: translateY(-4px) rotate(360deg);
+      transform: translateY(-0.25rem) rotate(360deg);
     }
   }
 }
 
 .about__partner-card-bg {
   position: absolute;
+  top: 0;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 8rem);
   object-fit: cover;
   display: block;
+  border-end-end-radius: 6rem;
+  border-end-start-radius: 6rem;
 }
 
 .about__partner-blur {
   position: absolute;
-  left: -1px;
-  top: 206px;
+  left: -0.0625rem;
+  top: 12.875rem;
   right: 0;
-  height: 218px;
+  height: 13.625rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 36%, rgba(255, 255, 255, 1) 100%);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -1325,8 +1382,8 @@ const handleClick = (key: string) => {
 
 .about__partner-icon {
   z-index: 1;
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   flex-shrink: 0;
   transition: var(--transition-smooth);
 }
@@ -1344,8 +1401,8 @@ const handleClick = (key: string) => {
   position: absolute;
   left: 0;
   top: 0;
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   object-fit: cover;
   display: block;
 }
@@ -1363,36 +1420,36 @@ const handleClick = (key: string) => {
   z-index: 1;
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 1.5rem;
+  line-height: 2rem;
   color: var(--color-text-partner-title);
-  margin: 24px 0 0;
-  width: 420px;
+  margin: 1.5rem 0 0;
+  width: 26.25rem;
 }
 
 .about__partner-desc {
   z-index: 1;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 1rem;
+  line-height: 1.625rem;
   color: var(--color-text-partner-desc);
-  margin: 16px 0 0;
-  width: 420px;
+  margin: 1rem 0 0;
+  width: 26.25rem;
   white-space: pre-line;
 }
 
 /* ========== 联系我们底部栏 ========== */
 .about__contact-bar {
   width: 100%;
-  height: 300px;
+  height: 18.75rem;
   background: var(--color-contact-bar-bg);
 
-  margin-top: 81px;
+  margin-top: 5.0625rem;
 }
 
 .about__contact-content {
-  max-width: 1580px;
+  max-width: 98.75rem;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -1405,14 +1462,14 @@ const handleClick = (key: string) => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  gap: 1.25rem;
   flex-shrink: 0;
 }
 
 .about__contact-heading {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 32px;
+  font-size: 2rem;
   color: var(--color-text-dark);
   margin: 0;
 }
@@ -1420,8 +1477,8 @@ const handleClick = (key: string) => {
 .about__contact-text {
   font-family: 'Noto Sans SC', var(--font-body);
   font-weight: 400;
-  font-size: 16px;
-  line-height: 25px;
+  font-size: 1rem;
+  line-height: 1.5625rem;
   color: var(--color-text-subtitle);
   margin: 0;
 }
@@ -1429,23 +1486,23 @@ const handleClick = (key: string) => {
 .about__contact-method--phone {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-left: 90px;
+  gap: 1.25rem;
+  margin-left: 5.625rem;
   flex-shrink: 0;
 }
 
 .about__contact-method--email {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-left: 60px;
+  gap: 1.25rem;
+  margin-left: 3.75rem;
   flex-shrink: 0;
 }
 
 .about__contact-icon {
-  width: 92px;
-  height: 92px;
-  border-radius: 60px;
+  width: 5.75rem;
+  height: 5.75rem;
+  border-radius: 3.75rem;
   background: var(--color-white);
   display: flex;
   align-items: center;
@@ -1456,26 +1513,26 @@ const handleClick = (key: string) => {
 .about__contact-detail {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 138px;
+  gap: 0.9375rem;
+  width: 8.625rem;
 }
 
 .about__contact-detail--email {
-  width: 243px;
+  width: 15.1875rem;
 }
 
 .about__contact-label {
   font-family: 'Noto Sans SC', var(--font-body);
   font-weight: 400;
-  font-size: 16px;
-  line-height: 25px;
+  font-size: 1rem;
+  line-height: 1.5625rem;
   color: var(--color-text-subtitle);
 }
 
 .about__contact-value {
   font-family: 'Noto Sans SC', var(--font-body);
   font-weight: 900;
-  font-size: 20px;
+  font-size: 1.25rem;
   color: var(--color-brand);
 }
 
@@ -1483,19 +1540,19 @@ const handleClick = (key: string) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  gap: 0.625rem;
+  padding: 1rem;
+  border: 0.0625rem solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   margin-left: auto;
 }
 
 .about__contact-qr-code {
-  width: 192px;
-  height: 192px;
-  border-radius: 4px;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 0.25rem;
   overflow: hidden;
   background: var(--color-white);
 }
@@ -1510,8 +1567,8 @@ const handleClick = (key: string) => {
 .about__contact-qr-label {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: center;
@@ -1524,36 +1581,36 @@ const handleClick = (key: string) => {
 .about__join {
   width: 100%;
   margin: 0 auto;
-  padding: 100px 0;
+  padding: 6.25rem 0;
   background: var(--color-join-bg);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 80px;
+  gap: 5rem;
 }
 
 .about__join-header {
-  width: 1216px;
+  width: 76rem;
   margin: 0;
 }
 
 .about__join-cards {
   display: flex;
   align-items: center;
-  gap: 40px;
-  width: 1580px;
+  gap: 2.5rem;
+  width: 98.75rem;
 }
 
 .about__join-card {
   flex: 1;
-  min-height: 356px;
+  min-height: 22.25rem;
   display: flex;
   flex-direction: column;
-  padding: 41px 41px 43px;
+  padding: 2.5625rem 2.5625rem 2.6875rem;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  border: 0.0625rem solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-sizing: border-box;
@@ -1561,8 +1618,8 @@ const handleClick = (key: string) => {
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.08);
+    transform: translateY(-0.5rem);
+    box-shadow: 0 1.25rem 2.5rem rgba(0, 102, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.4);
   }
 }
@@ -1571,7 +1628,7 @@ const handleClick = (key: string) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 418px;
+  width: 26.125rem;
 }
 
 .about__join-card-icon {
@@ -1583,61 +1640,56 @@ const handleClick = (key: string) => {
 .about__join-card-tag {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 0.75rem;
+  line-height: 1rem;
   color: var(--color-white);
-  padding: 4px 12px;
+  padding: 0.25rem 0.75rem;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  border-radius: 0.75rem;
 }
 
 .about__join-card-title {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 1.5rem;
+  line-height: 2rem;
   color: var(--color-white);
-  margin: 37px 0 0;
-  width: 418px;
+  margin: 2.3125rem 0 0;
+  width: 26.125rem;
 }
 
 .about__join-card-desc {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 1rem;
+  line-height: 1.625rem;
   color: rgba(255, 255, 255, 0.7);
   margin: auto 0 0;
-  width: 418px;
+  width: 26.125rem;
 }
 
 .about__join-card-btn {
-  padding: 12px 24px;
-  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   cursor: pointer;
-  border: none;
-  background: var(--color-white);
-  color: var(--color-brand-dark);
   transition: all 0.2s;
-  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   white-space: nowrap;
   margin-top: auto;
   align-self: flex-start;
-}
-
-.about__join-card-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0px 6px 10px -4px rgba(0, 0, 0, 0.15), 0px 12px 18px -3px rgba(0, 0, 0, 0.15);
-}
-
-.about__join-card-btn--outline {
   background: transparent;
-  border: 2px solid var(--color-white);
+  border: 0.125rem solid var(--color-white);
   color: var(--color-white);
   box-shadow: none;
+
+  &:hover {
+    background: var(--color-white);
+    color: var(--color-brand-dark);
+    box-shadow: 0 0.25rem 0.375rem -0.25rem rgba(0, 0, 0, 0.1), 0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.1);
+    // transform: translateY(-0.0625rem);
+  }
 }
 </style>

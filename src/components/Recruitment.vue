@@ -37,30 +37,30 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
 </script>
 
 <template>
-  <section class="relative h-[900px] bg-[#F7F7F7] overflow-hidden">
+  <section class="relative h-[56.25rem] bg-[#F7F7F7] overflow-hidden">
     <!-- 背景图片 -->
     <div class="absolute inset-0">
       <img :src="recruitmentBg" alt="background" class="w-full h-full object-cover" />
     </div>
 
-    <div class="relative h-full mx-auto px-[230px] py-[100px] flex">
+    <div class="relative h-full mx-auto px-[14.375rem] py-[6.25rem] flex">
       <div class="w-full h-full flex items-center justify-center absolute top-0 left-0 z-0">
         <img src="@/assets/recruitment-main-bg.png" alt="main-bg" class="w-full h-full" />
       </div>
-      <div class="max-w-[1580px] mx-auto w-full flex flex-col items-center justify-between position-relative z-10">
+      <div class="max-w-[98.75rem] mx-auto w-full flex flex-col items-center justify-between position-relative z-10">
 
         <!-- 顶部文字 -->
         <div class="w-full flex items-start justify-between">
           <div class="">
-            <span class="text-xs text-black mb-[10px] block">
+            <span class="text-xs text-black mb-[0.625rem] block">
           {{ $t('home.recruitment.label') }}
             </span>
-            <h2 class="text-[32px] font-bold text-black mb-8">
+            <h2 class="text-[2rem] font-bold text-black mb-8">
           {{ $t('home.recruitment.heading') }}
             </h2>
           </div>
           <button
-            class="flex items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[30px] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
+            class="flex items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[1.875rem] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
             @click="goToCareers">
             {{ $t('home.recruitment.joinUs') }}
             <img src="@/assets/recruitment-arrow-r.svg" alt="arrow-right" class="w-5 h-5" />
@@ -68,11 +68,11 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
         </div>
 
         <!-- 底部职位卡片 -->
-        <div class="flex items-center gap-[50px] mb-[215px]">
+        <div class="flex items-center gap-[3.125rem] mb-[13.4375rem]">
           <div v-for="job in jobCategories" :key="job.name"
             @click="handleClick(job)"
-            class="w-[260px] h-[130px] bg-[#0163FF] rounded-[36px] flex flex-col items-center justify-center gap-2.5 text-white hover:bg-blue-600 transition-colors cursor-pointer transform transition-transform duration-300 hover:-translate-y-2">
-            <div class="w-[50px] h-[50px] flex items-center justify-center">
+            class="w-[16.25rem] h-[8.125rem] bg-[#0163FF] rounded-[2.25rem] flex flex-col items-center justify-center gap-2.5 text-white hover:bg-blue-600 transition-colors cursor-pointer transform transition-transform duration-300 hover:-translate-y-2">
+            <div class="w-[3.125rem] h-[3.125rem] flex items-center justify-center">
               <img v-if="job.icon === 'academic'" src="@/assets/recruitment-academic.svg" alt="academic"
                 class="w-10 h-10" />
               <img v-else-if="job.icon === 'sales'" src="@/assets/recruitment-sale.svg" alt="sales" class="w-10 h-10" />

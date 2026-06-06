@@ -46,8 +46,8 @@ const productDropdownItems = computed(() => {
 
 const navItems = computed(() => [
   { name: t('header.home'), path: '/' },
-  { name: t('header.products'), path: '/products', hasDropdown: true },
-  { name: t('header.patientService'), path: '/patient-service' },
+  { name: t('header.products'), path: '/products', hasDropdown: true, id: 'home-products' },
+  { name: t('header.patientService'), path: '/patient-service', id: 'home-patient-service' },
   { name: t('header.news'), path: '/news' },
   { name: t('header.about'), path: '/about' },
 ])
@@ -91,6 +91,17 @@ const onDropdownMouseEnter = () => {
 const onDropdownMouseLeave = () => {
   showDropdown.value = false
 }
+const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
+  if (!id) return
+  if (hasDropdown) {
+    showDropdown.value = false
+  }
+  try {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  } catch {
+    return
+  }
+}
 
 </script>
 
@@ -98,22 +109,22 @@ const onDropdownMouseLeave = () => {
   <header :class="[
     'fixed z-50 transition-all duration-300 cubic-bezier(0.25, 1, 0.5, 1)  left-1/2 -translate-x-1/2',
     isScrolled
-      ? 'top-0 w-full rounded-none shadow-[0px_4px_20px_0px_rgba(0,0,0,0.08)]'
-      : 'top-[20px]  max-w-[1732px] w-[91%] rounded-[60px]'
+      ? 'top-0 w-full rounded-none shadow-[0_0.25rem_1.25rem_0_rgba(0,0,0,0.08)]'
+      : 'top-[1.25rem]  max-w-[108.25rem] w-[91%] rounded-[3.75rem]'
   ]">
-    <div class="bg-white h-[86px] flex items-center justify-between px-[100px] header-container "
-      :class="isScrolled ? '' : 'rounded-[60px] shadow-[0px_4px_29px_0px_rgba(0,0,0,0.04)]'">
-      <div class="flex flex-1 items-center justify-between mr-[155px] header-left">
-        <div class="w-[149px] h-[50px] flex items-center header-logo">
+    <div class="bg-white h-[5.375rem] flex items-center justify-between px-[6.25rem] header-container "
+      :class="isScrolled ? '' : 'rounded-[3.75rem] shadow-[0_0.25rem_1.8125rem_0_rgba(0,0,0,0.04)]'">
+      <div class="flex flex-1 items-center justify-between mr-[9.6875rem] header-left">
+        <div class="w-[9.3125rem] h-[3.125rem] flex items-center header-logo">
           <img src="@/assets/header-logo.svg" alt="logo" class="w-full h-full">
         </div>
-        <nav class="flex items-center gap-[52px] header-nav">
+        <nav class="flex items-center gap-[3.25rem] header-nav">
           <template v-for="item in navItems" :key="item.path">
             <!-- 产品展示：带下拉 -->
             <div v-if="item.hasDropdown" class="relative" @mouseenter="onProductMouseEnter"
-              @mouseleave="onProductMouseLeave">
+              @mouseleave="onProductMouseLeave" @click="toProduct(item.id, item.hasDropdown)">
               <button :class="[
-                'text-lg font-bold transition-all duration-200 rounded-[63px] px-9 py-3',
+                'text-lg font-bold transition-all duration-200 rounded-[3.9375rem] px-9 py-3',
                 isActive(item.path)
                   ? 'bg-[#E9F1FF] text-[#0163FF]'
                   : 'text-black hover:bg-[#E9F1FF] hover:text-[#0163FF]'
@@ -122,13 +133,14 @@ const onDropdownMouseLeave = () => {
               </button>
 
               <Transition name="dropdown">
-                <div v-show="showDropdown" class="absolute top-full left-1/2 -translate-x-1/2 mt-[35px] z-50"
+                <div v-show="showDropdown" class="absolute top-full left-1/2 -translate-x-1/2 mt-[2.1875rem] z-50"
                   @mouseenter="onDropdownMouseEnter" @mouseleave="onDropdownMouseLeave">
-                  <div class="flex flex-col w-[205px] bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)]">
+                  <div class="flex flex-col w-[12.8125rem] bg-white shadow-[0_0.25rem_0.25rem_0_rgba(0,0,0,0.1)]">
                     <div v-for="prod in productDropdownItems" :key="prod.productCode"
-                      class="flex items-center justify-center px-[30px] py-[16px] border-b border-[#F6F6F6] cursor-pointer transition-colors hover:bg-[#F6F8FF] group"
+                      class="flex items-center justify-center px-[1.875rem] py-[1rem] border-b border-[#F6F6F6] cursor-pointer transition-colors hover:bg-[#F6F8FF] group"
                       @click="goToProduct(prod.productCode)">
-                      <span class="text-[18px] leading-[24px] text-[#666666] font-normal group-hover:text-[#0163FF]"
+                      <span
+                        class="text-[1.125rem] leading-[1.5rem] text-[#666666] font-normal group-hover:text-[#0163FF]"
                         style="font-family: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;">
                         {{ prod.name }}
                       </span>
@@ -139,8 +151,8 @@ const onDropdownMouseLeave = () => {
             </div>
 
             <!-- 普通导航项 -->
-            <button v-else @click="navigate(item.path)" :class="[
-              'text-lg font-bold transition-all duration-200 rounded-[63px] px-9 py-3',
+            <button v-else @click="() => { navigate(item.path); toProduct(item.id) }" :class="[
+              'text-lg font-bold transition-all duration-200 rounded-[3.9375rem] px-9 py-3',
               isActive(item.path)
                 ? 'bg-[#E9F1FF] text-[#0163FF]'
                 : 'text-black hover:bg-[#E9F1FF] hover:text-[#0163FF]'
@@ -151,7 +163,7 @@ const onDropdownMouseLeave = () => {
         </nav>
       </div>
       <button @click="navigate('/contact')"
-        class="bg-[#0163FF] text-white font-bold text-lg px-6 py-3 rounded-[63px] shadow-[0px_9px_10px_0px_rgba(1,94,255,0.14)] hover:bg-blue-700 transition-colors transition-transform duration-200 hover:scale-105">
+        class="bg-[#0163FF] text-white font-bold text-lg px-6 py-3 rounded-[3.9375rem] shadow-[0_0.5625rem_0.625rem_0_rgba(1,94,255,0.14)] hover:bg-blue-700 transition-colors transition-transform duration-200 hover:scale-105">
         {{ $t('header.contact') }}
       </button>
     </div>
@@ -169,88 +181,88 @@ const onDropdownMouseLeave = () => {
 
 .dropdown-enter-from {
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-0.25rem);
 }
 
 .dropdown-leave-to {
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-0.25rem);
 }
 
-@media (max-width: 1580px) {
+@media (max-width: 98.75rem) {
   .header-nav {
-    gap: 28px;
+    gap: 1.75rem;
   }
 
   .header-nav :deep(button) {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   .header-left {
-    margin-right: 80px;
+    margin-right: 5rem;
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 75rem) {
   .header-nav {
-    gap: 18px;
+    gap: 1.125rem;
   }
 
   .header-nav :deep(button) {
-    padding-left: 14px;
-    padding-right: 14px;
-    font-size: 15px;
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+    font-size: 0.9375rem;
   }
 
   .header-left {
-    margin-right: 40px;
+    margin-right: 2.5rem;
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 64rem) {
   .header-container {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .header-nav {
-    gap: 10px;
+    gap: 0.625rem;
   }
 
   .header-nav :deep(button) {
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 14px;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    font-size: 0.875rem;
   }
 
   .header-left {
-    margin-right: 20px;
+    margin-right: 1.25rem;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .header-container {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .header-nav {
-    gap: 6px;
+    gap: 0.375rem;
   }
 
   .header-nav :deep(button) {
-    padding-left: 8px;
-    padding-right: 8px;
-    font-size: 13px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.8125rem;
   }
 
   .header-left {
-    margin-right: 12px;
+    margin-right: 0.75rem;
   }
 
   .header-logo {
-    width: 110px;
+    width: 6.875rem;
   }
 }
 </style>

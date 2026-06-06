@@ -45,33 +45,33 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="stats-section" class="relative py-[180px] overflow-hidden">
+  <section id="stats-section" class="relative py-[11.25rem] overflow-hidden">
     <!-- 背景图片 -->
     <div class="absolute inset-0">
       <img :src="statsBg" alt="background" class="w-full h-full object-cover" />
     </div>
     <!-- 毛玻璃效果层 -->
-    <div class="absolute inset-0 backdrop-blur-[74px] bg-white/29"></div>
+    <div class="absolute inset-0 backdrop-blur-[4.625rem] bg-white/29"></div>
 
-    <div class="relative max-w-[1920px] mx-auto">
+    <div class="relative max-w-[120rem] mx-auto">
       <!-- 标题区域 -->
-      <div class="text-center mb-[100px]">
-        <span class="block text-[#0163FF] font-black text-lg mb-[27px] font-alibabapuhuiti">
+      <div class="text-center mb-[6.25rem]">
+        <span class="block text-[#0163FF] font-black text-lg mb-[1.6875rem] font-alibabapuhuiti">
           {{ $t('home.stats.aboutLabel') }}
         </span>
-        <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
+        <h2 class="text-[4.125rem] font-black text-black leading-tight font-alibabapuhuiti">
           {{ $t('home.stats.heading') }}
         </h2>
       </div>
 
       <!-- 统计卡片 -->
-      <div class="flex justify-center gap-10 w-[1584px] mx-auto">
+      <div class="flex justify-center gap-10 w-[99rem] mx-auto">
         <div v-for="stat in stats" :key="stat.label"
-          class="bg-white rounded-[18px] w-[366px] h-[260px] flex flex-col items-center justify-center gap-4 transition-transform duration-300 hover:-translate-y-2 hover:box-shadow-[0px_8px_30px_rgba(0,0,0,0.1)]">
-          <div class="text-[80px] font-black text-[#0163FF] leading-none font-alibabapuhuiti">
+          class="bg-white rounded-[1.125rem] w-[22.875rem] h-[16.25rem] flex flex-col items-center justify-center gap-4 transition-transform duration-300 hover:-translate-y-2 hover:box-shadow-[0_0.5rem_1.875rem_rgba(0,0,0,0.1)]">
+          <div class="text-[5rem] font-black text-[#0163FF] leading-none font-alibabapuhuiti">
             {{ stat.animated.value }}{{ stat.suffix }}
           </div>
-          <div class="text-[#65758C] text-[22px] font-medium font-alibabapuhuiti">
+          <div class="text-[#65758C] text-[1.375rem] font-medium font-alibabapuhuiti">
             {{ stat.label }}
           </div>
         </div>

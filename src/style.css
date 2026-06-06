@@ -9,6 +9,36 @@
 @import "@fontsource/manrope/600.css";
 @import "@fontsource/manrope/700.css";
 
+/* rem 适配：根字体大小以 16px 为基准 */
+html {
+  font-size: 16px;
+}
+
+/* 1920px 设计稿媒体查询适配 */
+@media (max-width: 1680px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1440px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 1280px) {
+  html {
+    font-size: 10.5px;
+  }
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 8px;
+  }
+}
+
 @theme {
   --color-primary: #0163FF;
   --font-pingfang: 'PingFang SC', 'Microsoft YaHei', system-ui, '-apple-system', sans-serif;
@@ -116,13 +146,12 @@ body {
 
 #app {
   width: 100%;
-  min-width: 1920px;
 }
 
 /* 视口感知滚动入场动画 —— 全局样式 */
 .reveal {
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(0.9375rem);
   transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 

@@ -154,7 +154,7 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
             {
                 groupName: 'products.specs.electrodeHeader',
                 type: 'tb',
-                minHeight: '112px',
+                minHeight: '7rem',
                 specs: [
                     { label: 'products.specs.electrodeDiameter', value: '0.7' },
                     { label: 'products.specs.contactCount', value: '4' },

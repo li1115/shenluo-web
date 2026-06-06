@@ -173,7 +173,7 @@
     "address": "地址：浙江省杭州市余杭区余杭街道科技大道8-5号4幢3-5层",
     "phone": "电话：",
     "phoneNumber": "0571-88560292",
-    "email": "邮箱：service@seeneuro.com",
+    "email": "邮箱：service{'@'}seeneuro.com",
     "website": "网址：http://www.seeneuro.com/",
     "zipcode": "邮编：310000",
     "mapAlt": "地图"

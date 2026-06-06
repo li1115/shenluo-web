@@ -99,7 +99,7 @@ const newsSections = computed(() =>
       value: newsMap.value[c.code] || [],
     })),
 )
-
+const isNoNews = computed(() => newsSections.value.every((s) => s.value.length === 0))
 const goToNewsDetail = (newsNo: string) => {
   router.push(`/news/${newsNo}`)
 }
@@ -121,50 +121,50 @@ onMounted(() => {
         <img src="@/assets/news-hero.png" alt="banner" class="news-page__banner-img" />
       </div>
       <div class="news-page__content">
-            <div class="news-page__breadcrumb">
-        <span class="news-page__breadcrumb-link" @click="goToNewsList">{{ $t('news.breadcrumb1') }}</span>
-        <span>/</span>
-        <span class="news-page__breadcrumb-current">{{ $t('news.breadcrumb2') }}</span>
-      </div>
-      </div>
-  
-    </div>
-
-    <div class="news-page__section" v-for="section in newsSections" :key="section.key">
-      <div class="news-page__heading">
-        <div class="news-page__heading-bar" />
-        <h2 class="news-page__heading-text">{{ section.key }}</h2>
-      </div>
-
-      <div class="news-page__grid">
-        <div
-          v-for="item in section.value"
-          :key="item.newsNo"
-          class="news-page__card"
-          @click="goToNewsDetail(item.newsNo)"
-        >
-          <div class="news-page__card-image">
-            <img :src="item.image" :alt="item.title" class="news-page__card-img" />
-          </div>
-          <div class="news-page__card-body">
-            <div class="news-page__card-meta">
-              <span class="news-page__card-tag">{{ item.category }}</span>
-              <span class="news-page__card-date">{{ item.date }}</span>
-            </div>
-            <h3 class="news-page__card-title">{{ item.title }}</h3>
-          </div>
+        <div class="news-page__breadcrumb">
+          <span class="news-page__breadcrumb-link" @click="goToNewsList">{{ $t('news.breadcrumb1') }}</span>
+          <span>/</span>
+          <span class="news-page__breadcrumb-current">{{ $t('news.breadcrumb2') }}</span>
         </div>
       </div>
-
-      <div v-if="hasMore(section.code)" class="news-page__load-more-wrap">
-        <button class="news-page__load-more" @click="loadMore(section.code)" :disabled="loadingMoreMap[section.code]">
-          <span>{{ loadingMoreMap[section.code] ? '加载中...' : $t('news.loadMore') }}</span>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
     </div>
+    <div class="no-news" v-if="isNoNews">
+      暂无新闻
+    </div>
+    <template v-for="section in newsSections" :key="section.key">
+      <div class="news-page__section" v-if="section.value.length > 0">
+        <div class="news-page__heading">
+          <div class="news-page__heading-bar" />
+          <h2 class="news-page__heading-text">{{ section.key }}</h2>
+        </div>
+
+        <div class="news-page__grid">
+          <div v-for="item in section.value" :key="item.newsNo" class="news-page__card"
+            @click="goToNewsDetail(item.newsNo)">
+            <div class="news-page__card-image">
+              <img :src="item.image" :alt="item.title" class="news-page__card-img" />
+            </div>
+            <div class="news-page__card-body">
+              <div class="news-page__card-meta">
+                <span class="news-page__card-tag">{{ item.category }}</span>
+                <span class="news-page__card-date">{{ item.date }}</span>
+              </div>
+              <h3 class="news-page__card-title">{{ item.title }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="hasMore(section.code)" class="news-page__load-more-wrap">
+          <button class="news-page__load-more" @click="loadMore(section.code)" :disabled="loadingMoreMap[section.code]">
+            <span>{{ loadingMoreMap[section.code] ? '加载中...' : $t('news.loadMore') }}</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -177,35 +177,45 @@ onMounted(() => {
   --color-tag-bg: #E5F0FF;
   --color-text-heading: #181C20;
   --font-body: 'PingFang SC', 'Noto Sans SC', sans-serif;
-  --shadow-card: 0px 0px 29px 0px rgba(148, 148, 148, 0.22);
-  --shadow-btn: 0px 9px 10px 0px rgba(1, 94, 255, 0.14);
-  --card-width: 492px;
-  --card-height: 612px;
-  --card-image-height: 360px;
-  --card-radius: 30px;
+  --shadow-card: 0 0 1.8125rem 0 rgba(148, 148, 148, 0.22);
+  --shadow-btn: 0 0.5625rem 0.625rem 0 rgba(1, 94, 255, 0.14);
+  --card-width: 30.75rem;
+  --card-height: 38.25rem;
+  --card-image-height: 22.5rem;
+  --card-radius: 1.875rem;
 
   background: var(--color-white);
-  margin-bottom: 100px;
+  margin-bottom: 6.25rem;
+}
+
+.no-news {
+  text-align: center;
+  padding: 10rem 0;
+  color: var(--color-text-muted);
+  font-size: 1.25rem;
 }
 
 /* ========== Banner ========== */
 .news-page__banner {
   position: relative;
   width: 100%;
-  height: 560px;
+  height: 35rem;
   overflow: hidden;
 }
+
 .news-page__banner-gradient {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, #EFF6FF 0%, #BBD4F3 100%);
   z-index: 0;
 }
+
 .news-page__banner-bg {
   position: absolute;
   inset: 0;
   z-index: 1;
 }
+
 .news-page__banner-img {
   width: 100%;
   height: 100%;
@@ -214,61 +224,67 @@ onMounted(() => {
 }
 
 /* ========== Breadcrumb ========== */
-.news-page__content { 
-  max-width: 1920px;
+.news-page__content {
+  max-width: 120rem;
   margin: 0 auto;
   position: relative;
 }
+
 .news-page__breadcrumb {
   position: absolute;
-  top: 142px;
-  left: 160px;
+  top: 8.875rem;
+  left: 10rem;
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   letter-spacing: -0.0536em;
   color: #FFFFFF;
 }
+
 .news-page__breadcrumb-link {
   cursor: pointer;
   transition: color 0.2s;
 }
+
 .news-page__breadcrumb-link:hover {
   color: var(--color-brand);
 }
+
 .news-page__breadcrumb-current {
   color: var(--color-text-muted);
 }
 
 /* ========== Section ========== */
 .news-page__section {
-  padding: 0 160px;
-  margin-top: 100px;
+  padding: 0 10rem;
+  margin-top: 6.25rem;
 }
 
 /* ========== Heading ========== */
 .news-page__heading {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 80px;
+  gap: 0.5rem;
+  margin-bottom: 5rem;
 }
+
 .news-page__heading-bar {
-  width: 5px;
-  height: 36px;
+  width: 0.3125rem;
+  height: 2.25rem;
   background: var(--color-brand);
   flex-shrink: 0;
 }
+
 .news-page__heading-text {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 36px;
-  line-height: 36px;
+  font-size: 2.25rem;
+  line-height: 2.25rem;
   color: var(--color-text-heading);
 }
 
@@ -276,7 +292,7 @@ onMounted(() => {
 .news-page__grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 52px;
+  gap: 3.25rem;
   justify-content: flex-start;
 }
 
@@ -291,9 +307,10 @@ onMounted(() => {
   cursor: pointer;
   transition: box-shadow 0.3s, transform 0.3s;
 }
+
 .news-page__card:hover {
-  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.12);
+  transform: translateY(-0.125rem);
 }
 
 .news-page__card-image {
@@ -301,6 +318,7 @@ onMounted(() => {
   height: var(--card-image-height);
   overflow: hidden;
 }
+
 .news-page__card-img {
   width: 100%;
   height: 100%;
@@ -309,54 +327,54 @@ onMounted(() => {
 
 .news-page__card-body {
   position: relative;
-  padding: 50px 50px 0;
+  padding: 3.125rem 3.125rem 0;
 }
 
 .news-page__card-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
 .news-page__card-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  padding: 10px 12px;
+  height: 2.5rem;
+  padding: 0.625rem 0.75rem;
   background: var(--color-tag-bg);
-  border-radius: 50px;
+  border-radius: 3.125rem;
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   color: var(--color-brand);
-  margin-left: 1px;
+  margin-left: 0.0625rem;
 }
 
 .news-page__card-date {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   color: var(--color-black);
 }
 
 .news-page__card-decor {
-  width: 3px;
-  height: 18px;
+  width: 0.1875rem;
+  height: 1.125rem;
   background: var(--color-black);
-  margin-top: 5px;
+  margin-top: 0.3125rem;
 }
 
 .news-page__card-title {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 26px;
-  line-height: 44px;
+  font-size: 1.625rem;
+  line-height: 2.75rem;
   color: var(--color-black);
-  max-width: 392px;
+  max-width: 24.5rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -368,33 +386,37 @@ onMounted(() => {
 .news-page__load-more-wrap {
   display: flex;
   justify-content: center;
-  margin-top: 52px;
+  margin-top: 3.25rem;
 }
+
 .news-page__load-more {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 220px;
-  padding: 12px 24px;
+  gap: 0.5rem;
+  width: 13.75rem;
+  padding: 0.75rem 1.5rem;
   background: var(--color-brand-dark);
   border: none;
-  border-radius: 46px;
+  border-radius: 2.875rem;
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .news-page__load-more:hover {
   background: #0052d4;
 }
+
 .news-page__load-more:disabled {
   background: #99B8FF;
   cursor: not-allowed;
 }
+
 .news-page__load-more span {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   color: var(--color-white);
   text-align: center;
 }

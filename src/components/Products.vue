@@ -2,6 +2,12 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { productsData } from '@/shared/products'
+const props = defineProps({
+  id: {
+    type: String,
+    default: 'home-products'
+  }
+})
 const router = useRouter()
 
 const products = computed(() => productsData)
@@ -44,30 +50,32 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="pt-[100px] bg-white">
-    <div class="max-w-[1920px] mx-auto">
+  <section class="pt-[6.25rem] bg-white" :id="id">
+    <div class="max-w-[120rem] mx-auto">
       <div class="text-center ">
         <span class="block text-[#0163FF] font-black text-lg mb-5 font-alibabapuhuiti">
           {{ $t('home.products.label') }}
         </span>
-        <h2 class="text-[66px] font-black text-black leading-tight font-alibabapuhuiti">
+        <h2 class="text-[4.125rem] font-black text-black leading-tight font-alibabapuhuiti">
           {{ $t('home.products.heading') }}
         </h2>
       </div>
 
-      <div class="overflow-hidden pt-[80px] pb-[100px]" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
-        <div class="flex gap-10 will-change-transform mx-auto w-fit" :style="{ transform: `translateX(-${scrollOffset}px)` }">
+      <div class="overflow-hidden pt-[5rem] pb-[6.25rem]" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
+        <div class="flex gap-10 will-change-transform mx-auto w-fit"
+          :style="{ transform: `translateX(-${scrollOffset}px)` }">
           <div v-for="(product, idx) in duplicated" :key="idx"
-            class="w-[500px] h-[500px] bg-[#F9FAFC] border border-[#F1F2F4] rounded-[10px] overflow-hidden flex flex-col flex-shrink-0 cursor-pointer 
+            class="w-[31.25rem] h-[31.25rem] bg-[#F9FAFC] border border-[#F1F2F4] rounded-[0.625rem] overflow-hidden flex flex-col flex-shrink-0 cursor-pointer 
             transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)]
-            hover:shadow-[0px_22px_34px_0px_#F3F3F3] hover:border-[#CDEAF5] hover:cursor-pointer hover:translate-y-[-10px] group"
-              @click="goToDetail(product.productCode)">
-            <div class="h-[340px] flex items-center justify-center overflow-hidden">
-              <img :src="product.image" :alt="product.productCode" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-103" />
+            hover:shadow-[0_1.375rem_2.125rem_0_#F3F3F3] hover:border-[#CDEAF5] hover:cursor-pointer hover:translate-y-[-0.625rem] group"
+            @click="goToDetail(product.productCode)">
+            <div class="h-[21.25rem] flex items-center justify-center overflow-hidden">
+              <img :src="product.image" :alt="product.productCode"
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-103" />
             </div>
-            <div class="flex-1 flex flex-col items-center justify-center px-[70px] gap-5 pb-[7px]">
+            <div class="flex-1 flex flex-col items-center justify-center px-[4.375rem] gap-5 pb-[0.4375rem]">
               <h3 class="text-2xl font-black text-black text-center font-dinblack">{{ $t(product.nameKey) }}</h3>
-              <p class="text-[15px] text-[#999999] text-center leading-[23px] font-pingfang">
+              <p class="text-[0.9375rem] text-[#999999] text-center leading-[1.4375rem] font-pingfang">
                 {{ $t(product.descKey) }}
               </p>
             </div>
