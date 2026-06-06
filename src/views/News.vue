@@ -30,51 +30,6 @@ function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
   }
 }
 
-const mockNewsItems: NewsDisplayItem[] = [
-  {
-    newsNo: '1',
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news1,
-  },
-  {
-    newsNo: '2',
-    title: '首发  神络医疗完成数亿元C轮融资，构筑"神经调控+脑机接口"...',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news2,
-  },
-  {
-    newsNo: '3',
-    title: '喜报  神络医疗植入式可充电脊髓神经刺激器获批上市',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news3,
-  },
-  {
-    newsNo: '4',
-    title: '新功能  神络医疗植入式可充电脊髓神经刺激器新增功能',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news4,
-  },
-  {
-    newsNo: '5',
-    title: '新功能  神络医疗植入式可充电脊髓神经刺激器新增功能',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news4,
-  },
-  {
-    newsNo: '6',
-    title: '新功能  神络医疗植入式可充电脊髓神经刺激器新增功能',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news4,
-  },
-]
-
 const categories = ref<NewsCategory[]>([])
 const newsMap = ref<Record<string, NewsDisplayItem[]>>({})
 const loading = ref(false)
@@ -101,9 +56,9 @@ async function fetchData() {
         pageMap.value[cat.code] = 1
         totalMap.value[cat.code] = pageRes.data?.total || 0
       } catch {
-        map[cat.code] = mockNewsItems
+        map[cat.code] = []
         pageMap.value[cat.code] = 1
-        totalMap.value[cat.code] = mockNewsItems.length
+        totalMap.value[cat.code] = 0
       }
     }
     newsMap.value = map

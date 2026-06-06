@@ -162,53 +162,7 @@ async function fetchJobList() {
     jobs.value = (res.data?.records || []).map(mapRecruitItem)
     totalJobs.value = res.data?.total || 0
   } catch {
-    jobs.value = [
-      {
-        recruitNo: 'mock-001',
-        title: '高级嵌入式软件工程师',
-        urgent: true,
-        location: '杭州 · 余杭区',
-        type: '全职',
-        education: '本科及以上',
-        tags: ['嵌入式', 'C/C++', 'ARM'],
-      },
-      {
-        recruitNo: 'mock-002',
-        title: '医疗器械注册专员',
-        urgent: false,
-        location: '杭州 · 西湖区',
-        type: '全职',
-        education: '本科及以上',
-        tags: ['注册申报', 'NMPA', 'CE'],
-      },
-      {
-        recruitNo: 'mock-003',
-        title: '临床研究经理',
-        urgent: true,
-        location: '上海 · 浦东新区',
-        type: '全职',
-        education: '硕士及以上',
-        tags: ['临床试验', '项目管理', 'GCP'],
-      },
-      {
-        recruitNo: 'mock-004',
-        title: '硬件测试工程师',
-        urgent: false,
-        location: '杭州 · 滨江区',
-        type: '全职',
-        education: '本科及以上',
-        tags: ['硬件测试', 'PCB', 'EMC'],
-      },
-      {
-        recruitNo: 'mock-005',
-        title: '神经调控算法研究员',
-        urgent: false,
-        location: '杭州 · 余杭区',
-        type: '全职',
-        education: '博士',
-        tags: ['信号处理', '机器学习', 'Python'],
-      },
-    ]
+    jobs.value = []
     totalJobs.value = 5
   }
 }

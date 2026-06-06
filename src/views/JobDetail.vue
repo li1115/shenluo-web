@@ -58,33 +58,6 @@ function mapSimilarJob(item: PublicRecruitItem): SimilarJob {
   }
 }
 
-// ====== 模拟数据（已注释，保留备用） ======
-const mockdescriptionHtml = `<p>1.架构与模块设计：参与脑机芯片系统级架构定义，负责关键数字模块(如神经信号数字预处理单元、片上神经网络加速器、高速低功耗数据接口、安全与控制状态机)的微架构设计与RTL实现。</p>
-<p>2.RTL实现与验证：使用Verilog/SystemVerilog进行高质量的RTL编码，并搭建或维护基于UVM/形式验证的验证环境，确保功能正确性，满足植入式设备标准。</p>
-<p>3.低功耗设计：深入应用芯片级、架构级、RTL级与门级低功耗技术(如电源门控、多电压域、动态电压频率调节、时钟门控)，实现超低功耗目标。</p>
-<p>4.时序与物理设计协同：进行综合、静态时序分析、功耗分析，并与物理设计团队紧密合作。指导布局布线，解决时序收敛、信号完整性和可靠性问题。</p>
-<p>5.系统集成与验证：负责数字子系统与模拟前端、无线收发模块的集成验证。支持芯片测试方案制定、硅后调试与性能表征。</p>
-<p>6.算法硬件化：与算法科学家合作，将神经信号处理、解码、编码等复杂算法进行硬件优化、定点化与高效映射。</p>
-<p><strong>任职要求：</strong></p>
-<p>1.扎实的工程基础：具备严谨的数字逻辑思维、出色的分析和解决复杂问题的能力。</p>
-<p>2.卓越的学习与创新：对脑科学、神经工程有强烈兴趣，能快速学习跨学科知识，并勇于在约束下进行创新。</p>
-<p>3.极致的质量与可靠意识：深刻理解脑机芯片对安全性与可靠性的苛刻要求，工作细致，具有高度的责任感。</p>
-<p>4.系统级视野：不仅关注模块设计，更能理解芯片在完整系统中的角色以及与生物组织的交互。</p>
-<p>5.团队协作与沟通：具备出色的跨职能(算法、模拟、软件、临床)沟通能力，能清晰阐述设计权衡与决策。</p>
-<p><strong>专业技能要求：</strong></p>
-<p><strong>必需技能：</strong></p>
-<p>1.数字设计全流程精通：熟练掌握从RTL到GDSII的设计流程，包括RTL设计、验证、综合、形式验证、静态时序分析。</p>
-<p>2.硬件描述语言：精通Verilog/SystemVerilog，具备编写高质量、可综合、可复用代码的能力。</p>
-<p>3.验证方法学：熟练掌握UVM或类似高级验证方法学，能构建复杂的验证环境。</p>
-<p>4.低功耗技术：具备丰富的低功耗设计实践经验，熟悉UPF/CPF功耗意图描述。</p>`
-const mockSimilarJobs = [
-  { recruitNo: '1', title: '神经算法研究员', salary: '25k-40k' },
-  { recruitNo: '2', title: '神经算法研究员', salary: '25k-40k' },
-  { recruitNo: '3', title: '神经算法研究员', salary: '25k-40k' },
-  { recruitNo: '4', title: '神经算法研究员', salary: '25k-40k' },
-]
-// ====== 模拟数据结束 ======
-
 const detailTitle = ref('')
 const detailMeta = ref('')
 const descriptionHtml = ref('')
@@ -124,13 +97,6 @@ async function fetchDetail() {
     detailMeta.value = ''
     descriptionHtml.value = ''
     similarJobs.value = []
-
-    
-      // 模拟数据
-      detailTitle.value = '神经算法研究员'
-      detailMeta.value = '25k-40k | 中国 · 北京'
-      descriptionHtml.value = mockdescriptionHtml
-      similarJobs.value = mockSimilarJobs
   } finally {
     loading.value = false
   }

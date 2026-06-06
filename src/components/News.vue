@@ -26,44 +26,6 @@ function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
   }
 }
 
-// ====== 模拟数据（已注释，保留备用） ======
-
-import news1 from '@/assets/news-1.png'
-import news2 from '@/assets/news-2.png'
-import news3 from '@/assets/news-3.png'
-import news4 from '@/assets/news-4.png'
-const mockNewsItems: NewsDisplayItem[] = [
-  {
-    newsNo: '1',
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news1,
-  },
-  {
-    newsNo: '2',
-    title: '重磅招商 | 神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news2,
-  },
-  {
-    newsNo: '3',
-    title: '...神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news3,
-  },
-  {
-    newsNo: '4',
-    title: '.神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴神络医疗植入式可充电脊髓神经刺激器诚邀合作伙伴..',
-    date: '2026.03.14',
-    category: '企业动态',
-    image: news4,
-  },
-]
-// ====== 模拟数据结束 ======
-
 const apiNewsItems = ref<NewsDisplayItem[]>([])
 
 const newsItems = computed(() => {
@@ -79,8 +41,6 @@ async function fetchNews() {
     apiNewsItems.value = (res.data || []).map(mapNewsItem)
   } catch {
     apiNewsItems.value = []
-    // 模拟数据
-    // apiNewsItems.value = mockNewsItems
   }
   if (apiNewsItems.value.length > 3) {
     animId = requestAnimationFrame(animate)
