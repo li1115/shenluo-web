@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 import { getProductDetail } from '@/api/product'
@@ -214,7 +214,7 @@ watch(
           </div>
           <div class="product-detail__manual-content">
             <div class="product-detail__manual-text">
-              <h4 class="product-detail__manual-title">{{ product.name  }}产品手册</h4>
+              <h4 class="product-detail__manual-title">{{ product.name }}产品手册</h4>
               <p class="product-detail__manual-desc">{{ $t('products.manualDesc') }}</p>
             </div>
           </div>
@@ -451,6 +451,7 @@ watch(
   margin-top: 150px;
   padding: 80px 0;
 }
+
 .product-detail__specs-container {
   max-width: 1460px;
   margin: 0 auto;
