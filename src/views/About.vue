@@ -1607,7 +1607,7 @@ const handleClick = (key: string) => {
   font-size: 16px;
   line-height: 26px;
   color: rgba(255, 255, 255, 0.7);
-  margin: 16px 0 0;
+  margin: auto 0 0;
   width: 418px;
 }
 

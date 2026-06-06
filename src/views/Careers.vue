@@ -29,13 +29,13 @@ const heroList = computed(() => ({
     id: 'sales',
     tag: t('careers.joinTag'),
     title: t('careers.joinTitle.sales'),
-    subtitle: t('careers.joinSubtitle'),
+    subtitle: t('careers.joinSubtitleSales'),
   },
   academic: {
     id: 'academic',
     tag: t('careers.joinTag'),
     title: t('careers.joinTitle.academic'),
-    subtitle: t('careers.joinSubtitle'),
+    subtitle: t('careers.joinSubtitleAcademic'),
   },
 } as Record<string, Hero>))
 const heroHero = computed(() => heroList.value[activeCareer.value])
@@ -466,7 +466,7 @@ onMounted(() => {
   position: relative;
   height: 100%;
   max-width: 1536px;
-  padding: 142px 160px 0;
+  padding: 142px 0 0;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -549,8 +549,8 @@ onMounted(() => {
   font-size: 20px;
   line-height: 32.5px;
   color: rgba(219, 234, 254, 0.8);
-  max-width: 500px;
   margin-left: 140px;
+  max-width: 990px;
 }
 
 /* ========== Content Section ========== */
