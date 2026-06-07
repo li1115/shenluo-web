@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { productsData } from '@/shared/products'
-const props = defineProps({
+defineProps({
   id: {
     type: String,
     default: 'home-products'

@@ -5,7 +5,7 @@ import servicemask from '@/assets/service-mask.svg'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const props = defineProps({
+defineProps({
   id: {
     type: String,
     default: 'home-patient-service'

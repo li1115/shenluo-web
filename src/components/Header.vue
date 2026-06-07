@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { getProducts } from '@/api/product'
@@ -44,12 +44,18 @@ const productDropdownItems = computed(() => {
   ]
 })
 
+interface NavItem {
+  name: string
+  path: string
+  hasDropdown?: boolean
+  scrollId?: string
+}
 const navItems = computed(() => [
   { name: t('header.home'), path: '/' },
-  { name: t('header.products'), path: '/products', hasDropdown: true, id: 'home-products' },
-  { name: t('header.patientService'), path: '/patient-service', id: 'home-patient-service' },
-  { name: t('header.news'), path: '/news' },
-  { name: t('header.about'), path: '/about' },
+  { name: t('header.products'), path: '/products', hasDropdown: true, scrollId: 'home-products' },
+  { name: t('header.patientService'), path: '/patient-service', scrollId: 'home-patient-service' },
+  { name: t('header.news'), path: '/news', scrollId: '' },
+  { name: t('header.about'), path: '/about', scrollId: '' },
 ])
 
 const isActive = (path: string) => {
@@ -57,10 +63,8 @@ const isActive = (path: string) => {
 
   return route.path.startsWith(path)
 }
-
 const navigate = (path: string) => {
-  if (path === '/patient-service') return
-  router.push(path)
+  return router.push(path)
 }
 
 const goToProduct = (productCode: string) => {
@@ -91,22 +95,31 @@ const onDropdownMouseEnter = () => {
 const onDropdownMouseLeave = () => {
   showDropdown.value = false
 }
-const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
-  if (!id) return
-  if (hasDropdown) {
+const goTo = async (item: NavItem) => {
+  if (item.path === '/patient-service') {
+    await navigate('/')
+  } else if (item.path) await navigate(item.path)
+
+  if (item.hasDropdown) {
     showDropdown.value = false
   }
-  try {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  } catch {
-    return
+  if (item.scrollId) {
+    await nextTick()
+    const scrollId = item.scrollId
+    setTimeout(() => {
+      try {
+        document.getElementById(scrollId)?.scrollIntoView({ behavior: 'smooth' })
+      } catch {
+        return
+      }
+    }, 0)
   }
 }
 
 </script>
 
 <template>
-  <header :class="[
+  <header id="header" class :class="[
     'fixed z-50 transition-all duration-300 cubic-bezier(0.25, 1, 0.5, 1)  left-1/2 -translate-x-1/2',
     isScrolled
       ? 'top-0 w-full rounded-none shadow-[0_0.25rem_1.25rem_0_rgba(0,0,0,0.08)]'
@@ -122,7 +135,7 @@ const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
           <template v-for="item in navItems" :key="item.path">
             <!-- 产品展示：带下拉 -->
             <div v-if="item.hasDropdown" class="relative" @mouseenter="onProductMouseEnter"
-              @mouseleave="onProductMouseLeave" @click="toProduct(item.id, item.hasDropdown)">
+              @mouseleave="onProductMouseLeave" @click="goTo(item)">
               <button :class="[
                 'text-lg font-bold transition-all duration-200 rounded-[3.9375rem] px-9 py-3',
                 isActive(item.path)
@@ -151,7 +164,7 @@ const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
             </div>
 
             <!-- 普通导航项 -->
-            <button v-else @click="() => { navigate(item.path); toProduct(item.id) }" :class="[
+            <button v-else @click="goTo(item)" :class="[
               'text-lg font-bold transition-all duration-200 rounded-[3.9375rem] px-9 py-3',
               isActive(item.path)
                 ? 'bg-[#E9F1FF] text-[#0163FF]'
@@ -163,7 +176,7 @@ const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
         </nav>
       </div>
       <button @click="navigate('/contact')"
-        class="bg-[#0163FF] text-white font-bold text-lg px-6 py-3 rounded-[3.9375rem] shadow-[0_0.5625rem_0.625rem_0_rgba(1,94,255,0.14)] hover:bg-blue-700 transition-colors transition-transform duration-200 hover:scale-105">
+        class="bg-[#0163FF] text-white font-bold  text-lg px-6 py-3 rounded-[3.9375rem] shadow-[0_0.5625rem_0.625rem_0_rgba(1,94,255,0.14)] hover:bg-blue-700 transition-colors transition-transform duration-200 hover:scale-105">
         {{ $t('header.contact') }}
       </button>
     </div>
@@ -194,7 +207,7 @@ const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
     gap: 1.75rem;
   }
 
-  .header-nav :deep(button) {
+  #header :deep(button) {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
@@ -209,7 +222,7 @@ const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
     gap: 1.125rem;
   }
 
-  .header-nav :deep(button) {
+  #header :deep(button) {
     padding-left: 0.875rem;
     padding-right: 0.875rem;
     font-size: 0.9375rem;
@@ -230,7 +243,7 @@ const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
     gap: 0.625rem;
   }
 
-  .header-nav :deep(button) {
+  #header :deep(button) {
     padding-left: 0.625rem;
     padding-right: 0.625rem;
     font-size: 0.875rem;
@@ -251,7 +264,7 @@ const toProduct = (id: string | undefined, hasDropdown?: boolean) => {
     gap: 0.375rem;
   }
 
-  .header-nav :deep(button) {
+  #header :deep(button) {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     font-size: 0.8125rem;

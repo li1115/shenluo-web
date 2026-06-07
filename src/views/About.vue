@@ -487,7 +487,7 @@ const handleClick = (key: string) => {
           <h3 class="about__join-card-title">{{ $t('about.join.card1.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card1.desc') }}</p>
           <button class="about__join-card-btn" @click="handleClick('academic')">{{ $t('about.join.card1.btn')
-            }}</button>
+          }}</button>
         </div>
 
         <div class="about__join-card">
@@ -1123,14 +1123,8 @@ const handleClick = (key: string) => {
   transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.about__value-card--inactive {
-  flex: 0 0 14.375rem;
-  width: 14.375rem;
-}
 
-.about__value-card--active {
-  flex: 1 1 auto;
-}
+
 
 .about__value-collapsed {
   position: absolute;
@@ -1145,16 +1139,6 @@ const handleClick = (key: string) => {
   transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-.about__value-card--active .about__value-collapsed {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.about__value-card--inactive .about__value-collapsed {
-  opacity: 1;
-  visibility: visible;
-}
 
 .about__value-expanded {
   position: absolute;
@@ -1167,15 +1151,25 @@ const handleClick = (key: string) => {
   transition: opacity 0.4s ease 0.2s, visibility 0.4s ease 0.2s;
 }
 
-.about__value-card--inactive .about__value-expanded {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+.about__value-card--inactive {
+  flex: 0 0 14.375rem;
+}
+
+.about__value-card--inactive .about__value-collapsed {
+  width: 100%;
+}
+
+.about__value-card--inactive .about__value-expanded,
+.about__value-card--active .about__value-collapsed {
+  width: 0;
+}
+
+.about__value-card--active {
+  flex: 1 1 auto;
 }
 
 .about__value-card--active .about__value-expanded {
-  opacity: 1;
-  visibility: visible;
+  width: 100%;
 }
 
 .about__value-left {
