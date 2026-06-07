@@ -82,14 +82,14 @@ async function fetchDetail() {
       const locationStr = [detail.location?.city, detail.location?.district].filter(Boolean).join(' · ')
       detailMeta.value = `${formatSalary(detail)} | ${locationStr}`
       descriptionHtml.value = detail.content || ''
-    }else{
+    } else {
       detailTitle.value = ''
       detailMeta.value = ''
       descriptionHtml.value = ''
     }
     if (relatedRes.status === 'fulfilled') {
       similarJobs.value = (relatedRes.value.data || []).map(mapSimilarJob)
-    }else{
+    } else {
       similarJobs.value = []
     }
   } catch {
@@ -132,7 +132,8 @@ onMounted(() => {
           <h1 class="job-detail__title">{{ detailTitle }}</h1>
           <p class="job-detail__meta">{{ detailMeta }}</p>
           <div class="job-detail__hero-actions">
-            <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow') }}</button>
+            <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow')
+            }}</button>
           </div>
         </div>
       </div>
@@ -189,13 +190,15 @@ onMounted(() => {
             <span class="job-detail__process-divider" />
             <div class="job-detail__process-step">
               <div class="job-detail__process-circle job-detail__process-circle--check">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+                <svg class="h-[1.35rem]" xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21"
+                  fill="none">
                   <path
                     d="M0 20.5L5 6.5L14 15.5L0 20.5ZM3.3 17.2L10.35 14.7L5.8 10.15L3.3 17.2ZM12.55 11.05L11.5 10L17.1 4.4C17.6333 3.86667 18.275 3.6 19.025 3.6C19.775 3.6 20.4167 3.86667 20.95 4.4L21.55 5L20.5 6.05L19.9 5.45C19.6667 5.21667 19.375 5.1 19.025 5.1C18.675 5.1 18.3833 5.21667 18.15 5.45L12.55 11.05ZM8.55 7.05L7.5 6L8.1 5.4C8.33333 5.16667 8.45 4.88333 8.45 4.55C8.45 4.21667 8.33333 3.93333 8.1 3.7L7.45 3.05L8.5 2L9.15 2.65C9.68333 3.18333 9.95 3.81667 9.95 4.55C9.95 5.28333 9.68333 5.91667 9.15 6.45L8.55 7.05ZM10.55 9.05L9.5 8L13.1 4.4C13.3333 4.16667 13.45 3.875 13.45 3.525C13.45 3.175 13.3333 2.88333 13.1 2.65L11.5 1.05L12.55 0L14.15 1.6C14.6833 2.13333 14.95 2.775 14.95 3.525C14.95 4.275 14.6833 4.91667 14.15 5.45L10.55 9.05ZM14.55 13.05L13.5 12L15.1 10.4C15.6333 9.86667 16.275 9.6 17.025 9.6C17.775 9.6 18.4167 9.86667 18.95 10.4L20.55 12L19.5 13.05L17.9 11.45C17.6667 11.2167 17.375 11.1 17.025 11.1C16.675 11.1 16.3833 11.2167 16.15 11.45L14.55 13.05Z"
                     fill="white" />
                 </svg>
               </div>
-              <span class="job-detail__process-label job-detail__process-label--bold">{{ $t('careers.jobDetail.step5') }}</span>
+              <span class="job-detail__process-label job-detail__process-label--bold">{{ $t('careers.jobDetail.step5')
+              }}</span>
             </div>
           </div>
         </div>
@@ -247,7 +250,8 @@ onMounted(() => {
           </div>
           <div class="job-detail__map-overlay">
             <div class="job-detail__map-location">
-              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12" fill="none">
+              <svg class="h-[0.625rem]" xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12"
+                fill="none">
                 <path
                   d="M4.66667 5.83333C4.9875 5.83333 5.26215 5.7191 5.49062 5.49062C5.7191 5.26215 5.83333 4.9875 5.83333 4.66667C5.83333 4.34583 5.7191 4.07118 5.49062 3.84271C5.26215 3.61424 4.9875 3.5 4.66667 3.5C4.34583 3.5 4.07118 3.61424 3.84271 3.84271C3.61424 4.07118 3.5 4.34583 3.5 4.66667C3.5 4.9875 3.61424 5.26215 3.84271 5.49062C4.07118 5.7191 4.34583 5.83333 4.66667 5.83333ZM4.66667 10.1208C5.85278 9.03194 6.73264 8.04271 7.30625 7.15312C7.87986 6.26354 8.16667 5.47361 8.16667 4.78333C8.16667 3.72361 7.82882 2.8559 7.15312 2.18021C6.47743 1.50451 5.64861 1.16667 4.66667 1.16667C3.68472 1.16667 2.8559 1.50451 2.18021 2.18021C1.50451 2.8559 1.16667 3.72361 1.16667 4.78333C1.16667 5.47361 1.45347 6.26354 2.02708 7.15312C2.60069 8.04271 3.48056 9.03194 4.66667 10.1208ZM4.66667 11.6667C3.10139 10.3347 1.93229 9.09757 1.15937 7.95521C0.386458 6.81285 0 5.75556 0 4.78333C0 3.325 0.469097 2.16319 1.40729 1.29792C2.34549 0.432639 3.43194 0 4.66667 0C5.90139 0 6.98785 0.432639 7.92604 1.29792C8.86424 2.16319 9.33333 3.325 9.33333 4.78333C9.33333 5.75556 8.94688 6.81285 8.17396 7.95521C7.40104 9.09757 6.23194 10.3347 4.66667 11.6667Z"
                   fill="white" />
@@ -417,7 +421,7 @@ onMounted(() => {
 
 /* ========== Hero Content ========== */
 .job-detail__hero-content {
-  padding:0 10rem;
+  padding: 0 10rem;
 }
 
 .job-detail__title {
@@ -743,6 +747,7 @@ onMounted(() => {
   flex-direction: column;
   gap: 1.5rem;
 }
+
 .job-detail__similar-no-data {
   display: flex;
   align-items: center;
@@ -753,12 +758,16 @@ onMounted(() => {
   line-height: 1.625rem;
   color: var(--color-text-body);
 }
+
 .job-detail__similar-item {
   display: flex;
   flex-direction: column;
   cursor: pointer;
+
   &:hover {
-    h4 , span{
+
+    h4,
+    span {
       color: var(--color-brand);
     }
   }
@@ -869,6 +878,7 @@ onMounted(() => {
   line-height: 1.625rem;
   /* 76.471% */
 }
+
 .job-detail__modal-email-icon {
   cursor: pointer;
 }
@@ -888,5 +898,4 @@ onMounted(() => {
   color: var(--color-black);
   margin: 2.5rem 0 0 0;
 }
-
 </style>

@@ -32,7 +32,7 @@ const goToCareers = () => {
   router.push({ path: '/about/careers' })
 }
 const handleClick = (job: { key: string; name: string; icon: string }) => {
-  router.push({ path: '/about/careers', query: { job: job.key } }) 
+  router.push({ path: '/about/careers', query: { job: job.key } })
 }
 </script>
 
@@ -53,24 +53,23 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
         <div class="w-full flex items-start justify-between">
           <div class="">
             <span class="text-xs text-black mb-[0.625rem] block">
-          {{ $t('home.recruitment.label') }}
+              {{ $t('home.recruitment.label') }}
             </span>
             <h2 class="text-[2rem] font-bold text-black mb-8">
-          {{ $t('home.recruitment.heading') }}
+              {{ $t('home.recruitment.heading') }}
             </h2>
           </div>
           <button
             class="flex items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[1.875rem] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
             @click="goToCareers">
             {{ $t('home.recruitment.joinUs') }}
-            <img src="@/assets/recruitment-arrow-r.svg" alt="arrow-right" class="w-5 h-5" />
+            <img src="@/assets/recruitment-arrow-r.svg" alt="arrow-right" class="w-[1.25rem] h-[1.25rem]" />
           </button>
         </div>
 
         <!-- 底部职位卡片 -->
         <div class="flex items-center gap-[3.125rem] mb-[13.4375rem]">
-          <div v-for="job in jobCategories" :key="job.name"
-            @click="handleClick(job)"
+          <div v-for="job in jobCategories" :key="job.name" @click="handleClick(job)"
             class="w-[16.25rem] h-[8.125rem] bg-[#0163FF] rounded-[2.25rem] flex flex-col items-center justify-center gap-2.5 text-white hover:bg-blue-600 transition-colors cursor-pointer transform transition-transform duration-300 hover:-translate-y-2">
             <div class="w-[3.125rem] h-[3.125rem] flex items-center justify-center">
               <img v-if="job.icon === 'academic'" src="@/assets/recruitment-academic.svg" alt="academic"

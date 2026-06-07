@@ -126,7 +126,8 @@ onBeforeUnmount(stopAutoplay)
                     class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[11.75rem] h-[3.375rem] rounded-[2.5rem] transition-colors cursor-pointer"
                     @click="handleClick(item.link)">
                     {{ $t('home.hero.learnMore') }}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <svg class="w-[1.25rem] h-[1.25rem]" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                      viewBox="0 0 20 20" fill="none">
                       <mask id="mask0_339_2721" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="20" height="20">
                         <rect width="20" height="20" fill="#D9D9D9" />

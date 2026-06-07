@@ -66,7 +66,8 @@ const handleClick = () => {
               class="relative flex items-center justify-center gap-[0.1875rem] bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-[0.75rem] w-[6rem] h-[2.5rem] rounded-[3.9375rem] shadow-[0_0.5625rem_0.625rem_rgba(0,190,153,0.17)] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
               @click="handleClick">
               {{ $t('home.diseaseService.learnMore') }}
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <svg class="w-[0.75rem] h-[0.75rem]" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                viewBox="0 0 12 12" fill="none">
                 <mask id="mask0_339_2880" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="12"
                   height="12">
                   <rect width="12" height="12" fill="#D9D9D9" />

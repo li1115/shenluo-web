@@ -8,10 +8,9 @@ import responsible from '@/assets/responsible.png'
 import highQuality from '@/assets/high-quality.png'
 import mission from '@/assets/mission.png'
 import efficient from '@/assets/efficient.png'
-import channelIcon from '@/assets/channel.svg'
-import promotionIcon from '@/assets/promotion.svg'
-import investmentIcon from '@/assets/investment.svg'
-import cardIconBg from '@/assets/about-icon-bg.svg'
+import channelIcon from '@/assets/channel-icon.png'
+import promotionIcon from '@/assets/promotion-icon.png'
+import investmentIcon from '@/assets/investment-icon.png'
 import responsibleIcon from '@/assets/responsible.svg'
 import highQualityIcon from '@/assets/high-quality.svg'
 import missionIcon from '@/assets/mission.svg'
@@ -307,7 +306,8 @@ const handleClick = (key: string) => {
       <div class="about__timeline-wrapper">
         <div class="about__timeline-area">
           <button class="about__timeline-nav about__timeline-nav--prev" aria-label="上一个年份" @click="prevYear">
-            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+            <svg style="width: 0.375rem; height: 0.75rem;" xmlns="http://www.w3.org/2000/svg" width="8" height="14"
+              viewBox="0 0 8 14" fill="none">
               <path opacity="0.99"
                 d="M6.91699 1L1.05841 6.85858C0.980308 6.93668 0.980309 7.06332 1.05841 7.14142L6.91699 13"
                 stroke="white" stroke-width="2" stroke-linecap="round" />
@@ -331,7 +331,8 @@ const handleClick = (key: string) => {
             </div>
           </div>
           <button class="about__timeline-nav about__timeline-nav--next" aria-label="下一个年份" @click="nextYear">
-            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+            <svg style="width: 0.375rem; height: 0.75rem;" xmlns="http://www.w3.org/2000/svg" width="8" height="14"
+              viewBox="0 0 8 14" fill="none">
               <path opacity="0.99" d="M1 1L6.85858 6.85858C6.93668 6.93668 6.93668 7.06332 6.85858 7.14142L1 13"
                 stroke="white" stroke-width="2" stroke-linecap="round" />
             </svg>
@@ -417,8 +418,7 @@ const handleClick = (key: string) => {
           <div class="about__partner-blur"></div>
           <div class="about__partner-icon">
             <div class="about__partner-icon-bg">
-              <img :src="cardIconBg" alt="合作" class="about__partner-icon-bg-img" />
-              <img :src="card.icon" alt="合作" class="about__partner-icon-img" />
+              <img :src="card.icon" alt="合作" class="about__partner-icon-bg-img" />
             </div>
           </div>
           <h3 class="about__partner-title">{{ card.title }}</h3>
@@ -1255,6 +1255,11 @@ const handleClick = (key: string) => {
   }
 }
 
+.about__value-icon {
+  width: 5rem;
+  height: 5rem;
+}
+
 .about__value-small {
   display: flex;
   flex-direction: column;
@@ -1402,15 +1407,6 @@ const handleClick = (key: string) => {
   display: block;
 }
 
-.about__partner-icon-img {
-  object-fit: cover;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .about__partner-title {
   z-index: 1;
   font-family: var(--font-heading);
@@ -1503,6 +1499,12 @@ const handleClick = (key: string) => {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+
+  .about__contact-icon-img {
+    width: 2.625rem;
+    object-fit: cover;
+    display: block;
+  }
 }
 
 .about__contact-detail {
@@ -1630,6 +1632,7 @@ const handleClick = (key: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 2rem;
 }
 
 .about__join-card-tag {

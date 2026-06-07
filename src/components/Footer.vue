@@ -23,7 +23,7 @@ const goTo = (path: string) => {
         <!-- 左侧公司信息 -->
         <div class="max-w-[18.6875rem]">
           <div class="mb-[1.1875rem]">
-            <img src="@/assets/logo.svg" alt="logo">
+            <img class="w-[9.3125rem]" src="@/assets/logo.svg" alt="logo">
           </div>
           <p class="text-[0.9375rem] text-[#A0A1A2] leading-[1.375rem] mb-[2.1875rem]">
             {{ $t('footer.companyDesc') }}
@@ -38,31 +38,41 @@ const goTo = (path: string) => {
 
         <!-- 核心业务 -->
         <div>
-          <h4 class="text-white font-black text-base leading-[1.375rem] mb-[1.9375rem] font-dinblack">{{ $t('footer.coreBusiness') }}</h4>
+          <h4 class="text-white font-black text-base leading-[1.375rem] mb-[1.9375rem] font-dinblack">{{
+            $t('footer.coreBusiness') }}</h4>
           <div class="flex flex-col gap-5">
-            <a v-for="product in productsData" :key="product.productCode" href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors" @click="goToProduct(product.productCode)">{{ $t(product.nameKey) }}</a>
+            <a v-for="product in productsData" :key="product.productCode" href="javascript:void(0)"
+              class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors"
+              @click="goToProduct(product.productCode)">{{ $t(product.nameKey) }}</a>
           </div>
         </div>
         <!-- 了解我们 -->
         <div class="flex flex-col">
-          <h4 class="text-white font-black text-base leading-[1.375rem] mb-[1.9375rem] font-dinblack">{{ $t('footer.aboutUs') }}</h4>
+          <h4 class="text-white font-black text-base leading-[1.375rem] mb-[1.9375rem] font-dinblack">{{
+            $t('footer.aboutUs') }}</h4>
           <div class="flex flex-col gap-5">
-            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/about')">{{ $t('footer.about') }}</a>
-            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/news')">{{ $t('footer.news') }}</a>
-            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/about/careers?job=academic')">{{ $t('footer.postdoctoral') }}</a>
-            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors" @click="goTo('/about/careers?job=sales')">{{ $t('footer.salesJobs') }}</a>
+            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors"
+              @click="goTo('/about')">{{ $t('footer.about') }}</a>
+            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors"
+              @click="goTo('/news')">{{ $t('footer.news') }}</a>
+            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors"
+              @click="goTo('/about/careers?job=academic')">{{ $t('footer.postdoctoral') }}</a>
+            <a href="javascript:void(0)" class="text-[0.9375rem] text-[#A0A1A2] hover:text-white transition-colors"
+              @click="goTo('/about/careers?job=sales')">{{ $t('footer.salesJobs') }}</a>
           </div>
         </div>
 
         <!-- 联系我们 -->
         <div>
-          <h4 class="text-white font-black text-base leading-[1.375rem] mb-[1.6875rem] font-dinblack">{{ $t('footer.contactUs') }}</h4>
+          <h4 class="text-white font-black text-base leading-[1.375rem] mb-[1.6875rem] font-dinblack">{{
+            $t('footer.contactUs') }}</h4>
           <div class="space-y-[1.25rem]">
             <div class="flex items-center gap-[0.9375rem]">
               <div class="w-[0.125rem] h-[3.4375rem] bg-[#0163FF]"></div>
               <div class="flex flex-col gap-[0.625rem]">
                 <span class="text-xs text-[#A0A1A2]">{{ $t('footer.serviceHotline') }}</span>
-                <span class="text-[1.375rem] font-black text-white leading-[1.375rem] font-dinblack">0571-88560292</span>
+                <span
+                  class="text-[1.375rem] font-black text-white leading-[1.375rem] font-dinblack">0571-88560292</span>
               </div>
             </div>
             <div class="flex items-center gap-[0.9375rem]">

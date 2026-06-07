@@ -258,7 +258,8 @@ onMounted(() => {
                 <div class="careers__job-title-row">
                   <h3 class="careers__job-title">{{ job.title }}</h3>
                   <span v-if="job.urgent" class="careers__job-urgent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <svg class="w-[1rem]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                      fill="none">
                       <path
                         d="M6.61619 14.667C6.61619 14.667 0.703193 13.3663 3.34603 6.91095C3.34603 6.91095 3.94603 7.62828 3.86353 7.97345C3.86353 7.97345 4.33386 6.34412 5.34903 5.37078C6.22069 4.53445 7.10636 2.18328 6.28953 1.33362C6.28953 1.33362 10.3354 2.18328 10.7857 6.43328C10.7857 6.43328 11.3032 5.07912 12.3657 4.94528C12.3657 4.94528 12.039 5.68928 12.3657 6.80528C12.3657 6.80528 15.717 12.542 9.94136 14.481C9.94136 14.481 11.6727 12.5151 8.00103 9.14162C8.00103 9.14162 7.13536 10.9483 6.61769 11.585C6.61619 11.5866 5.17203 13.2056 6.61619 14.667Z"
                         fill="#862300" />
@@ -268,27 +269,15 @@ onMounted(() => {
                 </div>
                 <div class="careers__job-meta">
                   <span class="careers__job-meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15" fill="none">
-                      <path
-                        d="M6 7.5C6.4125 7.5 6.76562 7.35312 7.05937 7.05937C7.35312 6.76562 7.5 6.4125 7.5 6C7.5 5.5875 7.35312 5.23438 7.05937 4.94063C6.76562 4.64688 6.4125 4.5 6 4.5C5.5875 4.5 5.23438 4.64688 4.94063 4.94063C4.64688 5.23438 4.5 5.5875 4.5 6C4.5 6.4125 4.64688 6.76562 4.94063 7.05937C5.23438 7.35312 5.5875 7.5 6 7.5ZM6 13.0125C7.525 11.6125 8.65625 10.3406 9.39375 9.19687C10.1313 8.05312 10.5 7.0375 10.5 6.15C10.5 4.7875 10.0656 3.67188 9.19687 2.80312C8.32812 1.93437 7.2625 1.5 6 1.5C4.7375 1.5 3.67188 1.93437 2.80312 2.80312C1.93437 3.67188 1.5 4.7875 1.5 6.15C1.5 7.0375 1.86875 8.05312 2.60625 9.19687C3.34375 10.3406 4.475 11.6125 6 13.0125ZM6 15C3.9875 13.2875 2.48438 11.6969 1.49063 10.2281C0.496875 8.75937 0 7.4 0 6.15C0 4.275 0.603125 2.78125 1.80938 1.66875C3.01562 0.55625 4.4125 0 6 0C7.5875 0 8.98438 0.55625 10.1906 1.66875C11.3969 2.78125 12 4.275 12 6.15C12 7.4 11.5031 8.75937 10.5094 10.2281C9.51562 11.6969 8.0125 13.2875 6 15Z"
-                        fill="#64748B" />
-                    </svg>
+                    <img src="@/assets/location-icon.png" alt="location" class="h-[0.9375rem]" />
                     {{ job.location }}
                   </span>
                   <span class="careers__job-meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                      <path
-                        d="M9.975 11.025L11.025 9.975L8.25 7.2V3.75H6.75V7.8L9.975 11.025ZM7.5 15C6.4625 15 5.4875 14.8031 4.575 14.4094C3.6625 14.0156 2.86875 13.4812 2.19375 12.8062C1.51875 12.1312 0.984375 11.3375 0.590625 10.425C0.196875 9.5125 0 8.5375 0 7.5C0 6.4625 0.196875 5.4875 0.590625 4.575C0.984375 3.6625 1.51875 2.86875 2.19375 2.19375C2.86875 1.51875 3.6625 0.984375 4.575 0.590625C5.4875 0.196875 6.4625 0 7.5 0C8.5375 0 9.5125 0.196875 10.425 0.590625C11.3375 0.984375 12.1312 1.51875 12.8062 2.19375C13.4812 2.86875 14.0156 3.6625 14.4094 4.575C14.8031 5.4875 15 6.4625 15 7.5C15 8.5375 14.8031 9.5125 14.4094 10.425C14.0156 11.3375 13.4812 12.1312 12.8062 12.8062C12.1312 13.4812 11.3375 14.0156 10.425 14.4094C9.5125 14.8031 8.5375 15 7.5 15ZM7.5 13.5C9.1625 13.5 10.5781 12.9156 11.7469 11.7469C12.9156 10.5781 13.5 9.1625 13.5 7.5C13.5 5.8375 12.9156 4.42188 11.7469 3.25312C10.5781 2.08437 9.1625 1.5 7.5 1.5C5.8375 1.5 4.42188 2.08437 3.25312 3.25312C2.08437 4.42188 1.5 5.8375 1.5 7.5C1.5 9.1625 2.08437 10.5781 3.25312 11.7469C4.42188 12.9156 5.8375 13.5 7.5 13.5Z"
-                        fill="#64748B" />
-                    </svg>
+                    <img src="@/assets/type-icon.png" alt="type" class="h-[0.9375rem]" />
                     {{ job.type }}
                   </span>
                   <span class="careers__job-meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14" fill="none">
-                      <path
-                        d="M8.25 13.5L3 10.65V6.15L0 4.5L8.25 0L16.5 4.5V10.5H15V5.325L13.5 6.15V10.65L8.25 13.5ZM8.25 7.275L13.3875 4.5L8.25 1.725L3.1125 4.5L8.25 7.275ZM8.25 11.7937L12 9.76875V6.9375L8.25 9L4.5 6.9375V9.76875L8.25 11.7937Z"
-                        fill="#64748B" />
-                    </svg>
+                    <img src="@/assets/education-icon.png" alt="education" class="h-[0.9375rem]" />
                     {{ job.education }}
                   </span>
                 </div>
@@ -300,10 +289,7 @@ onMounted(() => {
               </div>
               <button class="careers__job-apply" @click="viewJobDetail(job.recruitNo)">
                 {{ $t('careers.applyJob') }}
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="#0163FF" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                </svg>
+                <img src="@/assets/arrow-right.png" alt="arrow-right" class="h-[0.58rem]" />
               </button>
             </div>
           </div>
@@ -315,7 +301,8 @@ onMounted(() => {
         <div class="careers__pagination reveal" v-show="totalJobs > 0">
           <button class="careers__page-btn careers__page-btn--nav" @click="goToPage(currentPage - 1)"
             :disabled="currentPage === 1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+            <svg class="h-[0.75rem]" xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12"
+              fill="none">
               <path d="M6 12L0 6L6 0L7.4 1.4L2.8 6L7.4 10.6L6 12Z" fill="#94A3B8" />
             </svg>
           </button>
@@ -328,7 +315,8 @@ onMounted(() => {
           </template>
           <button class="careers__page-btn careers__page-btn--nav" @click="goToPage(currentPage + 1)"
             :disabled="currentPage === totalPages">
-            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+            <svg class="h-[0.75rem]" xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12"
+              fill="none">
               <path d="M4.6 6L0 1.4L1.4 0L7.4 6L1.4 12L0 10.6L4.6 6Z" fill="#94A3B8" />
             </svg>
           </button>
@@ -350,11 +338,11 @@ onMounted(() => {
             :class="`careers__sidebar-link ${index === 0 ? 'careers__sidebar-link--white' : 'careers__sidebar-link--blue'}`"
             @click="toOtherCareer(career.id)">
             {{ $t('careers.viewDetails') }}
-            <svg v-if="index === 0" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <svg v-if="index === 0" class="h-[0.75rem]" width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="#0163FF" stroke-width="1.5" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-            <svg v-else width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <svg v-else class="h-[0.75rem]" width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
