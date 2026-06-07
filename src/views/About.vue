@@ -487,7 +487,7 @@ const handleClick = (key: string) => {
           <h3 class="about__join-card-title">{{ $t('about.join.card1.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card1.desc') }}</p>
           <button class="about__join-card-btn" @click="handleClick('academic')">{{ $t('about.join.card1.btn')
-          }}</button>
+            }}</button>
         </div>
 
         <div class="about__join-card">
@@ -844,6 +844,7 @@ const handleClick = (key: string) => {
   align-items: center;
   gap: 0;
   background: url('@/assets/about-timeline-year-bg.svg') no-repeat center center;
+  background-size: 100%;
   position: relative;
   margin-bottom: 2.875rem;
 }

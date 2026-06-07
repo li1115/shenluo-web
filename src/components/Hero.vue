@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import banner1 from '@/assets/banner-1.png'
 import banner2 from '@/assets/banner-2.png'
 import banner3 from '@/assets/banner-3.png'
+import banner3Product from '@/assets/banner-3-product.png'
 
 const { t } = useI18n()
 import { productsData } from '@/shared/products'
@@ -40,6 +41,7 @@ const bannerList = computed(() => [
     descriptionColor: '#fff',
     descriptionMaxWidth: '35rem',
     bgImage: banner3,
+    productImage: banner3Product,
   },
 ])
 
@@ -89,6 +91,9 @@ onBeforeUnmount(stopAutoplay)
         :class="isActive === index ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'">
         <!-- 背景图 Ken Burns 慢速缩放 -->
         <img :src="item.bgImage" alt="background" class="absolute inset-0 w-full h-full object-cover banner-bg-img"
+          :class="{ 'banner-bg-zoom': isActive === index }" />
+        <img v-if="item.productImage" :src="item.productImage" alt="product"
+          class="absolute top-[18.12rem] right-[1.64rem] object-cover banner-product-img w-[55rem] h-[36.58rem]"
           :class="{ 'banner-bg-zoom': isActive === index }" />
         <!-- 文字内容 -->
         <div class="relative z-10 h-full flex items-center">
