@@ -163,7 +163,7 @@ async function fetchJobList() {
     totalJobs.value = res.data?.total || 0
   } catch {
     jobs.value = []
-    totalJobs.value = 5
+    totalJobs.value = 0
   }
 }
 
@@ -219,7 +219,8 @@ onMounted(() => {
 
       <div class="careers__hero-content">
         <div class="careers__breadcrumb">
-          <span class="careers__breadcrumb-item careers__breadcrumb-item--link" @click="goToAbout">{{ $t('careers.breadcrumb1') }}</span>
+          <span class="careers__breadcrumb-item careers__breadcrumb-item--link" @click="goToAbout">{{
+            $t('careers.breadcrumb1') }}</span>
           <span class="careers__breadcrumb-sep">/</span>
           <span class="careers__breadcrumb-item">{{ $t('careers.breadcrumb2') }}</span>
         </div>
@@ -450,6 +451,7 @@ onMounted(() => {
 .careers__breadcrumb-item--link {
   cursor: pointer;
   transition: color 0.2s;
+
   &:hover {
     color: var(--color-brand);
   }
