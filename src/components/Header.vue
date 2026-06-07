@@ -96,7 +96,7 @@ const onDropdownMouseLeave = () => {
   showDropdown.value = false
 }
 const goTo = async (item: NavItem) => {
-  if (item.path === '/patient-service') {
+  if (item.path === '/patient-service' || item.path === '/products') {
     await navigate('/')
   } else if (item.path) await navigate(item.path)
 

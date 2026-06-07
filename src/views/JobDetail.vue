@@ -133,7 +133,7 @@ onMounted(() => {
           <p class="job-detail__meta">{{ detailMeta }}</p>
           <div class="job-detail__hero-actions">
             <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow')
-            }}</button>
+              }}</button>
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@ onMounted(() => {
                 </svg>
               </div>
               <span class="job-detail__process-label job-detail__process-label--bold">{{ $t('careers.jobDetail.step5')
-              }}</span>
+                }}</span>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { getRecruitCategories, getRecruitPage } from '@/api/recruit'
 import type { RecruitCategory, PublicRecruitItem } from '@/api/types'
 import { useRevealOnScroll } from '@/shared/utils/useRevealOnScroll'
+import { formatSalary } from '@/shared/utils/formatSalary'
 
 useRevealOnScroll()
 
@@ -64,6 +65,7 @@ interface JobDisplay {
   type: string
   education: string
   tags: string[]
+  salary: string
 }
 
 /** 招聘类目 Tab 项（含固定 ALL/LATEST） */
@@ -82,6 +84,7 @@ function mapRecruitItem(item: PublicRecruitItem): JobDisplay {
     type: item.employmentTypeName,
     education: item.educationLevelName,
     tags: (item.tags || []).map((t) => t.name),
+    salary: formatSalary(item),
   }
 }
 
@@ -279,6 +282,10 @@ onMounted(() => {
                   <span class="careers__job-meta-item">
                     <img src="@/assets/education-icon.png" alt="education" class="h-[0.9375rem]" />
                     {{ job.education }}
+                  </span>
+                  <span class="careers__job-meta-item">
+                    <img src="@/assets/salary-icon.png" alt="salary" class="h-[0.9375rem]" />
+                    {{ job.salary }}
                   </span>
                 </div>
               </div>
