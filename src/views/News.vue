@@ -28,7 +28,6 @@ function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
 
 const categories = ref<NewsCategory[]>([])
 const newsMap = ref<Record<string, NewsDisplayItem[]>>({})
-const loading = ref(false)
 
 /** 每个分类的当前页码 */
 const pageMap = ref<Record<string, number>>({})
@@ -99,6 +98,7 @@ const newsSections = computed(() =>
       value: newsMap.value[c.code] || [],
     })),
 )
+const loading = ref(false)
 const isNoNews = computed(() => newsSections.value.every((s) => s.value.length === 0))
 const goToNewsDetail = (newsNo: string) => {
   router.push(`/news/${newsNo}`)
@@ -128,8 +128,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="no-news" v-if="isNoNews">
-      暂无新闻
+    <div class="no-news" v-if="isNoNews || loading">
+      {{ loading ? '加载中...' : '暂无新闻' }}
     </div>
     <template v-for="section in newsSections" :key="section.key">
       <div class="news-page__section" v-if="section.value.length > 0">

@@ -15,11 +15,17 @@ import responsibleIcon from '@/assets/responsible.svg'
 import highQualityIcon from '@/assets/high-quality.svg'
 import missionIcon from '@/assets/mission.svg'
 import efficientIcon from '@/assets/efficient.svg'
-import timelineRight from '@/assets/timeline-right.png'
-import timelineRight1 from '@/assets/timeline-right-1.png'
-import timelineRight2 from '@/assets/timeline-right-2.png'
-import timelineRight3 from '@/assets/timeline-right-3.png'
-import timelineRight4 from '@/assets/timeline-right-4.png'
+import timelineRight2018 from '@/assets/timeline-right-2018.png'
+import timelineRight2019 from '@/assets/timeline-right-2019.png'
+import timelineRight2020 from '@/assets/timeline-right-2020.png'
+import timelineRight2021 from '@/assets/timeline-right-2021.png'
+import timelineRight2022 from '@/assets/timeline-right-2022.png'
+import timelineRight2023 from '@/assets/timeline-right-2023.png'
+import timelineRight2024 from '@/assets/timeline-right-2024.png'
+import timelineRight2025 from '@/assets/timeline-right-2025.png'
+import timelineRight2026 from '@/assets/timeline-right-2026.png'
+
+
 
 const { t } = useI18n()
 
@@ -37,32 +43,97 @@ const stats = computed(() => [
 
 const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018']
 const activeYear = ref('2026')
-const isTransitioning = ref(false)
 const timelineTimer = ref<number>()
 const timelineRef = ref<HTMLElement | null>(null)
 const yearRefs = ref<Record<string, HTMLElement | null>>({})
+
+/** 滑块动画状态 */
+const sliderAnimating = ref(false)
+const sliderStyle = ref({
+  left: '0px',
+  width: '0px',
+  opacity: '0',
+  transition: 'none',
+})
 
 const setYearRef = (year: string, el: any) => {
   yearRefs.value[year] = el as HTMLElement | null
 }
 
 const selectYear = (year: string) => {
-  if (year === activeYear.value) return
-  activeYear.value = year
-  // 触发切换动画：线变长 + 字号变大
-  isTransitioning.value = true
-  setTimeout(() => {
-    isTransitioning.value = false
-  }, 500)
-  // Scroll the timeline to show the selected year
-  const yearEl = yearRefs.value[year]
+  if (year === activeYear.value || sliderAnimating.value) return
+  const fromYear = activeYear.value
   const container = timelineRef.value
-  if (yearEl && container) {
+  const fromEl = yearRefs.value[fromYear]
+  const toEl = yearRefs.value[year]
+
+  // 即时滚动到目标年份
+  if (toEl && container) {
     const containerWidth = container.clientWidth
-    const yearLeft = yearEl.offsetLeft
-    const yearWidth = yearEl.offsetWidth
+    const yearLeft = toEl.offsetLeft
+    const yearWidth = toEl.offsetWidth
     const scrollTarget = yearLeft - containerWidth / 2 + yearWidth / 2
-    container.scrollTo({ left: Math.max(0, scrollTarget), behavior: 'smooth' })
+    container.scrollTo({ left: Math.max(0, scrollTarget), behavior: 'instant' as ScrollBehavior })
+  }
+
+  if (container && fromEl && toEl) {
+    const containerRect = container.getBoundingClientRect()
+    const fromCenter = fromEl.getBoundingClientRect().left - containerRect.left + container.scrollLeft
+    const toCenter = toEl.getBoundingClientRect().left - containerRect.left + container.scrollLeft
+
+    const BAR_LENGTH = 2 // 滑块固定长度
+    const growLeft = toCenter < fromCenter // 目标在左侧则向左生长
+
+    sliderAnimating.value = true
+
+    // 初始态：0 宽点在起点
+    sliderStyle.value = {
+      left: `${fromCenter}px`,
+      width: '0px',
+      opacity: '1',
+      transition: 'none',
+    }
+
+    // 阶段1：从起点朝目标方向长出 50px 滑块（生长阶段，200ms）
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        sliderStyle.value = {
+          left: growLeft ? `calc(${fromCenter}px - ${BAR_LENGTH}rem)` : `${fromCenter}px`,
+          width: `${BAR_LENGTH}rem`,
+          opacity: '1',
+          transition: 'width 0.2s ease, left 0.2s ease, opacity 0.1s ease',
+        }
+      })
+    })
+
+    // 阶段2：50px 滑块滑向终点（滑行阶段，400ms）
+    setTimeout(() => {
+      sliderStyle.value = {
+        left: `${growLeft ? toCenter : toCenter - BAR_LENGTH}px`,
+        width: `${BAR_LENGTH}rem`,
+        opacity: '1',
+        transition: 'left 0.4s ease',
+      }
+    }, 200)
+
+    // 阶段3：到达终点后收缩回圆点 → 终点变蓝（收缩阶段，200ms）
+    setTimeout(() => {
+      activeYear.value = year
+      sliderStyle.value = {
+        left: `${toCenter}px`,
+        width: '0px',
+        opacity: '1',
+        transition: 'width 0.2s ease, left 0.2s ease',
+      }
+    }, 600)
+
+    // 动画彻底结束（隐藏滑块）
+    setTimeout(() => {
+      sliderAnimating.value = false
+      sliderStyle.value = { left: '0px', width: '0px', opacity: '0', transition: 'none' }
+    }, 850)
+  } else {
+    activeYear.value = year
   }
 }
 
@@ -130,17 +201,25 @@ const milestonesByYear: Record<string, Milestone[]> = {
 const currentImage = computed(() => {
   switch (activeYear.value) {
     case '2026':
-      return timelineRight
+      return timelineRight2026
     case '2025':
-      return timelineRight1
+      return timelineRight2025
     case '2024':
-      return timelineRight2
+      return timelineRight2024
     case '2023':
-      return timelineRight3
+      return timelineRight2023
     case '2022':
-      return timelineRight4
+      return timelineRight2022
+    case '2021':
+      return timelineRight2021
+    case '2020':
+      return timelineRight2020
+    case '2019':
+      return timelineRight2019
+    case '2018':
+      return timelineRight2018
     default:
-      return timelineRight
+      return timelineRight2018
   }
 })
 
@@ -211,18 +290,18 @@ const partnerCards = computed(() => [
   },
 ])
 
-const animateValue = (stat: { value: number; animated: { value: number } }, duration: number) => {
-  const startTime = performance.now()
-  const animate = (currentTime: number) => {
-    const elapsed = currentTime - startTime
-    const progress = Math.min(elapsed / duration, 1)
-    const easeOutQuart = 1 - Math.pow(1 - progress, 4)
-    stat.animated.value = Math.floor(stat.value * easeOutQuart)
-    if (progress < 1) {
-      requestAnimationFrame(animate)
+const animateValue = (stat: { value: number; animated: { value: number } }, stepMs: number) => {
+  const totalSteps = stat.value
+  let step = 0
+  stat.animated.value = 0
+
+  const timer = setInterval(() => {
+    step++
+    stat.animated.value = step
+    if (step >= totalSteps) {
+      clearInterval(timer)
     }
-  }
-  requestAnimationFrame(animate)
+  }, stepMs)
 }
 
 onMounted(() => {
@@ -232,7 +311,7 @@ onMounted(() => {
       if (entry.isIntersecting) {
         stats.value.forEach((stat, index) => {
           setTimeout(() => {
-            animateValue(stat, 2000)
+            animateValue(stat, 60)
           }, index * 200)
         })
         observer.disconnect()
@@ -317,16 +396,13 @@ const handleClick = (key: string) => {
             <div class="about__timeline-line-area-line">
               <div class="about__timeline-line"></div>
             </div>
+            <div class="about__timeline-slider" :style="sliderStyle"></div>
             <div class="about__timeline-years">
               <button v-for="year in years" :key="year" :ref="(el) => setYearRef(year, el)" :class="['about__timeline-year', {
                 'about__timeline-year--active': activeYear === year,
-                'about__timeline-year--transitioning': isTransitioning && activeYear === year
               }]" @click="selectYear(year)">
-                <span
-                  :class="['about__timeline-dot', { 'about__timeline-dot--line': isTransitioning && activeYear === year }]"></span>
-                <span
-                  :class="['about__timeline-year-text', { 'about__timeline-year-text--large': isTransitioning && activeYear === year }]">{{
-                    year }}</span>
+                <span class="about__timeline-dot"></span>
+                <span class="about__timeline-year-text">{{ year }}</span>
               </button>
             </div>
           </div>
@@ -868,6 +944,7 @@ const handleClick = (key: string) => {
   overflow-x: auto;
   overflow-y: visible;
   scroll-behavior: smooth;
+  position: relative;
   /* Hide scrollbar */
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -875,6 +952,17 @@ const handleClick = (key: string) => {
 
 .about__timeline-line-area::-webkit-scrollbar {
   display: none;
+}
+
+.about__timeline-slider {
+  position: absolute;
+  top: 3.55rem;
+  height: 0.375rem;
+  background: var(--color-brand);
+  border-radius: 0.1875rem;
+  pointer-events: none;
+  z-index: 3;
+  will-change: left, width;
 }
 
 .about__timeline-line-area-line {
@@ -991,13 +1079,6 @@ const handleClick = (key: string) => {
   transition: all 0.4s ease;
 }
 
-.about__timeline-dot--line {
-  width: 2rem;
-  height: 0.375rem;
-  border-radius: 0.125rem;
-  background: var(--color-brand);
-}
-
 .about__timeline-year--active .about__timeline-dot {
   background: var(--color-brand);
 }
@@ -1009,10 +1090,6 @@ const handleClick = (key: string) => {
   line-height: 1.875rem;
   color: rgba(204, 204, 204, 0.8);
   transition: all 0.4s ease;
-}
-
-.about__timeline-year-text--large {
-  font-size: 1.8125rem !important;
 }
 
 .about__timeline-year--active .about__timeline-year-text {

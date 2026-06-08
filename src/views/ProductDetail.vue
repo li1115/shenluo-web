@@ -487,10 +487,9 @@ watch(
   background: var(--color-white);
   padding: 1.0625rem 1rem;
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 2.125rem;
-  color: var(--color-black);
+  color: var(--color-text-body);
   border-bottom: 0.0625rem solid #EEEEEE;
 }
 
@@ -516,17 +515,15 @@ watch(
   border-right: 0.0625rem solid #EEEEEE;
   border-bottom: 0.0625rem solid #EEEEEE;
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 2.125rem;
-  color: var(--color-black);
+  color: var(--color-text-body);
 }
 
 .product-detail__specs-label {
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: normal;
-  color: #000;
+  color: var(--color-text-body);
 }
 
 /* ========== Table Mode (SCS Electrode) ========== */
@@ -543,19 +540,17 @@ watch(
   border-right: 0.0625rem solid #EEEEEE;
   border-bottom: 0.0625rem solid #EEEEEE;
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 2.125rem;
-  color: var(--color-black);
+  color: var(--color-text-body);
   text-align: left;
   vertical-align: middle;
 }
 
 .product-detail__specs-td--label {
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 2.125rem;
-  color: var(--color-black);
+  color: var(--color-text-body);
   text-align: left;
   background: var(--color-white);
 }

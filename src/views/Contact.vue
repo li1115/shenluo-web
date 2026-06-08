@@ -68,18 +68,6 @@
 
             <div class="contact-page__info-row">
               <div class="contact-page__info-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="#666666" stroke-width="1.5" />
-                  <path d="M2 12h20" stroke="#666666" stroke-width="1.5" />
-                  <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"
-                    stroke="#666666" stroke-width="1.5" />
-                </svg>
-              </div>
-              <span class="contact-page__info-text">{{ $t('contact.website') }}</span>
-            </div>
-
-            <div class="contact-page__info-row">
-              <div class="contact-page__info-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <g clip-path="url(#clip0_485_5228)">
                     <path
@@ -91,6 +79,17 @@
                       <rect width="24" height="24" fill="white" />
                     </clipPath>
                   </defs>
+                </svg>
+              </div>
+              <span class="contact-page__info-text">{{ $t('contact.website') }}</span>
+            </div>
+
+            <div class="contact-page__info-row">
+              <div class="contact-page__info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M3 3C3 3.82852 3.67148 4.5 4.5 4.5C5.32852 4.5 6 3.82852 6 3H10.5C10.5 3.82852 11.1715 4.5 12 4.5C12.8285 4.5 13.5 3.82852 13.5 3H18C18 3.82852 18.6715 4.5 19.5 4.5C20.3285 4.5 21 3.82852 21 3H24V6C23.1715 6 22.5 6.67148 22.5 7.5C22.5 8.32852 23.1715 9 24 9V15C23.1715 15 22.5 15.6715 22.5 16.5C22.5 17.3285 23.1715 18 24 18V21H21C21 20.1715 20.3285 19.5 19.5 19.5C18.6715 19.5 18 20.1715 18 21H13.5C13.5 20.1715 12.8285 19.5 12 19.5C11.1715 19.5 10.5 20.1715 10.5 21H6C6 20.1715 5.32852 19.5 4.5 19.5C3.67148 19.5 3 20.1715 3 21H0V18C0.828516 18 1.5 17.3285 1.5 16.5C1.5 15.6715 0.828516 15 0 15V9C0.828516 9 1.5 8.32852 1.5 7.5C1.5 6.67148 0.828516 6 0 6V3H3ZM4.52344 13.5C4.51055 13.5 4.5 13.5105 4.5 13.5234V14.9766C4.5 14.9895 4.51055 15 4.52344 15H19.4766C19.4895 15 19.5 14.9895 19.5 14.9766V13.5234C19.5 13.5105 19.4895 13.5 19.4766 13.5H4.52344ZM4.52344 9C4.51055 9 4.5 9.01055 4.5 9.02344V10.4766C4.5 10.4895 4.51055 10.5 4.52344 10.5H19.4766C19.4895 10.5 19.5 10.4895 19.5 10.4766V9.02344C19.5 9.01055 19.4895 9 19.4766 9H4.52344Z"
+                    fill="#ACACAC" />
                 </svg>
               </div>
               <span class="contact-page__info-text">{{ $t('contact.zipcode') }}</span>
@@ -279,5 +278,4 @@
   line-height: 1.5rem;
   color: #0163FF;
 }
-
 </style>

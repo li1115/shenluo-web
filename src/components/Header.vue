@@ -148,10 +148,11 @@ const goTo = async (item: NavItem) => {
               <Transition name="dropdown">
                 <div v-show="showDropdown" class="absolute top-full left-1/2 -translate-x-1/2 mt-[2.1875rem] z-50"
                   @mouseenter="onDropdownMouseEnter" @mouseleave="onDropdownMouseLeave">
-                  <div class="flex flex-col w-[12.8125rem] bg-white shadow-[0_0.25rem_0.25rem_0_rgba(0,0,0,0.1)]">
+                  <div
+                    class="flex flex-col w-[12.8125rem] bg-white border-t-[0.125rem] border-[#0163FF] shadow-[0_0.25rem_0.25rem_0_rgba(0,0,0,0.1)]">
                     <div v-for="prod in productDropdownItems" :key="prod.productCode"
                       class="flex items-center justify-center px-[1.875rem] py-[1rem] border-b border-[#F6F6F6] cursor-pointer transition-colors hover:bg-[#F6F8FF] group"
-                      @click="goToProduct(prod.productCode)">
+                      @click.stop="goToProduct(prod.productCode)">
                       <span
                         class="text-[1.125rem] leading-[1.5rem] text-[#666666] font-normal group-hover:text-[#0163FF]"
                         style="font-family: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;">
