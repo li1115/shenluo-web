@@ -13,17 +13,18 @@ const stats = computed(() => [
 ])
 
 const animateValue = (stat: { value: number; animated: { value: number } }, duration: number) => {
-  const startTime = performance.now()
-  const animate = (currentTime: number) => {
-    const elapsed = currentTime - startTime
-    const progress = Math.min(elapsed / duration, 1)
-    const easeOutQuart = 1 - Math.pow(1 - progress, 4)
-    stat.animated.value = Math.floor(stat.value * easeOutQuart)
-    if (progress < 1) {
-      requestAnimationFrame(animate)
+  const totalSteps = stat.value
+  const interval = duration / totalSteps
+  let step = 0
+  stat.animated.value = 0
+
+  const timer = setInterval(() => {
+    step++
+    stat.animated.value = step
+    if (step >= totalSteps) {
+      clearInterval(timer)
     }
-  }
-  requestAnimationFrame(animate)
+  }, interval)
 }
 
 onMounted(() => {

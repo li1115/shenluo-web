@@ -290,8 +290,9 @@ const partnerCards = computed(() => [
   },
 ])
 
-const animateValue = (stat: { value: number; animated: { value: number } }, stepMs: number) => {
+const animateValue = (stat: { value: number; animated: { value: number } }, duration: number) => {
   const totalSteps = stat.value
+  const interval = duration / totalSteps
   let step = 0
   stat.animated.value = 0
 
@@ -301,7 +302,7 @@ const animateValue = (stat: { value: number; animated: { value: number } }, step
     if (step >= totalSteps) {
       clearInterval(timer)
     }
-  }, stepMs)
+  }, interval)
 }
 
 onMounted(() => {
@@ -311,7 +312,7 @@ onMounted(() => {
       if (entry.isIntersecting) {
         stats.value.forEach((stat, index) => {
           setTimeout(() => {
-            animateValue(stat, 60)
+            animateValue(stat, 2000)
           }, index * 200)
         })
         observer.disconnect()
@@ -563,7 +564,7 @@ const handleClick = (key: string) => {
           <h3 class="about__join-card-title">{{ $t('about.join.card1.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card1.desc') }}</p>
           <button class="about__join-card-btn" @click="handleClick('academic')">{{ $t('about.join.card1.btn')
-            }}</button>
+          }}</button>
         </div>
 
         <div class="about__join-card">
