@@ -30,6 +30,10 @@ const bannerList = computed(() => [
     descriptionColor: '#333',
     bgImage: banner2,
     descriptionMaxWidth: '36rem',
+    contentStyle: {
+      background: 'rgba(255, 255, 255, 0.45)',
+      backdropFilter: 'blur(12px)',
+    },
   },
   {
     title: t('home.hero.slide3.title'),
@@ -42,6 +46,11 @@ const bannerList = computed(() => [
     descriptionMaxWidth: '35rem',
     bgImage: banner3,
     productImage: banner3Product,
+    btnStyle: {
+      background: 'transparent',
+      border: '0.125rem solid #FFF',
+      boxShadow: '0 0 3.375rem 0 #0163FF',
+    },
   },
 ])
 
@@ -97,7 +106,8 @@ onBeforeUnmount(stopAutoplay)
           :class="{ 'banner-bg-zoom': isActive === index }" />
         <!-- 文字内容 -->
         <div class="relative z-10 h-full flex items-center">
-          <div class="w-full max-w-[120rem] mx-auto px-[10.25rem]">
+          <div class="w-fit-content max-w-[120rem] ml-[10.625rem] p-[3.125rem] rounded-[2.5rem]"
+            :style="item.contentStyle">
             <div class="max-w-[53.5rem]">
               <div :key="isActive === index ? slideKey + '-wrap-' + index : 'static-wrap-' + index">
                 <div class="flex flex-col gap-[0.375rem] mb-[2.125rem]">
@@ -122,7 +132,7 @@ onBeforeUnmount(stopAutoplay)
                   {{ item.description }}
                 </p>
                 <div class="banner-text-slide" style="animation-delay: 0.6s">
-                  <button
+                  <button :style="item.btnStyle"
                     class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[11.75rem] h-[3.375rem] rounded-[2.5rem] transition-colors cursor-pointer"
                     @click="handleClick(item.link)">
                     {{ $t('home.hero.learnMore') }}
