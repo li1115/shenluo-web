@@ -12,7 +12,11 @@ const router = useRouter()
 
 const products = computed(() => productsData)
 
+const tnsKey = 'NEURO-PNS'
 const goToDetail = (productCode: string) => {
+  if (productCode === tnsKey) {
+    return
+  }
   router.push(`/products/product/${productCode}`)
 }
 
@@ -68,6 +72,7 @@ onBeforeUnmount(() => {
             class="w-[31.25rem] h-[31.25rem] bg-[#F9FAFC] border border-[#F1F2F4] rounded-[0.625rem] overflow-hidden flex flex-col flex-shrink-0 cursor-pointer 
             transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)]
             hover:shadow-[0_1.375rem_2.125rem_0_#F3F3F3] hover:border-[#CDEAF5] hover:cursor-pointer hover:translate-y-[-0.625rem] group"
+            :style="{ 'cursor': product.productCode === tnsKey ? 'not-allowed' : 'pointer' }"
             @click="goToDetail(product.productCode)">
             <div class="h-[21.25rem] flex items-center justify-center overflow-hidden">
               <img :src="product.image" :alt="product.productCode"
@@ -75,7 +80,7 @@ onBeforeUnmount(() => {
             </div>
             <div class="flex-1 flex flex-col items-center justify-center px-[4.375rem] gap-5 pb-[0.4375rem]">
               <h3 class="text-2xl font-black text-black text-center font-dinblack">{{ $t(product.nameKey) }}</h3>
-              <p class="text-[0.9375rem] text-[#999999] text-center leading-[1.4375rem] font-pingfang">
+              <p class="text-[0.9375rem] text-[#999999] text-center leading-[1.4375rem] font-pingfang min-h-[3.78rem]">
                 {{ $t(product.descKey) }}
               </p>
             </div>
