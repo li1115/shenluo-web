@@ -308,6 +308,7 @@ onMounted(() => {
   --font-alibaba: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;
   --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 
+  flex: 1;
   width: 100%;
   background: #F7F9FE;
 }
@@ -488,6 +489,7 @@ onMounted(() => {
   margin: 0 auto;
   padding: 5.6875rem 0;
   max-width: 80rem;
+  flex: 1;
 
 }
 

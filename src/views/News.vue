@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
 import { getNewsCategories, getNewsPage } from '@/api/news'
 import type { NewsCategory, PublicNewsItem } from '@/api/types'
+import { formatDate } from '@/shared/utils/formatDate'
 
 const router = useRouter()
 
@@ -14,7 +15,6 @@ interface NewsDisplayItem {
   category: string
   image: string
 }
-import { formatDate } from '@/shared/utils/formatDate'
 /** API 字段 → 页面展示字段映射 */
 function mapNewsItem(item: PublicNewsItem): NewsDisplayItem {
   return {
@@ -156,8 +156,8 @@ onMounted(() => {
 
         <div v-if="hasMore(section.code)" class="news-page__load-more-wrap">
           <button class="news-page__load-more" @click="loadMore(section.code)" :disabled="loadingMoreMap[section.code]">
-            <span>{{ loadingMoreMap[section.code] ? '加载中...' : $t('news.loadMore') }}</span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <span>{{ loadingMoreMap[section.code] ? '加载中' : $t('news.loadMore') }}</span>
+            <svg style="width: 0.75rem; height: 0.75rem;" width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="white" stroke-width="1.5" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>

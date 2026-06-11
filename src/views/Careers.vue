@@ -388,6 +388,9 @@ onMounted(() => {
 }
 
 .careers {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background: var(--content-bg);
 }
 
@@ -511,11 +514,13 @@ onMounted(() => {
   max-width: 96rem;
   margin: 0 auto;
   padding: 10rem 2rem 3.25rem;
+  flex: 1;
 }
 
 .careers__main {
   flex: 1;
   min-width: 0;
+  width: 69rem;
 }
 
 /* ========== Heading ========== */

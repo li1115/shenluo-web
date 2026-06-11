@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getNewsDetail, getNewsRelated } from '@/api/news'
 import type { PublicNewsDetail, PublicNewsItem } from '@/api/types'
-
+import { formatDate } from '@/shared/utils/formatDate'
 const route = useRoute()
 const router = useRouter()
 
@@ -39,7 +39,7 @@ function mapRelatedItem(item: PublicNewsItem): RelatedArticle {
   return {
     newsNo: item.newsNo,
     title: item.title,
-    date: item.displayDate,
+    date: formatDate(item.displayDate),
     category: item.categoryName,
     image: item.coverUrl,
   }
@@ -242,6 +242,7 @@ const goToArticle = (newsNo: string) => {
   display: flex;
   padding: 0 var(--content-left);
   gap: 13rem;
+  margin-bottom: 5rem;
 }
 
 /* ========== Main Content Area ========== */
@@ -374,7 +375,7 @@ const goToArticle = (newsNo: string) => {
   flex-direction: column;
   gap: 2rem;
 
-  &:hover {
+  .news-detail__sidebar-article:hover {
     .news-detail__sidebar-title {
       color: var(--color-brand);
     }
