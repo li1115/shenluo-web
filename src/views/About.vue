@@ -46,6 +46,7 @@ const activeYear = ref('2026')
 const timelineTimer = ref<number>()
 const timelineRef = ref<HTMLElement | null>(null)
 const yearRefs = ref<Record<string, HTMLElement | null>>({})
+const milestonesRef = ref<HTMLElement | null>(null)
 
 /** 滑块动画状态 */
 const sliderAnimating = ref(false)
@@ -82,6 +83,8 @@ const selectYear = (year: string) => {
     const toCenter = toEl.getBoundingClientRect().left - containerRect.left + container.scrollLeft
 
     const BAR_LENGTH = 2 // 滑块固定长度
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+    const barLengthPx = BAR_LENGTH * rem
     const growLeft = toCenter < fromCenter // 目标在左侧则向左生长
 
     sliderAnimating.value = true
@@ -109,7 +112,7 @@ const selectYear = (year: string) => {
     // 阶段2：50px 滑块滑向终点（滑行阶段，400ms）
     setTimeout(() => {
       sliderStyle.value = {
-        left: `${growLeft ? toCenter : toCenter - BAR_LENGTH}px`,
+        left: growLeft ? `${toCenter}px` : `${toCenter - barLengthPx}px`,
         width: `${BAR_LENGTH}rem`,
         opacity: '1',
         transition: 'left 0.4s ease',
@@ -167,6 +170,15 @@ const stopTimelineAutoplay = () => {
     clearInterval(timelineTimer.value)
     timelineTimer.value = undefined
   }
+}
+
+const handleSelectYear = (e: MouseEvent, year: string) => {
+  e.stopPropagation()
+  stopTimelineAutoplay()
+  selectYear(year)
+}
+const handleSelectDocumentClick = () => {
+  startTimelineAutoplay()
 }
 
 const milestonesByYear: Record<string, Milestone[]> = {
@@ -264,7 +276,9 @@ const values = computed(() => [
   },
 ])
 
+
 const activeValue = ref(1)
+const valuesAnimated = ref(false)
 
 const partnerCards = computed(() => [
   {
@@ -322,12 +336,26 @@ onMounted(() => {
   const el = document.querySelector('.about__hero-stats-wrap')
   if (el) observer.observe(el)
 
+  // 企业文化入场动画
+  const valuesObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        valuesAnimated.value = true
+        valuesObserver.disconnect()
+      }
+    })
+  })
+  const valuesEl = document.querySelector('.about__values')
+  if (valuesEl) valuesObserver.observe(valuesEl)
+
   // 时间轴自动轮播
   startTimelineAutoplay()
+  document.addEventListener('click', handleSelectDocumentClick)
 })
 
 onBeforeUnmount(() => {
   stopTimelineAutoplay()
+  document.removeEventListener('click', handleSelectDocumentClick)
 })
 
 import { useRouter } from 'vue-router'
@@ -336,6 +364,24 @@ const router = useRouter()
 
 const handleClick = (key: string) => {
   router.push({ path: '/about/careers', query: { job: key } })
+}
+let hoverTimer: ReturnType<typeof setTimeout> | null = null
+
+const collapseValue = (id: number) => {
+  if (hoverTimer) clearTimeout(hoverTimer)
+  hoverTimer = setTimeout(() => {
+    if (id !== activeValue.value) {
+      activeValue.value = id
+    }
+    hoverTimer = null
+  }, 200)
+}
+
+const cancelCollapse = () => {
+  if (hoverTimer) {
+    clearTimeout(hoverTimer)
+    hoverTimer = null
+  }
 }
 </script>
 
@@ -377,7 +423,7 @@ const handleClick = (key: string) => {
     </section>
 
     <!-- 神络里程碑 -->
-    <section class="about__milestones">
+    <section class="about__milestones" ref="milestonesRef">
       <div class="about__section-header">
         <h2 class="about__section-heading">{{ $t('about.milestones.heading') }}</h2>
         <p class="about__section-subtitle">{{ $t('about.milestones.subtitle') }}</p>
@@ -401,7 +447,7 @@ const handleClick = (key: string) => {
             <div class="about__timeline-years">
               <button v-for="year in years" :key="year" :ref="(el) => setYearRef(year, el)" :class="['about__timeline-year', {
                 'about__timeline-year--active': activeYear === year,
-              }]" @click="selectYear(year)">
+              }]" @click="(e) => handleSelectYear(e, year)">
                 <span class="about__timeline-dot"></span>
                 <span class="about__timeline-year-text">{{ year }}</span>
               </button>
@@ -445,10 +491,10 @@ const handleClick = (key: string) => {
         <p class="about__section-subtitle">{{ $t('about.values.subtitle') }}</p>
       </div>
 
-      <div class="about__values">
+      <div :class="['about__values', { 'about__values--entered': valuesAnimated }]">
         <div v-for="value in values" :key="value.id"
           :class="['about__value-card', { 'about__value-card--active': activeValue === value.id, 'about__value-card--inactive': activeValue !== value.id }]"
-          @click="activeValue = value.id">
+          @mouseenter="collapseValue(value.id)" @mouseleave="cancelCollapse">
           <div class="about__value-collapsed">
             <div class="about__value-icon">
               <img :src="value.icon" alt="企业文化" class="about__value-icon-img" />
@@ -564,7 +610,7 @@ const handleClick = (key: string) => {
           <h3 class="about__join-card-title">{{ $t('about.join.card1.title') }}</h3>
           <p class="about__join-card-desc">{{ $t('about.join.card1.desc') }}</p>
           <button class="about__join-card-btn" @click="handleClick('academic')">{{ $t('about.join.card1.btn')
-          }}</button>
+            }}</button>
         </div>
 
         <div class="about__join-card">
@@ -1192,6 +1238,15 @@ const handleClick = (key: string) => {
   border-radius: 1.875rem;
   overflow: hidden;
   margin: 0 auto;
+  transform-origin: bottom center;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.8s ease, opacity 0.5s ease;
+}
+
+.about__values--entered {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .about__value-card {

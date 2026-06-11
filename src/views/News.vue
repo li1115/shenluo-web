@@ -294,6 +294,8 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 3.25rem;
   justify-content: flex-start;
+  width: 98.75rem;
+  margin: 0 auto;
 }
 
 /* ========== Card ========== */

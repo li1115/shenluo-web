@@ -47,7 +47,7 @@ function mapRelatedItem(item: PublicNewsItem): RelatedArticle {
 
 const article = ref<ArticleDetail | null>(null)
 const relatedArticles = ref<RelatedArticle[]>([])
-   
+
 const loading = ref(true)
 
 const fetchArticle = async (newsNo: string) => {
@@ -59,7 +59,7 @@ const fetchArticle = async (newsNo: string) => {
       getNewsDetail(newsNo),
       getNewsRelated(newsNo, 5),
     ])
-    
+
     if (detailRes.status === 'fulfilled') {
       const detail = detailRes.value.data
       let contentHtml = ''
@@ -71,7 +71,7 @@ const fetchArticle = async (newsNo: string) => {
           contentHtml = ''
         }
       }
-      article.value = {...mapDetailToArticle(detail, contentHtml)}
+      article.value = { ...mapDetailToArticle(detail, contentHtml) }
     }
     if (relatedRes.status === 'fulfilled') {
       const related = (relatedRes.value.data || []).map(mapRelatedItem)
@@ -134,12 +134,8 @@ const goToArticle = (newsNo: string) => {
           <h3 class="news-detail__sidebar-heading-text">{{ $t('news.detail.relatedNews') }}</h3>
         </div>
         <div class="news-detail__sidebar-list" v-show="relatedArticles.length > 0">
-          <div
-            v-for="item in relatedArticles"
-            :key="item.newsNo"
-            class="news-detail__sidebar-article"
-            @click="goToArticle(item.newsNo)"
-          >
+          <div v-for="item in relatedArticles" :key="item.newsNo" class="news-detail__sidebar-article"
+            @click="goToArticle(item.newsNo)">
             <div class="news-detail__sidebar-cover">
               <img :src="item.image" :alt="item.title" class="news-detail__sidebar-img" />
             </div>
@@ -190,23 +186,27 @@ const goToArticle = (newsNo: string) => {
   height: 35rem;
   overflow: hidden;
 }
+
 .news-detail__banner-gradient {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, var(--color-bg-banner-start) 0%, var(--color-bg-banner-end) 100%);
   z-index: 0;
 }
+
 .news-detail__banner-bg {
   position: absolute;
   inset: 0;
   z-index: 1;
 }
+
 .news-detail__banner-img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
 }
+
 /* ========== Breadcrumb ========== */
 .news-detail__breadcrumb {
   position: absolute;
@@ -223,13 +223,16 @@ const goToArticle = (newsNo: string) => {
   letter-spacing: -0.0536em;
   color: #FFFFFF;
 }
+
 .news-detail__breadcrumb-link {
   cursor: pointer;
   transition: color 0.2s;
 }
+
 .news-detail__breadcrumb-link:hover {
   color: var(--color-brand);
 }
+
 .news-detail__breadcrumb-current {
   color: var(--color-text-muted);
 }
@@ -261,6 +264,7 @@ const goToArticle = (newsNo: string) => {
   text-align: center;
   white-space: pre-line;
 }
+
 /* ========== Description ========== */
 /* .news-detail__desc {
   font-family: var(--font-body);
@@ -279,6 +283,20 @@ const goToArticle = (newsNo: string) => {
   gap: 2rem;
   padding-bottom: 6.25rem;
 }
+
+/* 还原被 Tailwind preflight 覆盖的富文本语义样式 */
+.news-detail__content :deep(*) {
+  font-size: revert;
+  font-weight: revert;
+  font-style: revert;
+  list-style: revert;
+  text-decoration: revert;
+  margin: revert;
+  padding: revert;
+  display: revert;
+  vertical-align: revert;
+}
+
 .news-detail__content :deep(h2) {
   font-family: var(--font-body);
   font-weight: 500;
@@ -287,6 +305,7 @@ const goToArticle = (newsNo: string) => {
   color: var(--color-black);
   margin: 0;
 }
+
 .news-detail__content :deep(p) {
   font-family: var(--font-body);
   font-weight: 500;
@@ -295,6 +314,7 @@ const goToArticle = (newsNo: string) => {
   color: var(--color-text-body);
   margin: 0;
 }
+
 .news-detail__content :deep(figure) {
   width: 48rem;
   margin: 0;
@@ -302,12 +322,14 @@ const goToArticle = (newsNo: string) => {
   box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
+
 .news-detail__content :deep(figure img) {
   display: block;
   width: 100%;
   height: 25rem;
   object-fit: cover;
 }
+
 .news-detail__content :deep(figcaption) {
   padding: 1rem;
   font-family: var(--font-body);
@@ -331,12 +353,14 @@ const goToArticle = (newsNo: string) => {
   gap: 0.5rem;
   margin-bottom: 2rem;
 }
+
 .news-detail__sidebar-bar {
   width: 0.25rem;
   height: 2rem;
   background: var(--color-brand);
   flex-shrink: 0;
 }
+
 .news-detail__sidebar-heading-text {
   font-family: var(--font-sidebar-heading);
   font-weight: 700;
@@ -349,12 +373,14 @@ const goToArticle = (newsNo: string) => {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
   &:hover {
     .news-detail__sidebar-title {
       color: var(--color-brand);
     }
   }
 }
+
 .news-detail__sidebar-no-data {
   display: flex;
   align-items: center;
@@ -375,6 +401,7 @@ const goToArticle = (newsNo: string) => {
   cursor: pointer;
   transition: opacity 0.2s;
 }
+
 .news-detail__sidebar-article:hover {
   opacity: 0.8;
 }
@@ -384,6 +411,7 @@ const goToArticle = (newsNo: string) => {
   height: 17.5rem;
   overflow: hidden;
 }
+
 .news-detail__sidebar-img {
   width: 100%;
   height: 100%;
