@@ -191,12 +191,11 @@
   width: 50rem;
   height: 35.1875rem;
   background: #BDBDBD;
-  border-radius: 1.125rem 0 0 1.125rem;
+  border-radius: 1.875rem 0 0 1.875rem;
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
 }
-
 
 
 .contact-page__map-img {

@@ -783,7 +783,7 @@ const cancelCollapse = () => {
 }
 
 .about__hero-right {
-  width: 47.6875rem;
+  width: 45.4375rem;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
