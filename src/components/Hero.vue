@@ -33,6 +33,7 @@ const bannerList = computed(() => [
     contentStyle: {
       background: 'rgba(255, 255, 255, 0.45)',
       backdropFilter: 'blur(12px)',
+      width: 'fit-content',
     },
   },
   {
@@ -106,54 +107,58 @@ onBeforeUnmount(stopAutoplay)
         <!-- 背景图 Ken Burns 慢速缩放 -->
         <img :src="item.bgImage" alt="background" class="absolute inset-0 w-full h-full object-cover banner-bg-img"
           :class="{ 'banner-bg-zoom': isActive === index }" />
-        <img v-if="item.productImage" :src="item.productImage" alt="product"
-          class="absolute top-[18.12rem] right-[1.64rem] object-cover banner-product-img w-[55rem] h-[36.58rem]"
-          :class="{ 'banner-bg-zoom': isActive === index }" />
         <!-- 文字内容 -->
         <div class="relative z-10 h-full flex items-center">
-          <div class="w-fit-content max-w-[120rem] ml-[10.625rem] p-[3.125rem] rounded-[2.5rem]"
-            :style="item.contentStyle">
-            <div class="max-w-[53.5rem]">
-              <div :key="isActive === index ? slideKey + '-wrap-' + index : 'static-wrap-' + index">
-                <div class="flex flex-col gap-[0.375rem] mb-[2.125rem]">
-                  <h1 class="text-[6.25rem] font-black leading-[110%] tracking-wide uppercase banner-text-slide" :style="{
-                    color: item.titleColor,
-                    animationDelay: '0.2s',
+          <div class="w-full mx-auto relative">
+
+            <img v-if="item.productImage" :src="item.productImage" alt="product"
+              class="absolute top-[-1rem] right-[1.64rem] object-cover banner-product-img w-[55rem] h-[36.58rem]"
+              :class="{ 'banner-bg-zoom': isActive === index }" />
+            <div class="w-fit-content ml-[10.625rem] p-[3.125rem] rounded-[2.5rem]" :style="item.contentStyle">
+              <div class="max-w-[53.5rem]">
+                <div :key="isActive === index ? slideKey + '-wrap-' + index : 'static-wrap-' + index">
+                  <div class="flex flex-col gap-[0.375rem] mb-[2.125rem]">
+                    <h1 class="text-[6.25rem] font-black leading-[110%] tracking-wide uppercase banner-text-slide"
+                      :style="{
+                        color: item.titleColor,
+                        animationDelay: '0.2s',
+                      }">
+                      {{ item.title }}
+                    </h1>
+                    <h1 class="text-[6.25rem] font-black leading-[110%] tracking-wide uppercase banner-text-slide"
+                      :style="{
+                        color: item.subTitleColor,
+                        animationDelay: '0.5s',
+                      }">
+                      {{ item.subTitle }}
+                    </h1>
+                  </div>
+                  <p class="text-2xl mb-[2.125rem] leading-[2.4375rem] banner-text-slide" :style="{
+                    color: item.descriptionColor,
+                    maxWidth: item.descriptionMaxWidth || '100%',
+                    animationDelay: '0.3s',
                   }">
-                    {{ item.title }}
-                  </h1>
-                  <h1 class="text-[6.25rem] font-black leading-[110%] tracking-wide uppercase banner-text-slide" :style="{
-                    color: item.subTitleColor,
-                    animationDelay: '0.5s',
-                  }">
-                    {{ item.subTitle }}
-                  </h1>
-                </div>
-                <p class="text-2xl mb-[2.125rem] leading-[2.4375rem] banner-text-slide" :style="{
-                  color: item.descriptionColor,
-                  maxWidth: item.descriptionMaxWidth || '100%',
-                  animationDelay: '0.3s',
-                }">
-                  {{ item.description }}
-                </p>
-                <div class="banner-text-slide" style="animation-delay: 0.6s">
-                  <button :style="item.btnStyle"
-                    class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[11.75rem] h-[3.375rem] rounded-[2.5rem] transition-colors cursor-pointer"
-                    @click="handleClick(item.link)">
-                    {{ $t('home.hero.learnMore') }}
-                    <svg class="w-[1.25rem] h-[1.25rem]" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                      viewBox="0 0 20 20" fill="none">
-                      <mask id="mask0_339_2721" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="20" height="20">
-                        <rect width="20" height="20" fill="#D9D9D9" />
-                      </mask>
-                      <g mask="url(#mask0_339_2721)">
-                        <path
-                          d="M13.4792 10.8334H3.33334V9.16671H13.4792L8.81251 4.50004L10 3.33337L16.6667 10L10 16.6667L8.81251 15.5L13.4792 10.8334Z"
-                          fill="white" />
-                      </g>
-                    </svg>
-                  </button>
+                    {{ item.description }}
+                  </p>
+                  <div class="banner-text-slide" style="animation-delay: 0.6s">
+                    <button :style="item.btnStyle"
+                      class="group flex items-center justify-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-lg w-[11.75rem] h-[3.375rem] rounded-[2.5rem] transition-colors cursor-pointer"
+                      @click="handleClick(item.link)">
+                      {{ $t('home.hero.learnMore') }}
+                      <svg class="w-[1.25rem] h-[1.25rem]" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 20 20" fill="none">
+                        <mask id="mask0_339_2721" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="20" height="20">
+                          <rect width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_339_2721)">
+                          <path
+                            d="M13.4792 10.8334H3.33334V9.16671H13.4792L8.81251 4.50004L10 3.33337L16.6667 10L10 16.6667L8.81251 15.5L13.4792 10.8334Z"
+                            fill="white" />
+                        </g>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

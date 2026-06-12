@@ -262,7 +262,8 @@ onMounted(() => {
 /* ========== Section ========== */
 .news-page__section {
   padding: 0 10rem;
-  margin-top: 6.25rem;
+  max-width: 120rem;
+  margin: 6.25rem auto 0;
 }
 
 /* ========== Heading ========== */

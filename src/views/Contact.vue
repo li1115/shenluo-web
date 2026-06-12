@@ -104,6 +104,7 @@
 <style scoped>
 .contact-page {
   --font-heading: 'Alibaba PuHuiTi 3.0', 'PingFang SC', sans-serif;
+  --page-width: 120rem;
 }
 
 .contact-page__banner {
@@ -121,12 +122,12 @@
 .contact-page__banner-inner {
   position: relative;
   width: 100%;
-  width: 100%;
   height: 100%;
   margin: 0 auto;
   padding: 8.4375rem 10rem 0;
   display: flex;
   flex-direction: column;
+  max-width: var(--page-width);
 }
 
 /* ========== Breadcrumb ========== */

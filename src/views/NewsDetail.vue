@@ -216,9 +216,7 @@ const goToArticle = (newsNo: string) => {
 
 /* ========== Breadcrumb ========== */
 .news-detail__breadcrumb {
-  position: absolute;
-  top: 8.875rem;
-  left: 10rem;
+  position: relative;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -229,6 +227,10 @@ const goToArticle = (newsNo: string) => {
   line-height: 1.25rem;
   letter-spacing: -0.0536em;
   color: #FFFFFF;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  margin-top: 8.875rem;
+  padding-left: 10rem;
 }
 
 .news-detail__breadcrumb-link {
@@ -249,7 +251,8 @@ const goToArticle = (newsNo: string) => {
   display: flex;
   padding: 0 var(--content-left);
   gap: 13rem;
-  margin-bottom: 5rem;
+  max-width: var(--page-width);
+  margin: 0 auto 5rem;
 }
 
 /* ========== Main Content Area ========== */
