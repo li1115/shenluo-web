@@ -20,12 +20,12 @@ const openContactModal = () => {
 const email = ref('public@seeneuro.com')
 const isEmail = ref(false)
 const openContactEmail = () => {
-  try {
-    window.open(`mailto:${email.value}`, '_blank')
-  } catch {
-    isEmail.value = true
-    showContactModal.value = true
-  }
+  // try {
+  //   window.open(`mailto:${email.value}`, '_blank')
+  // } catch {
+  isEmail.value = true
+  showContactModal.value = true
+  // }
 }
 
 const showMessage = ref(false)
@@ -133,7 +133,7 @@ onMounted(() => {
           <p class="job-detail__meta">{{ detailMeta }}</p>
           <div class="job-detail__hero-actions">
             <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow')
-              }}</button>
+            }}</button>
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@ onMounted(() => {
                 </svg>
               </div>
               <span class="job-detail__process-label job-detail__process-label--bold">{{ $t('careers.jobDetail.step5')
-                }}</span>
+              }}</span>
             </div>
           </div>
         </div>
@@ -883,6 +883,8 @@ onMounted(() => {
 
 .job-detail__modal-email-icon {
   cursor: pointer;
+  width: 1.875rem;
+  height: 1.875rem;
 }
 
 .job-detail__modal-qr-img {

@@ -39,7 +39,8 @@ const bannerList = computed(() => [
     title: t('home.hero.slide3.title'),
     subTitle: t('home.hero.slide3.subTitle'),
     description: t('home.hero.slide3.description'),
-    link: `/products/product/${productsData[2].productCode}`,
+    // link: `/products/product/${productsData[2].productCode}`,
+    link: '',
     titleColor: '#fff',
     subTitleColor: '#BAD500',
     descriptionColor: '#fff',
@@ -66,7 +67,11 @@ const goTo = (index: number) => {
 }
 
 const handleClick = (link: string) => {
-  router.push(link)
+  if (link) {
+    router.push(link)
+  } else {
+    return
+  }
 }
 
 const startAutoplay = () => {

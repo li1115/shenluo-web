@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getNewsDetail, getNewsRelated } from '@/api/news'
 import type { PublicNewsDetail, PublicNewsItem } from '@/api/types'
@@ -86,13 +86,21 @@ const fetchArticle = async (newsNo: string) => {
   }
 }
 
-onMounted(() => {
+const loadNews = () => {
+  loading.value = true
   const newsNo = (route.params.newsNo as string) || ''
   if (newsNo) {
     fetchArticle(newsNo)
   } else {
     loading.value = false
   }
+}
+watch(() => route.params.newsNo, () => {
+  loadNews()
+})
+
+onMounted(() => {
+  loadNews()
 })
 
 const goToNews = () => {
@@ -124,7 +132,6 @@ const goToArticle = (newsNo: string) => {
           <h1 class="news-detail__title">{{ article.title }}</h1>
           <!-- <p class="news-detail__desc">{{ article.description }}</p> -->
         </div>
-
         <div class="news-detail__content" v-html="article.content" />
       </div>
 
@@ -278,67 +285,23 @@ const goToArticle = (newsNo: string) => {
 } */
 
 /* ========== Rich Text Content ========== */
-.news-detail__content {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding-bottom: 6.25rem;
-}
-
 /* 还原被 Tailwind preflight 覆盖的富文本语义样式 */
-.news-detail__content :deep(*) {
-  font-size: revert;
-  font-weight: revert;
-  font-style: revert;
-  list-style: revert;
-  text-decoration: revert;
-  margin: revert;
-  padding: revert;
-  display: revert;
-  vertical-align: revert;
-}
+.news-detail__content {
+  :deep(*) {
+    all: revert; // 重置外部样式影响
+    font-family: inherit;
+    color: inherit;
+  }
 
-.news-detail__content :deep(h2) {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  color: var(--color-black);
-  margin: 0;
-}
+  // 再按需定义文章内元素的样式
+  :deep(img) {
+    max-width: 100%;
+  }
 
-.news-detail__content :deep(p) {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1rem;
-  line-height: 2rem;
-  color: var(--color-text-body);
-  margin: 0;
-}
-
-.news-detail__content :deep(figure) {
-  width: 48rem;
-  margin: 0;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-}
-
-.news-detail__content :deep(figure img) {
-  display: block;
-  width: 100%;
-  height: 25rem;
-  object-fit: cover;
-}
-
-.news-detail__content :deep(figcaption) {
-  padding: 1rem;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  color: var(--color-text-heading);
-  background: var(--color-white);
+  :deep(p) {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
 }
 
 /* ========== Sidebar ========== */
