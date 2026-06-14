@@ -95,8 +95,8 @@ const goTo = (path: string) => {
       <!-- 底部版权 -->
       <div class="border-t border-white/10 py-5 flex justify-between items-center justify-center">
         <span class="text-xs text-[#A0A1A2]">{{ $t('footer.copyright') }}</span>
-        <span class="text-xs text-[#A0A1A2] mx-[0.625rem]">|</span>
-        <span class="text-xs text-[#A0A1A2]">{{ $t('footer.copyright') }}</span>
+        <!-- <span class="text-xs text-[#A0A1A2] mx-[0.625rem]">|</span>
+        <span class="text-xs text-[#A0A1A2]">{{ $t('footer.copyright') }}</span> -->
       </div>
     </div>
   </footer>
