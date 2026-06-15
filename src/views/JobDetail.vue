@@ -61,6 +61,7 @@ function mapSimilarJob(item: PublicRecruitItem): SimilarJob {
 const detailTitle = ref('')
 const detailMeta = ref('')
 const descriptionHtml = ref('')
+const categoryCode = ref('')
 const similarJobs = ref<SimilarJob[]>([])
 const loading = ref(true)
 
@@ -82,10 +83,12 @@ async function fetchDetail() {
       const locationStr = [detail.location?.city, detail.location?.district].filter(Boolean).join(' · ')
       detailMeta.value = `${formatSalary(detail)} | ${locationStr}`
       descriptionHtml.value = detail.content || ''
+      categoryCode.value = detail.category?.code || ''
     } else {
       detailTitle.value = ''
       detailMeta.value = ''
       descriptionHtml.value = ''
+      categoryCode.value = ''
     }
     if (relatedRes.status === 'fulfilled') {
       similarJobs.value = (relatedRes.value.data || []).map(mapSimilarJob)
@@ -96,6 +99,7 @@ async function fetchDetail() {
     detailTitle.value = ''
     detailMeta.value = ''
     descriptionHtml.value = ''
+    categoryCode.value = ''
     similarJobs.value = []
   } finally {
     loading.value = false
@@ -133,7 +137,7 @@ onMounted(() => {
           <p class="job-detail__meta">{{ detailMeta }}</p>
           <div class="job-detail__hero-actions">
             <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow')
-            }}</button>
+              }}</button>
           </div>
         </div>
       </div>
@@ -198,7 +202,7 @@ onMounted(() => {
                 </svg>
               </div>
               <span class="job-detail__process-label job-detail__process-label--bold">{{ $t('careers.jobDetail.step5')
-              }}</span>
+                }}</span>
             </div>
           </div>
         </div>
@@ -283,7 +287,9 @@ onMounted(() => {
         </div>
         <div class="job-detail__modal-card" @click.stop v-else>
           <div class="job-detail__modal-qr">
-            <img src="@/assets/job-qrcode.png" alt="微信二维码" class="job-detail__modal-qr-img" />
+            <img v-if="categoryCode === 'SALES'" src="@/assets/job-qrcode.png" alt="微信二维码"
+              class="job-detail__modal-qr-img" />
+            <img v-else src="@/assets/job-qrcode-DOCTOR.jpg" alt="微信二维码--博士" class="job-detail__modal-qr-img" />
           </div>
           <p class="job-detail__modal-text">{{ $t('careers.jobDetail.scanQrTip') }}</p>
         </div>
