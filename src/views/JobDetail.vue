@@ -80,7 +80,7 @@ async function fetchDetail() {
     if (detailRes.status === 'fulfilled') {
       const detail = detailRes.value.data
       detailTitle.value = detail.title
-      const locationStr = [detail.location?.city, detail.location?.district].filter(Boolean).join(' · ')
+      const locationStr = [detail.location?.province, detail.location?.city].filter(Boolean).join(' · ')
       detailMeta.value = `${formatSalary(detail)} | ${locationStr}`
       descriptionHtml.value = detail.content || ''
       categoryCode.value = detail.category?.code || ''
@@ -137,7 +137,7 @@ onMounted(() => {
           <p class="job-detail__meta">{{ detailMeta }}</p>
           <div class="job-detail__hero-actions">
             <button class="job-detail__apply-btn" @click="openContactModal">{{ $t('careers.jobDetail.applyNow')
-              }}</button>
+            }}</button>
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@ onMounted(() => {
                 </svg>
               </div>
               <span class="job-detail__process-label job-detail__process-label--bold">{{ $t('careers.jobDetail.step5')
-                }}</span>
+              }}</span>
             </div>
           </div>
         </div>

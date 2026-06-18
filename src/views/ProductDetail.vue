@@ -409,12 +409,6 @@ watch(
   }
 }
 
-.product-detail__feature-highlight-label {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 0.6875rem;
-}
-
 .product-detail__feature-highlight-num {
   font-family: var(--font-display);
   font-weight: 900;
@@ -422,11 +416,6 @@ watch(
   line-height: 1;
 }
 
-.product-detail__feature-highlight-unit {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 1.125rem;
-}
 
 .product-detail__feature-text {
   display: flex;

@@ -73,7 +73,7 @@ export interface RecruitDepartment {
 
 export interface RecruitLocation {
   city: string
-  district: string
+  province: string
 }
 
 /** C 端招聘列表项 */
@@ -93,6 +93,7 @@ export interface PublicRecruitItem {
   isUrgent: number
   isPinned: number
   city: string
+  province: string
   district: string
   tags: NewsTag[]
 }

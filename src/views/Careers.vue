@@ -80,7 +80,7 @@ function mapRecruitItem(item: PublicRecruitItem): JobDisplay {
     recruitNo: item.recruitNo,
     title: item.title,
     urgent: item.isUrgent === 1,
-    location: [item.city, item.district].filter(Boolean).join(' · '),
+    location: [item.province, item.city].filter(Boolean).join(' · '),
     type: item.employmentTypeName,
     education: item.educationLevelName,
     tags: (item.tags || []).map((t) => t.name),

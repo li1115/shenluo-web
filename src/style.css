@@ -1,14 +1,5 @@
 @import "tailwindcss";
 
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/manrope/400.css";
-@import "@fontsource/manrope/500.css";
-@import "@fontsource/manrope/600.css";
-@import "@fontsource/manrope/700.css";
-
 /* rem 适配：根字体大小以 16px 为基准 */
 html {
   font-size: 16px;
@@ -57,8 +48,6 @@ html {
   --font-alibabapuhuiti: 'Alibaba PuHuiTi 3.0';
   --font-dinblack: 'DIN Black';
   --font-dincond-bold: 'DIN Condensed Bold';
-  --font-inter: 'Inter', sans-serif;
-  --font-manrope: 'Manrope', sans-serif;
   --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, '-apple-system', sans-serif;
 }
 
@@ -154,7 +143,6 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  min-width: 120rem;
 }
 
 #app {
