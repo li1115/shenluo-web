@@ -195,8 +195,9 @@
     "tnsDesc": "Tibial Nerve Stimulation (TNS) is an advanced neuromodulation technology for treating bladder dysfunction. By stimulating the tibial nerve, it regulates bladder function, improving urinary control and pelvic floor function.",
     "specs": {
       "scsHeader": "Implantable Rechargeable IPG",
-      "electrodeHeader": "Implantable Spinal Cord Stimulation Electrode",
+      "scsElectrodeHeader": "Implantable Spinal Cord Stimulation Electrode",
       "pnsHeader": "Peripheral Nerve Stimulator",
+      "pnsElectrodeHeader": "Peripheral Nerve Stimulator",
       "length": "Length (mm)",
       "width": "Width (mm)",
       "thickness": "Thickness (mm)",

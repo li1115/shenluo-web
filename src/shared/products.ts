@@ -77,7 +77,7 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
                 ],
             },
             {
-                groupName: 'products.specs.electrodeHeader',
+                groupName: 'products.specs.scsElectrodeHeader',
                 type: 'table',
                 specs: [],
                 rows: [
@@ -140,7 +140,7 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
         pdfImg: productPdf2,
         specGroups: [
             {
-                groupName: 'products.specs.scsHeader',
+                groupName: 'products.specs.pnsHeader',
                 type: 'lr',
                 specs: [
                     { label: 'products.specs.length', value: '64.5' },
@@ -152,7 +152,7 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
                 ],
             },
             {
-                groupName: 'products.specs.electrodeHeader',
+                groupName: 'products.specs.pnsElectrodeHeader',
                 type: 'tb',
                 minHeight: '7rem',
                 specs: [

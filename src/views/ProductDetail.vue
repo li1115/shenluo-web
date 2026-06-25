@@ -310,7 +310,7 @@ watch(
 }
 
 .product-detail__hero-info {
-  width: 52.125rem;
+  max-width: 52.125rem;
   padding-top: 5rem;
 }
 

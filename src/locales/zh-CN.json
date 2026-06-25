@@ -195,8 +195,9 @@
     "tnsDesc": "植入式胫神经刺激系统（Tibial Nerve Stimulation, TNS），是一种用于治疗膀胱功能障碍的先进神经调控技术。通过刺激胫神经，调节膀胱功能，改善患者排尿控制和盆底功能。",
     "specs": {
       "scsHeader": "植入式可充电脊髓神经刺激器(IPG)",
-      "electrodeHeader": "植入式脊髓神经刺激电极",
+      "scsElectrodeHeader": "植入式脊髓神经刺激电极",
       "pnsHeader": "周围神经刺激器",
+      "pnsElectrodeHeader": "周围神经刺激电极",
       "length": "长（mm）",
       "width": "宽（mm）",
       "thickness": "厚（mm）",

@@ -257,8 +257,7 @@ const goToArticle = (newsNo: string) => {
 
 /* ========== Main Content Area ========== */
 .news-detail__main {
-  width: var(--content-width);
-  flex-shrink: 0;
+  max-width: var(--content-width);
 }
 
 /* ========== Header ========== */
