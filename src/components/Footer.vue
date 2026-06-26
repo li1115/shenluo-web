@@ -8,6 +8,9 @@ const goToCareers = () => {
 }
 
 const goToProduct = (productCode: string) => {
+  if (!productCode || productCode === 'NEURO-PNS') {
+    return
+  }
   router.push(`/products/product/${productCode}`)
 }
 

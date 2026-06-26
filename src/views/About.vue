@@ -819,6 +819,10 @@ const cancelCollapse = () => {
 }
 
 .about__hero-desc {
+  text-align: justify;
+  text-align-last: right;
+  text-justify: inter-character;
+  word-break: break-all;
   font-family: var(--font-heading);
   font-weight: 400;
   font-size: 1.125rem;
@@ -826,7 +830,6 @@ const cancelCollapse = () => {
   letter-spacing: -0.05em;
   color: var(--color-text-subtitle);
   margin: 0;
-  text-align: right;
 }
 
 .about__hero-stats-wrap,
