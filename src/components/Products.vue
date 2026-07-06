@@ -57,7 +57,7 @@ onBeforeUnmount(() => {
   <section class="pt-[6.25rem] bg-white" :id="id">
     <div class="max-w-[120rem] mx-auto">
       <div class="text-center ">
-        <span class="block text-[#0163FF] font-black text-lg mb-5 font-alibabapuhuiti">
+        <span class="block text-[2.375rem] text-[#0163FF] font-black mb-5 font-alibabapuhuiti">
           {{ $t('home.products.label') }}
         </span>
         <h2 class="text-[4.125rem] font-black text-black leading-tight font-alibabapuhuiti">

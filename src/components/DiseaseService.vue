@@ -20,7 +20,7 @@ const handleClick = () => {
   <section class="py-[6.25rem] bg-[#F6F6F6]" :id="id">
     <div class="flex flex-col items-center gap-[5rem]">
       <div class="flex flex-col items-center gap-[1.6875rem] px-[15rem] w-full">
-        <span class="text-[1.125rem] font-black text-[#0163FF] text-center font-alibabapuhuiti">{{
+        <span class="text-[2.375rem] font-black text-[#0163FF] text-center font-alibabapuhuiti">{{
           $t('home.diseaseService.label') }}</span>
         <h2 class="text-[4.125rem] font-black text-black leading-tight text-center w-full font-alibabapuhuiti">{{
           $t('home.diseaseService.heading') }}</h2>

@@ -93,14 +93,14 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
                         { label: '', value: '8' },
                         { label: '', value: '8×1' },
                         { label: '', value: '1.35' },
-                        { label: '', value: '2/16' },
+                        { label: '', value: '60/75/90' },
                     ],
                     [
                         { label: '', value: 'products.specs.surgicalElectrode' },
                         { label: '', value: '8' },
                         { label: '', value: '2×4' },
                         { label: '', value: '' },
-                        { label: '', value: 'products.specs.wirelessCharge' },
+                        { label: '', value: '40/55/70' },
                     ],
                     [
                         { label: '', value: '' },
@@ -170,7 +170,7 @@ const PRODUCT_DATA: Record<ProductCode, ProductBaseDetail> = {
                 image: productPNS1,
             },
             {
-                title: '电级防位移设计',
+                title: '电极防位移设计',
                 image: productPNS2,
             },
             {

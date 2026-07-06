@@ -57,7 +57,7 @@ onMounted(() => {
     <div class="relative max-w-[120rem] mx-auto">
       <!-- 标题区域 -->
       <div class="text-center mb-[6.25rem]">
-        <span class="block text-[#0163FF] font-black text-lg mb-[1.6875rem] font-alibabapuhuiti">
+        <span class="block text-[2.375rem] text-[#0163FF] font-black mb-[1.6875rem] font-alibabapuhuiti">
           {{ $t('home.stats.aboutLabel') }}
         </span>
         <h2 class="text-[4.125rem] font-black text-black leading-tight font-alibabapuhuiti">

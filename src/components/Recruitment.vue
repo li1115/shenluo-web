@@ -52,7 +52,7 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
         <!-- 顶部文字 -->
         <div class="w-full flex items-start justify-between">
           <div class="">
-            <span class="text-xs text-black mb-[0.625rem] block">
+            <span class="text-[1.75rem] text-black mb-[0.625rem] block">
               {{ $t('home.recruitment.label') }}
             </span>
             <h2 class="text-[2rem] font-bold text-black mb-8">
@@ -60,7 +60,7 @@ const handleClick = (job: { key: string; name: string; icon: string }) => {
             </h2>
           </div>
           <button
-            class="flex items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[1.875rem] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
+            class="flex text-[1.5rem] items-center gap-2.5 bg-[#0163FF] hover:bg-blue-600 text-white font-bold text-sm px-5 py-2.5 rounded-[1.875rem] transition-colors cursor-pointer transform transition-transform duration-300 hover:scale-103"
             @click="goToCareers">
             {{ $t('home.recruitment.joinUs') }}
             <img src="@/assets/recruitment-arrow-r.svg" alt="arrow-right" class="w-[1.25rem] h-[1.25rem]" />
